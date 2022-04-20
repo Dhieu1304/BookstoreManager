@@ -12,7 +12,7 @@ Table account {
   phone_number varchar
   address varchar
   avatar varchar
-  created_at datetime [default: `now()`]
+  created_at timestamp [default: `now()`]
   uid varchar
   role varchar [default: "staff"] //staff - admin
   status varchar [default: "active"] // active - lock
@@ -67,7 +67,7 @@ Table import_receipt_detail {
 
 Table import_receipt {
   id int [pk, increment]
-  created_at datetime [default: `now()`]
+  created_at timestamp [default: `now()`]
   price float
 }
 
@@ -80,7 +80,7 @@ Table sale_receipt_detail {
 
 Table sale_receipt {
   id int [pk, increment]
-  created_at datetime [default: `now()`]
+  created_at timestamp [default: `now()`]
   customer_id int
   price float
 }
@@ -96,7 +96,7 @@ Table customer {
 
 Table bill {
   id int [pk, increment]
-  created_at datetime [default: `now()`]
+  created_at timestamp [default: `now()`]
   customer_id int
   money_received float
 }

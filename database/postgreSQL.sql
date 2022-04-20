@@ -23,7 +23,7 @@ CREATE TABLE "account" (
   "phone_number" varchar,
   "address" varchar,
   "avatar" varchar,
-  "created_at" datetime DEFAULT (now()),
+  "created_at" timestamp DEFAULT (now()),
   "uid" varchar,
   "role" varchar DEFAULT 'staff',
   "status" varchar DEFAULT 'active'
@@ -81,7 +81,7 @@ CREATE TABLE "import_receipt_detail" (
 
 CREATE TABLE "import_receipt" (
   "id" SERIAL PRIMARY KEY,
-  "created_at" datetime DEFAULT (now()),
+  "created_at" timestamp DEFAULT (now()),
   "price" float
 );
 
@@ -95,7 +95,7 @@ CREATE TABLE "sale_receipt_detail" (
 
 CREATE TABLE "sale_receipt" (
   "id" SERIAL PRIMARY KEY,
-  "created_at" datetime DEFAULT (now()),
+  "created_at" timestamp DEFAULT (now()),
   "customer_id" int,
   "price" float
 );
@@ -111,7 +111,7 @@ CREATE TABLE "customer" (
 
 CREATE TABLE "bill" (
   "id" SERIAL PRIMARY KEY,
-  "created_at" datetime DEFAULT (now()),
+  "created_at" timestamp DEFAULT (now()),
   "customer_id" int,
   "money_received" float
 );
