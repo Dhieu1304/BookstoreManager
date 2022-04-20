@@ -1,0 +1,131 @@
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table account {
+  id int [pk, increment] // auto-increment
+  email varchar [not null, unique]
+  password varchar [not null]
+  first_name varchar
+  last_name varchar
+  gender varchar
+  phone_number varchar
+  address varchar
+  avatar varchar
+  created_at datetime [default: `now()`]
+  uid varchar
+  role varchar [default: "staff"] //staff - admin
+  status varchar [default: "active"] // active - lock
+}
+
+Table book {
+  id int [pk, increment]
+  isbn varchar [not null, unique]
+  title varchar
+  num_page int
+  publication_date timestamp
+  publisher_id int
+}
+
+Table publisher {
+  id int [pk, increment]
+  name varchar
+}
+
+Table book_image {
+  id int [pk, increment]
+  book_id int
+  src varchar
+}
+
+Table book_author {
+  book_id int [pk]
+  author_id int [pk]
+}
+
+Table author {
+  id int [pk, increment]
+  name varchar
+}
+
+Table category {
+  id int [pk, increment]
+  name varchar
+}
+
+Table book_category {
+  book_id int [pk]
+  category_id int [pk]
+}
+
+Table import_receipt_detail {
+  report_receipt_id int [pk]
+  book_id int [pk]
+  quantity int
+  price float
+}
+
+Table import_receipt {
+  id int [pk, increment]
+  created_at datetime [default: `now()`]
+  price float
+}
+
+Table sale_receipt_detail {
+  book_id int [pk]
+  sale_receipt_id int [pk]
+  quantity int
+  price float
+}
+
+Table sale_receipt {
+  id int [pk, increment]
+  created_at datetime [default: `now()`]
+  customer_id int
+  price float
+}
+
+Table customer {
+  id int [pk, increment]
+  name varchar
+  address varchar
+  phone varchar
+  email varchar
+  dept float [default: 0]
+}
+
+Table bill {
+  id int [pk, increment]
+  created_at datetime [default: `now()`]
+  customer_id int
+  money_received float
+}
+
+Table book_stock {
+  id int [pk, increment]
+  book_id int [unique]
+  quantity int
+  price float
+  status varchar [default: "active"] // active - stop
+}
+
+Table regulation {
+  id int [pk, increment]
+  name varchar
+  value int
+  is_used boolean
+}
+
+Ref: book.publisher_id > publisher.id
+Ref: book_image.book_id > book.id
+Ref: book_author.book_id > book.id
+Ref: book_author.author_id > author.id
+Ref: book_category.book_id > book.id
+Ref: book_category.category_id > category.id
+Ref: import_receipt_detail.book_id > book.id
+Ref: import_receipt_detail.report_receipt_id > import_receipt.id
+Ref: sale_receipt.customer_id > customer.id
+Ref: sale_receipt_detail.book_id > book.id
+Ref: sale_receipt_detail.sale_receipt_id > sale_receipt.id
+Ref: bill.customer_id > customer.id
+Ref: book_stock.book_id > book.id
