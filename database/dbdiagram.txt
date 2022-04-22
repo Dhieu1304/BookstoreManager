@@ -1,6 +1,8 @@
 //// -- LEVEL 1
 //// -- Tables and References
 
+//// link dbdiagram: https://dbdiagram.io/d/625fa0161072ae0b6ab3689b
+
 // Creating tables
 Table account {
   id int [pk, increment] // auto-increment
@@ -14,8 +16,8 @@ Table account {
   avatar varchar
   created_at timestamp [default: `now()`]
   uid varchar
-  role varchar [default: "staff"] //staff - admin
-  status varchar [default: "active"] // active - lock
+  role int //staff - admin
+  status int // active - lock
 }
 
 Table book {
@@ -106,7 +108,7 @@ Table book_stock {
   book_id int [unique]
   quantity int
   price float
-  status varchar [default: "active"] // active - stop
+  status int // active - stop
 }
 
 Table regulation {
@@ -114,6 +116,12 @@ Table regulation {
   name varchar
   value int
   is_used boolean
+}
+
+Table code {
+  id int [pk, increment]
+  name varchar
+  value varchar
 }
 
 Ref: book.publisher_id > publisher.id
@@ -129,3 +137,6 @@ Ref: sale_receipt_detail.book_id > book.id
 Ref: sale_receipt_detail.sale_receipt_id > sale_receipt.id
 Ref: bill.customer_id > customer.id
 Ref: book_stock.book_id > book.id
+Ref: account.role > code.id
+Ref: account.status > code.id
+Ref: book_stock.status > code.id
