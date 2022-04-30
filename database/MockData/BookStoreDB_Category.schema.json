@@ -1,0 +1,46 @@
+{
+  "id": 408745,
+  "num_rows": 20,
+  "file_format": "sql",
+  "name": "BookStoreDB_Category",
+  "table_name": "Category",
+  "include_create_sql": false,
+  "columns": [
+    {
+      "name": "id",
+      "null_percentage": 0,
+      "type": "Row Number",
+      "formula": "this = \"default\""
+    },
+    {
+      "name": "name",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "Action",
+        "Adventure",
+        "Classics",
+        "Comic",
+        "Detective",
+        "Mystery",
+        "Fantasy",
+        "Science",
+        "History",
+        "Horror",
+        "Romance",
+        "Science Fiction",
+        "Short Stories",
+        "Biographies",
+        "Cookbooks",
+        "Essays",
+        "Memoir",
+        "Poetry",
+        "Self-Help",
+        "Crime"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": null
+    }
+  ]
+}
