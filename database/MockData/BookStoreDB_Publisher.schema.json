@@ -1,0 +1,22 @@
+{
+  "id": 408708,
+  "num_rows": 20,
+  "file_format": "sql",
+  "name": "BookStoreDB_Publisher",
+  "table_name": "Publisher",
+  "include_create_sql": false,
+  "columns": [
+    {
+      "name": "id",
+      "null_percentage": 0,
+      "type": "Row Number",
+      "formula": "'default'"
+    },
+    {
+      "name": "name",
+      "null_percentage": 0,
+      "type": "Fake Company Name",
+      "formula": null
+    }
+  ]
+}
