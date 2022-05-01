@@ -909,4 +909,3 @@ insert into Book_Category (book_id, category_id) values (908, 2);
 insert into Book_Category (book_id, category_id) values (909, 13);
 insert into Book_Category (book_id, category_id) values (910, 5);
 insert into Book_Category (book_id, category_id) values (911, 13);
-insert into Book_Category (book_id, category_id) values (912, 4);
