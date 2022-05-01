@@ -1,0 +1,52 @@
+{
+  "id": 408714,
+  "num_rows": 912,
+  "file_format": "sql",
+  "name": "BookStoreDB_Book",
+  "table_name": "Book",
+  "include_create_sql": false,
+  "columns": [
+    {
+      "name": "id",
+      "null_percentage": 0,
+      "type": "Row Number",
+      "formula": "this = \"default\""
+    },
+    {
+      "name": "isbn",
+      "null_percentage": 0,
+      "type": "Blank",
+      "formula": "this = 'isbnxxx'"
+    },
+    {
+      "name": "title",
+      "null_percentage": 0,
+      "type": "Blank",
+      "formula": "this = 'titlexxx'"
+    },
+    {
+      "name": "num_page",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 100,
+      "max": 500,
+      "decimals": 0,
+      "formula": null
+    },
+    {
+      "name": "publication_date",
+      "null_percentage": 0,
+      "type": "Datetime",
+      "min": "04/30/2001",
+      "max": "01/30/2017",
+      "format": "%Y/%m/%d",
+      "formula": null
+    },
+    {
+      "name": "publisher_id",
+      "null_percentage": 0,
+      "type": "Blank",
+      "formula": "this = \"pubxxx\""
+    }
+  ]
+}
