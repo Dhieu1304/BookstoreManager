@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const {initRouter} = require("./routes/initRouter");
 const hbs = require("hbs");
+const passport = require("./services/auth/passport");
+const session = require('express-session');
+require('dotenv').config();
 
 const app = express();
 
@@ -17,6 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//passport
+app.use(session({ secret: process.env.SESSION_SECRET }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 hbs.registerPartials(__dirname + '/views/partials');
 

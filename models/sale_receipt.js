@@ -7,6 +7,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    create_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
     customer_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -23,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'sale_receipt',
     schema: 'public',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "sale_receipt_pkey",

@@ -1,38 +1,38 @@
-const DataTypes = require("sequelize").DataTypes;
-const _account = require("./account");
-const _author = require("./author");
-const _bill = require("./bill");
-const _book = require("./book");
-const _book_author = require("./book_author");
-const _book_category = require("./book_category");
-const _book_image = require("./book_image");
-const _book_stock = require("./book_stock");
-const _category = require("./category");
-const _customer = require("./customer");
-const _import_receipt = require("./import_receipt");
-const _import_receipt_detail = require("./import_receipt_detail");
-const _publisher = require("./publisher");
-const _regulation = require("./regulation");
-const _sale_receipt = require("./sale_receipt");
-const _sale_receipt_detail = require("./sale_receipt_detail");
+var DataTypes = require("sequelize").DataTypes;
+var _account = require("./account");
+var _author = require("./author");
+var _bill = require("./bill");
+var _book = require("./book");
+var _book_author = require("./book_author");
+var _book_category = require("./book_category");
+var _book_image = require("./book_image");
+var _book_stock = require("./book_stock");
+var _category = require("./category");
+var _customer = require("./customer");
+var _import_receipt = require("./import_receipt");
+var _import_receipt_detail = require("./import_receipt_detail");
+var _publisher = require("./publisher");
+var _regulation = require("./regulation");
+var _sale_receipt = require("./sale_receipt");
+var _sale_receipt_detail = require("./sale_receipt_detail");
 
 function initModels(sequelize) {
-  const account = _account(sequelize, DataTypes);
-  const author = _author(sequelize, DataTypes);
-  const bill = _bill(sequelize, DataTypes);
-  const book = _book(sequelize, DataTypes);
-  const book_author = _book_author(sequelize, DataTypes);
-  const book_category = _book_category(sequelize, DataTypes);
-  const book_image = _book_image(sequelize, DataTypes);
-  const book_stock = _book_stock(sequelize, DataTypes);
-  const category = _category(sequelize, DataTypes);
-  const customer = _customer(sequelize, DataTypes);
-  const import_receipt = _import_receipt(sequelize, DataTypes);
-  const import_receipt_detail = _import_receipt_detail(sequelize, DataTypes);
-  const publisher = _publisher(sequelize, DataTypes);
-  const regulation = _regulation(sequelize, DataTypes);
-  const sale_receipt = _sale_receipt(sequelize, DataTypes);
-  const sale_receipt_detail = _sale_receipt_detail(sequelize, DataTypes);
+  var account = _account(sequelize, DataTypes);
+  var author = _author(sequelize, DataTypes);
+  var bill = _bill(sequelize, DataTypes);
+  var book = _book(sequelize, DataTypes);
+  var book_author = _book_author(sequelize, DataTypes);
+  var book_category = _book_category(sequelize, DataTypes);
+  var book_image = _book_image(sequelize, DataTypes);
+  var book_stock = _book_stock(sequelize, DataTypes);
+  var category = _category(sequelize, DataTypes);
+  var customer = _customer(sequelize, DataTypes);
+  var import_receipt = _import_receipt(sequelize, DataTypes);
+  var import_receipt_detail = _import_receipt_detail(sequelize, DataTypes);
+  var publisher = _publisher(sequelize, DataTypes);
+  var regulation = _regulation(sequelize, DataTypes);
+  var sale_receipt = _sale_receipt(sequelize, DataTypes);
+  var sale_receipt_detail = _sale_receipt_detail(sequelize, DataTypes);
 
   author.belongsToMany(book, { as: 'book_id_books', through: book_author, foreignKey: "author_id", otherKey: "book_id" });
   book.belongsToMany(author, { as: 'author_id_authors', through: book_author, foreignKey: "book_id", otherKey: "author_id" });
@@ -88,7 +88,6 @@ function initModels(sequelize) {
     sale_receipt_detail,
   };
 }
-
 module.exports = initModels;
 module.exports.initModels = initModels;
 module.exports.default = initModels;

@@ -7,6 +7,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    create_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
     price: {
       type: DataTypes.DOUBLE,
       allowNull: true
@@ -15,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'import_receipt',
     schema: 'public',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "import_receipt_pkey",

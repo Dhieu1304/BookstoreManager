@@ -40,6 +40,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    create_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('now')
+    },
     uid: {
       type: DataTypes.STRING,
       allowNull: true
@@ -58,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'account',
     schema: 'public',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "account_email_key",
