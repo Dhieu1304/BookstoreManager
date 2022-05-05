@@ -1,27 +1,31 @@
 const passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
 const bcryptService = require("../bcryptService");
-const authService = require("./authService");
+const accountService = require("../accountService");
 
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password'
+    },
     async function (email, password, done) {
         try {
-
-            const user = await authService.getUserbyEmail(email);
+            const user = await accountService.getAccountByEmail(email);
 
             if (!user) {
-                return done(null, false, { message: 'Incorrect email!' });
+                console.log('Sai email');
+                return done(null, false, {message: 'Incorrect email!'});
             }
 
             const checkPassword = await bcryptService.checkPassword(password, user.password);
 
             if (!checkPassword) {
-                return done(null, false, { message: 'Incorrect password!' });
+                console.log('Sai mat khau');
+                return done(null, false, {message: 'Incorrect password!'});
             }
 
             if (user.status === 'lock') {
-                return done(null, false, { message: 'Your account has been locked!' });
+                return done(null, false, {message: 'Your account has been locked!'});
             }
 
             return done(null, user);
@@ -32,13 +36,20 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function (user, done) {
-    const { id, email, last_name, avatar } = user;
-    done(null, { id, email, last_name, avatar });
+    console.log('serializeUser', user.id);
 
+    done(null, user.id);
+
+    // const {id, email, last_name, avatar} = user;
+    // done(null, {id, email, last_name, avatar});
 });
 
-passport.deserializeUser(function (user, done) {
-    return done(null, user);
+passport.deserializeUser(async function (id, done) {
+    const user = await accountService.getAccountById(id)
+
+    console.log('deserializeUser', user);
+
+    done(null, user);
 });
 
 module.exports = passport;
