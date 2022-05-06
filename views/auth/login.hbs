@@ -9,6 +9,7 @@
     <title>Login - BookStore Manager</title>
     <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico"/>
     <link href="/stylesheets/style.css" rel="stylesheet"/>
+    <link href="/stylesheets/myStyle.css" rel="stylesheet"/>
     <link href="/stylesheets/notification.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -29,10 +30,14 @@
                                                placeholder="name@example.com"/>
                                         <label for="inputEmail">Email address</label>
                                     </div>
-                                    <div class="form-floating mb-3">
+                                    <div class="form-floating mb-3 form-input-password-custom">
                                         <input class="form-control" id="inputPassword" type="password" name="password"
                                                placeholder="Password"/>
                                         <label for="inputPassword">Password</label>
+                                        <span class="d-flex justify-content-end custom-show-hide-password" id="inputIcon"
+                                              onclick="handleShowHidePassword()">
+                                            <i class="fa fa-eye-slash custom-icon-show-hide-password" aria-hidden="true"></i>
+                                        </span>
                                     </div>
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" id="inputRememberPassword" type="checkbox"

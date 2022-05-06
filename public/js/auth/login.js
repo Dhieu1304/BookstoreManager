@@ -29,3 +29,27 @@ handleClickLogin = () => {
         })
     }
 }
+
+
+
+let isShowPassword = false;
+
+handleShowHidePassword = () => {
+    console.log("isShowBefore:", isShowPassword);
+    isShowPassword = !isShowPassword;
+    console.log("isShowCurrent:", isShowPassword);
+
+    let inputPassword = document.getElementById("inputPassword");
+    let inputIcon = document.getElementById("inputIcon");
+
+    console.log('inputIcon', inputIcon);
+
+    if (isShowPassword) {
+        inputPassword.type = 'text';
+        inputIcon.innerHTML = "<i class=\"fa fa-eye custom-icon-show-hide-password\" aria-hidden=\"true\"></i>"
+    }
+    else {
+        inputPassword.type = 'password';
+        inputIcon.innerHTML = "<i class=\"fa fa-eye-slash custom-icon-show-hide-password\" aria-hidden=\"true\"></i>"
+    }
+}
