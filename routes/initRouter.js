@@ -16,7 +16,8 @@ module.exports.initRouter = (app) => {
         next();
     })
 
-    app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
+    // app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
+    app.use('/', authController.checkAuthenticated, homeRouter);
     app.use('/layout', layoutRouter);
     app.use('/error', errorRouter);
     app.use('/chart', chartRouter);
