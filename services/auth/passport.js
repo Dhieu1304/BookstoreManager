@@ -38,17 +38,29 @@ passport.use(new LocalStrategy({
 passport.serializeUser(function (user, done) {
     console.log('serializeUser', user.id);
 
-    done(null, user.id);
+    // done(null, user.id);
+    done(null, {
+        id: user.id,
+        email: user.email,
+        last_name: user.last_name,
+        avatar: user.avatar,
+        role: user.role
+    });
 
     // const {id, email, last_name, avatar} = user;
     // done(null, {id, email, last_name, avatar});
 });
 
+/*
 passport.deserializeUser(async function (id, done) {
     const user = await accountService.getAccountById(id)
 
     console.log('deserializeUser', user);
 
+    done(null, user);
+});*/
+
+passport.deserializeUser(async function (user, done) {
     done(null, user);
 });
 
