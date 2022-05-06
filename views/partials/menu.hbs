@@ -63,7 +63,9 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            -_-
+            {{#if user}}
+                {{user.last_name}} ({{user.role}})
+            {{/if}}
         </div>
     </nav>
 </div>

@@ -1,5 +1,7 @@
+const passport = require("../services/auth/passport");
+
 module.exports.login = (req, res) => {
-    res.render('auth/login', {layout: false});
+    res.render('auth/login', {layout: false, errorLogin: req.query.errorLogin !== undefined});
 }
 
 module.exports.register = (req, res) => {
@@ -8,4 +10,51 @@ module.exports.register = (req, res) => {
 
 module.exports.forgotPassword = (req, res) => {
     res.render('auth/forgotPassword', {layout: false});
+}
+
+module.exports.apiAuthLogin = (req, res, next) => {
+    passport.authenticate('local', function(error, user, info) {
+        if(error) {
+            console.log('error', error);
+            return res.status(200).json({
+                errCode: 1,
+                errMessage: 'Error has occurred',
+            });
+        }
+        if(!user) {
+            console.log('message', info.message);
+            return res.status(200).json({
+                errCode: 2,
+                errMessage: info.message
+            });
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({
+                errCode: 0
+            });
+        });
+    })(req, res, next);
+}
+
+exports.checkAuthenticated = async (req, res, next) => {
+
+    const nonSecurePaths = ['/auth/login', '/api/auth/login'];
+
+    if (nonSecurePaths.includes(req.path)) {
+        return next();
+    }
+
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/auth/login')
+}
+
+exports.logout = async (req, res) => {
+    req.logout();
+    res.redirect('/auth/login');
 }
