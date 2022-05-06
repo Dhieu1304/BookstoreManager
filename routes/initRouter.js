@@ -8,6 +8,7 @@ const authController = require('../controllers/authController');
 
 module.exports.initRouter = (app) => {
 
+    //middleware get userInfo
     app.use(function (req, res, next) {
         if (req.user) {
             res.locals.user = req.user;

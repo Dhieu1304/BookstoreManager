@@ -27,6 +27,5 @@ handleClickLogin = () => {
                 }
             }
         })
-        // document.getElementById('loginBtn').click();
     }
 }
