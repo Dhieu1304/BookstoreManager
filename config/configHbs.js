@@ -30,4 +30,10 @@ module.exports.configHbs = (dir) => {
                 return options.inverse(this);
         }
     });
+    hbs.registerHelper('ifTwoCondCustom', function (v1, v2, v3, options) {
+        if(v1 == v2 || v1 == v3) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
+    });
 }

@@ -39,7 +39,7 @@ module.exports.apiAuthLogin = (req, res, next) => {
     })(req, res, next);
 }
 
-exports.checkAuthenticated = async (req, res, next) => {
+module.exports.checkAuthenticated = async (req, res, next) => {
 
     const nonSecurePaths = ['/auth/login', '/api/auth/login'];
 
@@ -54,7 +54,27 @@ exports.checkAuthenticated = async (req, res, next) => {
     res.redirect('/auth/login')
 }
 
-exports.logout = async (req, res) => {
+module.exports.logout = async (req, res) => {
     req.logout();
     res.redirect('/auth/login');
+}
+
+module.exports.checkAdmin = async (req, res, next) => {
+    if (req.user) {
+        if (req.user.role === 'admin' || req.user.role === 'superadmin'){
+            return next();
+        }
+    }
+
+    res.redirect('/');
+}
+
+module.exports.checkSuperAdmin = async (req, res, next) => {
+    if (req.user) {
+        if (req.user.role === 'superadmin'){
+            return next();
+        }
+    }
+
+    res.redirect('/');
 }

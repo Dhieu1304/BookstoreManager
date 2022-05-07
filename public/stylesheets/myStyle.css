@@ -1,4 +1,3 @@
-
 /*header*/
 .img-avatar-header {
     border-radius: 100%;
@@ -21,4 +20,241 @@
 .form-input-password-custom .custom-show-hide-password .custom-icon-show-hide-password {
     position: absolute;
     padding-right: 8px;
+}
+
+/*account*/
+.table-account-custom {
+    min-width: 800px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 3px;
+}
+
+.table-header-custom {
+    margin-bottom: 15px;
+    background: #299be4;
+}
+
+.data-table-dropdown {
+    float: left;
+    margin-left: 15px;
+    box-sizing: border-box;
+    margin-top: 14px;
+}
+
+.data-table-selector {
+    background-position: right 0.75rem center;
+    background-size: 11px 6px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/img/dropdown.png");
+    font-weight: 600;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #ced4da;
+    width: auto;
+    display: inline-block;
+    padding-left: 1.125rem;
+    padding-right: 2.125rem;
+    margin-right: 0.25rem;
+    height: 35px;
+}
+
+.data-value-selector {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.table-title-account {
+    height: 60px;
+    color: #fff;
+    padding: 16px 30px;
+    margin: -20px -25px 10px;
+    border-radius: 3px 3px 0 0;
+}
+
+.custom-btn-account {
+    cursor: pointer;
+    padding: 5px 7px 5px 7px;
+    color: #566787;
+    float: right;
+    font-size: 14px;
+    background: #fff;
+    border: none;
+    min-width: 50px;
+    border-radius: 2px;
+    outline: none !important;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.custom-btn-account span {
+    font-weight: bold;
+    color: #3c4043;
+}
+
+.custom-btn-account:hover {
+    background: #f2f3f5;
+}
+
+.table-body-custom {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border: none;
+}
+
+.table-body-custom td:nth-child(5) {
+    text-align: center;
+}
+
+.table-body-custom th:nth-child(5) {
+    text-align: center;
+}
+
+.custom-name-picture {
+    display: flex;
+}
+
+.table-body-custom, th, td {
+    padding: 0 5px 0 5px;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-body-custom td {
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-body-custom tr {
+    height: 65px;
+    vertical-align: middle;
+}
+
+.table-body-custom thead tr {
+    background: #eef0f3;
+}
+
+.table-body-custom td:first-child {
+    max-width: 250px;
+}
+
+.table-body-custom td:nth-child(2) {
+    max-width: 300px;
+}
+
+.avatar-table-custom {
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-style: none;
+}
+
+.custom-text-table {
+    padding-top: 5px;
+    width: calc(100% - 40px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.edit-account {
+    color: #0a53be;
+    margin-right: 5px;
+}
+
+.lock-account {
+    color: red;
+}
+
+.edit-account:hover {
+    cursor: pointer;
+}
+
+.lock-account:hover {
+    cursor: pointer;
+}
+
+.custom-status-account {
+    display: flex;
+}
+
+.custom-text-status {
+    margin: auto auto auto 5px;
+}
+
+.status-account-custom {
+    font-size: 40px;
+    padding-bottom: 5px;
+}
+.acc-active {
+    color: #10c469;
+}
+
+.acc-lock {
+    color: #ff5b5b;
+}
+
+.clearfix-table-custom {
+    color: #566787;
+    background: #f5f5f5;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    display: block;
+}
+
+.hint-text-custom {
+    float: left;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.pagination-table-custom {
+    float: right;
+    margin: 0 0 5px 0;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.page-item-custom {
+    padding-top: 5px;
+    border: none;
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
+    color: #999;
+    margin: 0 1px;
+    border-radius: 2px !important;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page-link-custom {
+    border: none;
+    position: relative;
+    color: #999;
+    text-decoration: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+.page-item-custom:hover {
+    background: #e7ebee;
+}
+
+.page-item-custom a:hover {
+    color: #999;
+}
+
+.page-item-active {
+    background: #64a0f8;
+}
+
+.page-link-active {
+    color: white;
 }
