@@ -20,6 +20,20 @@ exports.getAllBookStock = async (raw = false) => {
 
                                 }
                             },
+                            {
+                                model: models.publisher,
+                                as: "publisher",
+                                attributes: [
+                                    'name'
+                                ]
+                            },
+                            {
+                                model: models.author,
+                                as: "author_id_authors",
+                                where: {
+
+                                }
+                            },
                         ],
                 },
             ],
