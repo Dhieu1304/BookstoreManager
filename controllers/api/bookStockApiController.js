@@ -1,9 +1,10 @@
 
+const bookStockService = require('../../services/bookStockService');
+
+module.exports.getAllBookStock = async (req, res) => {
 
 
-module.exports.getListBookStock = (req, res) => {
-
-    const arr = [1,2];
-    res.status(200).json({arr});
+    const bookStocks = await bookStockService.getAllBookStock(false)
+    res.status(200).json({bookStocks});
 }
 
