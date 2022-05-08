@@ -4,8 +4,10 @@ const layoutRouter = require("./layoutRouter");
 const errorRouter = require("./errorRouter");
 const chartRouter = require("./chartRouter");
 const tableRouter = require("./tableRouter");
+const saleRouter = require("./saleRouter");
+const apiRouter = require("./api/initApiRouter");
+
 const authController = require('../controllers/authController');
-const saleController = require('../controllers/saleController');
 
 module.exports.initRouter = (app) => {
 
@@ -24,5 +26,8 @@ module.exports.initRouter = (app) => {
     app.use('/chart', chartRouter);
     app.use('/table', tableRouter);
     app.use('/', authRouter);
-    app.use('/', saleController.getSalePage);
+
+    app.use('/sale', saleRouter);
+    app.use('/api', apiRouter);
+
 }
