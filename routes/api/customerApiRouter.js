@@ -4,4 +4,6 @@ const customerApiController = require("../../controllers/api/customerApiControll
 
 router.get('/', customerApiController.getAllCustomerInfor);
 
+router.get('/phone/:number', customerApiController.getCustomerInforByPhoneNumber);
+
 module.exports = router;

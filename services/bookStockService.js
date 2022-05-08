@@ -37,9 +37,6 @@ exports.getAllBookStock = async (raw = false) => {
                         ],
                 },
             ],
-        attributes: [
-
-        ],
         where: {
 
         }

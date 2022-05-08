@@ -7,26 +7,67 @@ exports.getSalePage = (req, res) => {
 }
 
 exports.addSaleReceipt = async (req, res) => {
+
+
     const data = req.body;
 
-    const phoneNumber = "0934060253";
-    const price = 100;
+    const bookIds = data.bookIds;
+
+    const quantitys = data.quantitys;
+
+    const customerId = data.customerId;
+
+    const prices = data.prices;
+
+    let totalPrice = 0;
+
+    if(prices){
+        if(Array.isArray(prices)){
+            totalPrice = prices.reduce(function(acc, val) { return acc + val; }, 0);
+        }else{
+            totalPrice = prices;
+        }
+    }
+
     const createAt = new Date();
 
-    const customerId = 1;
+    const saleReceipt = await saleReceiptService.addSaleReceipt(createAt, customerId, totalPrice);
+    const saleReceiptId = saleReceipt.id;
 
-    // const saleReceipt = await saleReceiptService.addSaleReceipt(createAt, customerId, price);
+    const saleReceiptDetailSize = bookIds.length;
 
-    // console.log(saleReceipt);
 
-    const bookId = 5;
-    const saleReceiptId = 2;
-    const quantity = 10;
-    const priceD = 300000;
+    if(Array.isArray(prices)){
+        for await (const p of prices) {
+            const bookId = bookIds.shift();
+            let quantity = 0;
+            if(quantitys){
+                quantity = quantitys.shift();
+            }
+            const price = p;
+            const saleReceiptDetail = await addSaleReceiptDatail(bookId, saleReceiptId, quantity, price)
+        }
+    }else {
+        const bookId = bookIds;
+        const quantity = quantitys;
+        const price = prices;
+        const saleReceiptDetail = await addSaleReceiptDatail(bookId, saleReceiptId, quantity, price)
+    }
 
-    const saleReceiptDetail = addSaleReceiptDatail(bookId, saleReceiptId, quantity, priceD);
+
+    // // console.log(saleReceipt);
+
+    // const bookId = 5;
+    // const saleReceiptId = 2;
+    // const quantity = 10;
+    // const priceD = 300000;
+
+    // const saleReceiptDetail = addSaleReceiptDatail(bookId, saleReceiptId, quantity, priceD);
+
+    res.redirect('/sale');
 
 }
+
 
 
 addSaleReceiptDatail = async (bookId, saleReceiptId, quantity, price) => {

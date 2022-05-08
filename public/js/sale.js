@@ -23,53 +23,152 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
-function removeSaleReceiptDetailItem(index){
-    $("#saleReceiptDetailItem"+index).remove();
-}
+const saleDetailRowDataSource = $("#saleDetailTableRowTemplate").html();
 
-
-
-
-
+let bookStocks = [];
+let customers = [];
+let currentBookStockIdArr = [];
 
 $(document).ready(function() {
 
-    let bookStocks = [];
     $.ajax({
         url: "/api/stock",
         success(data){
             bookStocks = data.bookStocks;
-            console.log("bookStocks:", bookStocks);
-        }
-    });
+            // console.log("bookStocks:", bookStocks);
 
+            // const isbn = "771878463-0";
+            // addNewSaleDetailRow(isbn);
+        }
+
+    });
 
     const isbnIpEle = $("#isbnIp");
 
     // Sau khi gõ ISBN, nhấn enter thì nó sẽ insert book vào table
-    // Và làm rỗng isbnIpEle
-    isbnIpEle.on('keyup', function (e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
-            const isbn = isbnIpEle.val().trim();
+    // // Và làm rỗng isbnIpEle
+    // isbnIpEle.on('keyup', function (e) {
+    //     // if (e.key === 'Enter' || e.keyCode === 13) {
+            
+    //         const isbn = isbnIpEle.val();
+    //         addNewSaleDetailRow(isbn);
+    //         isbnIpEle.val("");
+    //     // }
 
-            console.log("isbn:", isbn);
+    // });
 
-            const bookStock = bookStocks.find(x => x.isbn === isbn);
-
-            console.log("bookStock:", bookStock);
-
-
-            isbnIpEle.val("");
-        }
-
-    });
+    $("#addRowBtn").click(function(e){
+        console.log("addRowBtn click");
+        console.log("xxx", $("#isbnIp"));
+        
+        const isbn =  $("#isbnIp").val();
+        console.log("isbn:",isbn);
+        addNewSaleDetailRow(isbn);
+        // $("#isbnIp").val("");
+    })
     
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
-    isbnIpEle.blur(function(){
-        isbnIpEle.val("");
+    // isbnIpEle.blur(function(){
+    //     isbnIpEle.val("");
+    // });
+
+
+    const customerPhoneNumberIpEle = $("#customerPhoneNumberIp");
+
+    customerPhoneNumberIpEle.blur(function(){
+
+        const phoneNumber = customerPhoneNumberIpEle.val().trim();
+        $.ajax({
+            url: `/api/customer/phone/${phoneNumber}`,
+            success(data){
+                const customer = data.customer;
+                console.log("customer:", customer);
+
+                if(customer){
+                    $("#customerId").val(customer.id);
+                }else{
+                    alert("Số điện thoại không tồn tại");
+                    customerPhoneNumberIpEle.val("");
+                }
+                
+            }
+
+        });
     });
 
+    
+
 })
+
+
+
+function removeSaleReceiptDetailRow(index){
+    const row = $("#saleReceiptDetailItem"+index);
+    removeBookStockIdIndex = currentBookStockIdArr.indexOf(index);
+    currentBookStockIdArr.splice(removeBookStockIdIndex, 1);
+    row.remove();
+
+    console.log(currentBookStockIdArr);
+
+    if (currentBookStockIdArr.length == 0){
+        const saleDetailTablelBodyEle = $("#saleDetailTabelBody");
+        saleDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+    }
+}
+
+
+function addNewSaleDetailRow(isbn){
+    // const isbn = isbnIpEle.val().trim();
+
+    const bookStock = bookStocks.find(x => x.book.isbn === isbn);
+
+
+    const saleDetailTablelBodyEle = $("#saleDetailTabelBody");
+
+
+    if(!bookStock){
+        return
+    }
+
+    const id = bookStock.id;
+    if (currentBookStockIdArr.length == 0){
+        saleDetailTablelBodyEle.find('tr:first').remove();
+    }
+    else{
+        if (currentBookStockIdArr.includes(id)){
+            // console.log("Đã tồn tạo ID");
+            return;
+        }
+    }
+
+
+
+    currentBookStockIdArr.push(id);
+    // console.log("bookStock:", bookStock);
+
+    // console.log("saleDetailRowDataSource: ", saleDetailRowDataSource);
+
+    const tableDataTemplate = Handlebars.compile(saleDetailRowDataSource);
+
+    
+    saleDetailTablelBodyEle.append(tableDataTemplate(bookStock));
+
+    // console.log("row: ",tableDataTemplate(bookStock));    
+
+}    
+
+
+function resetDafautQuantity(e){
+    const quantityEle = $(e.target.closest("input"));
+    
+    if(quantityEle.val()){
+        console.log("quantity change: ", quantityEle.val());
+    }else{
+        quantityEle.val("0");
+    }
+}
+
+
 
 {/* <tr>
 <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
