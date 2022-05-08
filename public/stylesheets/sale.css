@@ -32,3 +32,7 @@
 .sale-book-img{
     width: 50px;
 }
+
+.select-modal-content{
+    width: fit-content;
+}

@@ -8,9 +8,9 @@
         <div class="row filter">  
             <div class="col-3">
                 <div class="input-group">
-                    <input id="isbnIp" class="form-control" type="text" placeholder="ISBN">
+                    <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
-                        <button type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#GetProduct" onclick="LoadProduct(1651897317);">
+                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -27,6 +27,7 @@
                 <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
                     <thead>
                         <tr>
+                            <th>Ảnh</th>
                             <th>ISBN</th>
                             <th>Tiêu đề</th>
                             <th>Số trang</th>
@@ -39,7 +40,8 @@
                     </thead>
                     <tfoot>
                         <tr>
-                        <th>ISBN</th>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
                             <th>Tiêu đề</th>
                             <th>Số trang</th>
                             <th>Ngày NB</th>
@@ -50,7 +52,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
+                        <tr id="saleReceiptDetailItem0">
                             <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                             <td>Tiger Nixon</td>
                             <td>System Architect</td>
@@ -60,12 +62,12 @@
                             <td>$320,800</td>
                             <td>$320,800</td>
                             <td>
-                                <button type="button" class="mx-2 btn btn-danger custom-btn" data-toggle="modal" data-target="">
+                                <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailItem(0)">
                                     <i class="fa-solid fa-trash custom-btn-icon"></i>
                                 </button>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="saleReceiptDetailItem1">
                             <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                             <td>Garrett Winters</td>
                             <td>Accountant</td>
@@ -75,12 +77,12 @@
                             <td>$170,750</td>
                             <td>$170,750</td>
                             <td>
-                                <button type="button" class="mx-2 btn btn-danger custom-btn" data-toggle="modal" data-target="">
+                                <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailItem(1)">
                                     <i class="fa-solid fa-trash custom-btn-icon"></i>
                                 </button>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="saleReceiptDetailItem2">
                             <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                             <td>Ashton Cox</td>
                             <td>Junior Technical Author</td>
@@ -90,12 +92,12 @@
                             <td>$170,750</td>
                             <td>$170,750</td>
                             <td>
-                                <button type="button" class="mx-2 btn btn-danger custom-btn" data-toggle="modal" data-target="">
+                                <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailItem(2)">
                                     <i class="fa-solid fa-trash custom-btn-icon"></i>
                                 </button>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="saleReceiptDetailItem3">
                             <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                             <td>Cedric Kelly</td>
                             <td>Senior Javascript Developer</td>
@@ -105,7 +107,7 @@
                             <td>$170,750</td>
                             <td>$170,750</td>
                             <td>
-                                <button type="button" class="mx-2 btn btn-danger custom-btn" data-toggle="modal" data-target="">
+                                <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailItem(3)">
                                     <i class="fa-solid fa-trash custom-btn-icon"></i>
                                 </button>
                             </td>
@@ -113,39 +115,7 @@
                     </tbody>
                 </table>
 
-                <div id="showService" style="display: none;">
-                    <table class="table table-striped table-bordered" id="Service">
-                        <thead>
-                            <tr>
-                                <th width="50">#</th>
-                                <th>Dịch vụ</th>
-                                <th class="text-right">Chi phí</th>
-                                <th class="text-center">Số lượng</th>
-                                <th class="text-right" width="120">Thành tiền</th>
-                                <th class="text-right" width="60"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
 
-                <div id="showCombo" style="display: none;">
-                    <table class="table table-striped table-bordered" id="Combo">
-                        <thead>
-                            <tr>
-                                <th width="50">#</th>
-                                <th>Combo</th>
-                                <th class="text-right">Giá bán</th>
-                                <th class="text-center">Số lượng</th>
-                                <th class="text-right" width="120">Thành tiền</th>
-                                <th class="text-right" width="60"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                    </tbody>
-                    </table>
-                </div>
             </div>
         </div>
         <div class="mr-4 col-md-3 col-xs-12">
@@ -164,7 +134,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" type="tel" required>
                                     <div class="input-group-append">
-                                        <button type="button" class="mx-2 btn btn-success rounded-circle">
+                                        <button id="addNewCustomerModalBtn" type="button" class="mx-2 btn btn-success rounded-circle" data-toggle="modal" data-target="#addNewCustomerModal">
                                             <i class="fa-solid fa-plus"></i>
                                         </button>
                                     </div>
@@ -207,8 +177,168 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Modal -->
+
+    <div id="showBookModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Chọn sách</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <table id="showBookTable">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Chọn</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Chọn</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                            <td>$320,800</td>
+                            <td>5</td>
+                            <td>
+                                <button type="button" class="mx-2 btn btn-success custom-btn" data-toggle="modal" data-target="">
+                                    <i class="fa-solid fa-check custom-btn-icon"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                            <td>$320,800</td>
+                            <td>5</td>
+                            <td>
+                                <button type="button" class="mx-2 btn btn-success custom-btn" data-toggle="modal" data-target="">
+                                    <i class="fa-solid fa-check custom-btn-icon"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                            <td>$320,800</td>
+                            <td>5</td>
+                            <td>
+                                <button type="button" class="mx-2 btn btn-success custom-btn" data-toggle="modal" data-target="">
+                                    <i class="fa-solid fa-check custom-btn-icon"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                            <td>$320,800</td>
+                            <td>5</td>
+                            <td>
+                                <button type="button" class="mx-2 btn btn-success custom-btn" data-toggle="modal" data-target="">
+                                    <i class="fa-solid fa-check custom-btn-icon"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    
+    </div>
+
+    <div id="addNewCustomerModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNewCustomerForm">
+                    <div class="form-group">
+                        <label class="col-form-label">Họ tên:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Số điện thoại:</label>
+                        <input type="tel" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Email:</label>
+                        <input type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Địa chỉ:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    
+    </div>
 </main>
 
 {{#section 'script'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/js/sale.js"></script>
 {{/section}}
