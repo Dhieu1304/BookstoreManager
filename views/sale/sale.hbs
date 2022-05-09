@@ -11,9 +11,9 @@
                 <div class="input-group">
                     <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
-                        <button id="addRowBtn" type="button" class="mx-2 btn btn-primary rounded-2">
+                        {{!-- <button id="addRowBtn" type="button" class="mx-2 btn btn-primary rounded-2">
                             Thêm    <i class="fa-solid fa-plus"></i>
-                        </button>
+                        </button> --}}
                         <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
                             <i class="fa-solid fa-plus"></i>
                         </button>
@@ -75,7 +75,7 @@
                                 <td>\{{book.publisher.name}}</td>
                                 <td>Sang</td>
                                 <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}"></td>
-                                <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantity" onchange="resetDafautQuantity(event)"></td>
+                                <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautQuantity(event)"></td>
                                 <td>
                                     <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailRow(\{{id}})">
                                         <i class="fa-solid fa-trash custom-btn-icon"></i>

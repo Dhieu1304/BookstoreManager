@@ -43,34 +43,42 @@ $(document).ready(function() {
 
     });
 
+
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+
     const isbnIpEle = $("#isbnIp");
 
     // Sau khi gõ ISBN, nhấn enter thì nó sẽ insert book vào table
-    // // Và làm rỗng isbnIpEle
-    // isbnIpEle.on('keyup', function (e) {
-    //     // if (e.key === 'Enter' || e.keyCode === 13) {
+    // Và làm rỗng isbnIpEle
+    isbnIpEle.on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
             
-    //         const isbn = isbnIpEle.val();
-    //         addNewSaleDetailRow(isbn);
-    //         isbnIpEle.val("");
-    //     // }
+            const isbn = isbnIpEle.val();
+            addNewSaleDetailRow(isbn);
+            isbnIpEle.val("");
+        }
 
-    // });
+    });
 
-    $("#addRowBtn").click(function(e){
-        console.log("addRowBtn click");
-        console.log("xxx", $("#isbnIp"));
+    // $("#addRowBtn").click(function(e){
+    //     console.log("addRowBtn click");
+    //     console.log("xxx", $("#isbnIp"));
         
-        const isbn =  $("#isbnIp").val();
-        console.log("isbn:",isbn);
-        addNewSaleDetailRow(isbn);
-        // $("#isbnIp").val("");
-    })
+    //     const isbn =  $("#isbnIp").val();
+    //     console.log("isbn:",isbn);
+    //     addNewSaleDetailRow(isbn);
+    //     // $("#isbnIp").val("");
+    // })
     
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
-    // isbnIpEle.blur(function(){
-    //     isbnIpEle.val("");
-    // });
+    isbnIpEle.blur(function(){
+        isbnIpEle.val("");
+    });
 
 
     const customerPhoneNumberIpEle = $("#customerPhoneNumberIp");

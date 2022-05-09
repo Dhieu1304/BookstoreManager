@@ -23,7 +23,7 @@ exports.addSaleReceipt = async (req, res) => {
 
     if(prices){
         if(Array.isArray(prices)){
-            totalPrice = prices.reduce(function(acc, val) { return acc + val; }, 0);
+            totalPrice = prices.reduce(function(acc, val) { return acc + parseInt(val); }, 0);
         }else{
             totalPrice = prices;
         }
@@ -40,10 +40,7 @@ exports.addSaleReceipt = async (req, res) => {
     if(Array.isArray(prices)){
         for await (const p of prices) {
             const bookId = bookIds.shift();
-            let quantity = 0;
-            if(quantitys){
-                quantity = quantitys.shift();
-            }
+            const quantity = quantitys.shift();
             const price = p;
             const saleReceiptDetail = await addSaleReceiptDatail(bookId, saleReceiptId, quantity, price)
         }
