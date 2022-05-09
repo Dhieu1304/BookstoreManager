@@ -6,6 +6,7 @@ const chartRouter = require("./chartRouter");
 const tableRouter = require("./tableRouter");
 const saleRouter = require("./saleRouter");
 const importRouter = require("./importRouter");
+const billRouter = require("./billRouter");
 const apiRouter = require("./api/initApiRouter");
 
 const authController = require('../controllers/authController');
@@ -30,6 +31,7 @@ module.exports.initRouter = (app) => {
 
     app.use('/sale', saleRouter);
     app.use('/import', importRouter);
+    app.use('/bill', billRouter);
     app.use('/api', apiRouter);
 
 }
