@@ -10,45 +10,36 @@ exports.getImportPage = (req, res) => {
 exports.addImportReceipt = async (req, res) => {
 
 
-    // const data = req.body;
-    //
-    // const bookIds = data.bookIds;
-    //
-    // const quantitys = data.quantitys;
-    //
-    // const prices = data.prices;
-    //
-    // let totalPrice = 0;
-    //
-    // if(prices){
-    //     if(Array.isArray(prices)){
-    //         totalPrice = prices.reduce(function(acc, val) { return acc + parseInt(val); }, 0);
-    //     }else{
-    //         totalPrice = prices;
-    //     }
-    // }
-    //
-    // const createAt = new Date();
-    //
-    // const importReceipt = await importReceiptService.addImportReceipt(createAt, totalPrice);
-    // const importReceiptId = importReceipt.id;
-    //
-    // const importReceiptDetailSize = bookIds.length;
-    //
-    //
-    // if(Array.isArray(prices)){
-    //     for await (const p of prices) {
-    //         const bookId = bookIds.shift();
-    //         const quantity = quantitys.shift();
-    //         const price = p;
-    //         const importReceiptDetail = await addImportReceiptDatail(bookId, importReceiptId, quantity, price)
-    //     }
-    // }else {
-    //     const bookId = bookIds;
-    //     const quantity = quantitys;
-    //     const price = prices;
-    //     const importReceiptDetail = await addImportReceiptDatail(bookId, importReceiptId, quantity, price)
-    // }
+    const data = req.body;
+
+
+
+    const bookIds = data.bookIds;
+    const prices = data.prices;
+    const quantitys = data.quantitys;
+
+    const totalPrice = data.totalPrice;
+
+    const createAt = new Date();
+
+    const importReceipt = await importReceiptService.addImportReceipt(createAt, totalPrice);
+    const importReceiptId = importReceipt.id;
+
+    const importReceiptDetailSize = bookIds.length;
+
+
+    if(Array.isArray(bookIds)){
+        for await (const bookId of bookIds) {
+            const quantity = quantitys.shift();
+            const price = prices.shift();
+            const importReceiptDetail = await addImportReceiptDatail(bookId, importReceiptId, quantity, price)
+        }
+    }else {
+        const bookId = bookIds;
+        const quantity = quantitys;
+        const price = prices;
+        const importReceiptDetail = await addImportReceiptDatail(bookId, importReceiptId, quantity, price)
+    }
 
 
     // // console.log(importReceipt);
@@ -71,12 +62,13 @@ exports.addImportReceipt = async (req, res) => {
     // res.redirect('/import');
 
 
-    const bookId = 5;
-    const importReceiptId = 2;
-    const quantity = 10;
-    const priceD = 300000;
-
-    const importReceiptDetail = addImportReceiptDatail(bookId, importReceiptId, quantity, priceD);
+    //Test
+    // const bookId = 5;
+    // const importReceiptId = 2;
+    // const quantity = 10;
+    // const priceD = 300000;
+    //
+    // const importReceiptDetail = addImportReceiptDatail(bookId, importReceiptId, quantity, priceD);
 
     res.redirect('/import');
 

@@ -7,15 +7,15 @@
     <form action="/import/add" method="post">
     <div class="row">
         <div class="row filter">  
-            <div class="col-4">
+            <div class="col-6">
                 <div class="input-group">
                     <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
-                        {{!-- <button id="addRowBtn" type="button" class="mx-2 btn btn-primary rounded-2">
-                            Thêm    <i class="fa-solid fa-plus"></i>
-                        </button> --}}
-                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
-                            <i class="fa-solid fa-plus"></i>
+                        <button id="addRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
+                            Thêm <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-info rounded-2" data-toggle="modal" data-target="#showBookModal">
+                            Danh sách <i class="fa-solid fa-list"></i>
                         </button>
                         <button id="addBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-2" data-toggle="modal" data-target="#addBookModal">
                             Thêm sách mới <i class="fa-solid fa-plus"></i>
@@ -77,7 +77,7 @@
                                 <td>\{{book.publisher.name}}</td>
                                 <td>Sang</td>
                             
-                                <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})"></td>
+                                <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})" oninput="updateTotalFinalPrice()"></td>
                                 <td><input type="number" class="import-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,0)"></td>
                                 <td>
                                     <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailRow(\{{id}})">
@@ -100,19 +100,19 @@
                         <div class="py-2 px-2 form-group row align-items-center">
                             <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
-                                <input class="form-control" type="date">
+                                <input class="form-control" type="date" readonly id="createAt" name="createAt">
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" class="form-control text-right" readonly>
+                                <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" class="form-control text-right" readonly>
+                                <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
                             </div>
                         </div>
                     </div>

@@ -29,7 +29,23 @@ let bookStocks = [];
 let customers = [];
 let currentBookStockIdArr = [];
 
+
+function defautCreateAtDate(){
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+    $('#createAt').val(today);
+
+}
+
 $(document).ready(function() {
+
+
+    defautCreateAtDate();
 
     $.ajax({
         url: "/api/stock",
@@ -63,22 +79,25 @@ $(document).ready(function() {
             isbnIpEle.val("");
         }
 
+        
     });
 
-    // $("#addRowBtn").click(function(e){
-    //     console.log("addRowBtn click");
-    //     console.log("xxx", $("#isbnIp"));
+
+    $("#addRowBtn").click(function(e){
+        console.log("addRowBtn click");
+        console.log("xxx", $("#isbnIp"));
         
-    //     const isbn =  $("#isbnIp").val();
-    //     console.log("isbn:",isbn);
-    //     addNewImportDetailRow(isbn);
-    //     // $("#isbnIp").val("");
-    // })
+        const isbn =  $("#isbnIp").val();
+        console.log("isbn:",isbn);
+        addNewImportDetailRow(isbn);
+        $("#isbnIp").val("");
+    })
+
     
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
-    isbnIpEle.blur(function(){
-        isbnIpEle.val("");
-    });
+    // isbnIpEle.blur(function(){
+    //     isbnIpEle.val("");
+    // });
 
 
     const customerPhoneNumberIpEle = $("#customerPhoneNumberIp");
@@ -104,6 +123,7 @@ $(document).ready(function() {
         });
     });
 
+
     
 
 })
@@ -122,6 +142,8 @@ function removeImportReceiptDetailRow(index){
         const importDetailTablelBodyEle = $("#importDetailTabelBody");
         importDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
     }
+
+    updateTotalFinalPrice();
 }
 
 
@@ -162,8 +184,24 @@ function addNewImportDetailRow(isbn){
     importDetailTablelBodyEle.append(tableDataTemplate(bookStock));
 
     // console.log("row: ",tableDataTemplate(bookStock));    
+    updateTotalFinalPrice();
 
 }    
+
+
+function updateTotalFinalPrice(){
+
+    let total = 0;
+    $('input[name^="prices"]').each(function() {
+        total += parseFloat( $( this ).val() ) || 0;
+    });
+
+    console.log("total: ", total);
+
+    $('#totalPrice').val(total);
+    $('#finalPrice').val(total);
+    
+}
 
 
 function resetDafautInput(e, val){
@@ -174,6 +212,7 @@ function resetDafautInput(e, val){
     }else{
         ele.val(val);
     }
+
 }
 
 
