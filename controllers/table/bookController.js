@@ -1,4 +1,4 @@
-const bookService=require('../services/bookService');
+const bookService=require('../../services/table/bookService');
 
 exports.bookList=async (req,res)=>{
     const data=req.query;

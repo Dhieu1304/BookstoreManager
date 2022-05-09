@@ -1,4 +1,4 @@
-const {models}=require('../models');
+const {models}=require('../../models');
 
 exports.bookList=async (page,limit,raw=false)=>{
     let options = {
