@@ -38,201 +38,71 @@
                     <th>Action</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="custom-name-picture" href="#"><img
-                                src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                                class="avatar-table-custom img-avatar-header" alt="Avatar">
-                            <span class="custom-text-table">Jennieeeeeeee</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span>jennieblackpinkkk@gmail.com</span>
-                    </td>
-                    <td>Male</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
+                <tbody id="tbody-table-account-management">
+                {{#each data}}
+                    <tr>
+                        <td>
+                            <div class="custom-name-picture" href="#"><img
+                                    src={{this.avatar}}
+                                    class="avatar-table-custom img-avatar-header" alt="Avatar">
+                                <span class="custom-text-table">{{this.first_name}} {{this.last_name}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span>{{this.email}}</span>
+                        </td>
+                        <td>Male</td>
+                        <td>
+                            <div class="custom-status-account">
+                                {{#ifCond this.status '==' 'active'}}
+                                    <div class="status-account-custom acc-active">•</div>
+                                {{else}}
+                                    <div class="status-account-custom acc-lock">•</div>
+                                {{/ifCond}}
+                                <div class="custom-text-status">{{this.status}}</div>
+                            </div>
+                        </td>
+                        <td>
                         <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
                             <i class="fas fa-user-edit"></i>
                         </span>
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
+                            {{#ifCond this.status '==' 'active'}}
+                                <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
                             <i class="fas fa-lock"></i>
                         </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><div href="#"><img
-                            src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                            class="avatar-table-custom img-avatar-header" alt="Avatar"> Jennie</div></td>
-                    <td>jennieblackpink@gmail.com</td>
-                    <td>Female</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
+                            {{else}}
+                                <span href="#" class="unlock-account" title="UnLock" data-toggle="tooltip">
+                            <i class="fas fa-key"></i>
                         </span>
-
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><div href="#"><img
-                            src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                            class="avatar-table-custom img-avatar-header" alt="Avatar"> Jennie</div></td>
-                    <td>jennieblackpink@gmail.com</td>
-                    <td>Female</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-lock">•</div>
-                            <div class="custom-text-status">Lock</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="custom-name-picture" href="#"><img
-                                src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                                class="avatar-table-custom img-avatar-header" alt="Avatar">
-                            <span class="custom-text-table">Jennieeeeeeee</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span>jennieblackpinkkk@gmail.com</span>
-                    </td>
-                    <td>Male</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="custom-name-picture" href="#"><img
-                                src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                                class="avatar-table-custom img-avatar-header" alt="Avatar">
-                            <span class="custom-text-table">Jennieeeeeeee</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span>jennieblackpinkkk@gmail.com</span>
-                    </td>
-                    <td>Male</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="custom-name-picture" href="#"><img
-                                src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                                class="avatar-table-custom img-avatar-header" alt="Avatar">
-                            <span class="custom-text-table">Jennieeeeeeee</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span>jennieblackpinkkk@gmail.com</span>
-                    </td>
-                    <td>Male</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="custom-name-picture" href="#"><img
-                                src="https://icdn.dantri.com.vn/thumb_w/640/2020/12/29/jennie-2-1609214415104.png"
-                                class="avatar-table-custom img-avatar-header" alt="Avatar">
-                            <span class="custom-text-table">Jennieeeeeeee</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span>jennieblackpinkkk@gmail.com</span>
-                    </td>
-                    <td>Male</td>
-                    <td>
-                        <div class="custom-status-account">
-                            <div class="status-account-custom acc-active">•</div>
-                            <div class="custom-text-status">Active</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-                        <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                    </td>
-                </tr>
+                            {{/ifCond}}
+                        </td>
+                    </tr>
+                {{/each}}
                 </tbody>
             </table>
 
             <div class="clearfix-table-custom">
                 <div class="hint-text-custom">Showing <b>10</b> out of <b>100</b> entries</div>
+                <nav aria-label="Page navigation example" id="pagination" class="pagination-table-custom">
+                    {{{createPagination pagination paginationClass="pagination"}}}
+                </nav>
+                <!--
                 <ul class="pagination-table-custom">
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">Previous</a></li>
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">1</a></li>
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">2</a></li>
-                    <li class="page-item-custom page-item-active"><a href="#" class="page-link-custom page-link-active">3</a></li>
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">4</a></li>
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">5</a></li>
-                    <li class="page-item-custom"><a href="#" class="page-link-custom">Next</a></li>
+                    <li class="page-item-custom"><a href="#" class="">Previous</a></li>
+                    <li class="page-item-custom"><a href="#" class="">1</a></li>
+                    <li class="page-item-custom"><a href="#" class="">2</a></li>
+                    <li class="page-item-custom page-item-custom-active"><a href="#" class="">3</a></li>
+                    <li class="page-item-custom"><a href="#" class="">4</a></li>
+                    <li class="page-item-custom"><a href="#" class="">5</a></li>
+                    <li class="page-item-custom"><a href="#" class="">Next</a></li>
                 </ul>
+                -->
             </div>
         </div>
     </div>
 </main>
+
+{{#section 'script'}}
+    <script src="/js/account/account.js"></script>
+    <script src="/js/pagination.js"></script>
+{{/section}}

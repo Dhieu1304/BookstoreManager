@@ -1,9 +1,11 @@
 const hbs = require("hbs");
 const expressHandlebarsSections = require("express-handlebars-sections");
+const paginateHelper = require("express-handlebars-paginate");
 
 module.exports.configHbs = (dir) => {
     hbs.registerPartials(dir);
     hbs.registerHelper('section', expressHandlebarsSections());
+    hbs.registerHelper('createPagination', paginateHelper.createPagination);
     hbs.registerHelper('ifCond', function (v1, operator, v2, options) {
         switch (operator) {
             case '==':

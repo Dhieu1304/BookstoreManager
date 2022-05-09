@@ -1,0 +1,107 @@
+<main>
+    <div class="container-fluid px-4">
+        <div id="avatar-modal" class="avatar-modal">
+            <span class="modal-close">&times;</span>
+            <img class="avatar-modal-content" id="img-avatar-preview" src={{data.avatar}}>
+        </div>
+        <div class="profile-custom">
+            <div class="figure-img-custom">
+                <img onclick="showModalImagePreview()" src={{data.avatar}} id="img-avatar" alt=""/>
+                <form enctype="multipart/form-data" hidden>
+                    <input id="id-account" value="{{data.id}}"/>
+                    <input type="file" name="avatar" accept="image/*" id="up-avatar"/>
+                    <input type="submit" value="Upload image" id="upload-img"/>
+                </form>
+                <div class="image-edit-custom" id="btn-up-avatar">
+                    <div class="btn-change-avatar" onclick="handleChangeAvatar()">Change</div>
+                </div>
+                <header>
+                    <h1 id="full-name-header">{{data.first_name}} {{data.last_name}}</h1>
+                    <div class="small-title-role">({{data.role}})</div>
+                </header>
+            </div>
+            <div class="acc-body-custom">
+                <div class="account-detail-custom">
+                    <div class="dl-custom">
+                        <div class="dt-custom">Full name:</div>
+                        <div id="full-name" class="custom-input-edit">
+                            <div class="dd-custom" id="full-name-val">
+                                {{data.first_name}} {{data.last_name}}
+                            </div>
+                            <div class="dd-edit-custom" onclick="handleEdit('full-name')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dl-custom">
+                        <div class="dt-custom">Email:</div>
+                        <div id="email" class="custom-input-edit">
+                            <div class="dd-custom" id="email-val">{{data.email}}</div>
+                            <div class="dd-edit-custom" onclick="handleEdit('email')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dl-custom">
+                        <div class="dt-custom">Gender:</div>
+                        <div id="gender" class="custom-input-edit">
+                            <div class="dd-custom" id="gender-val">{{data.gender}}</div>
+                            <div class="dd-edit-custom" onclick="handleEditGender('gender')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dl-custom">
+                        <div class="dt-custom">Phone Number:</div>
+                        <div id="phone-number" class="custom-input-edit">
+                            <div class="dd-custom" id="phone-number-val">{{data.phone_number}}</div>
+                            <div class="dd-edit-custom" onclick="handleEdit('phone-number')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dl-custom">
+                        <div class="dt-custom">Address:</div>
+                        <div id="address" class="custom-input-edit">
+                            <div class="dd-custom" id="address-val">{{data.address}}</div>
+                            <div class="dd-edit-custom" onclick="handleEdit('address')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dl-custom">
+                        <div class="dt-custom">Create at:</div>
+                        <div class="dd-custom">{{data.create_at}}</div>
+                    </div>
+                    {{#ifTwoCondCustom user.role 'admin' 'superadmin'}}
+                        <div class="dl-custom">
+                            <div class="dt-custom">Uid:</div>
+                            <div class="dd-custom">{{data.uid}}</div>
+                        </div>
+                        <div class="dl-custom">
+                            <div class="dt-custom">Status:</div>
+                            <div class="dd-custom">{{data.status}}</div>
+                        </div>
+                    {{/ifTwoCondCustom}}
+                </div>
+                <div class="btn-detail-acc-custom">
+                    <div class="save-btn-custom" onclick="handleEditAccount({{data.id}})">Save</div>
+                    {{#ifTwoCondCustom user.role 'admin' 'superadmin'}}
+                        <div class="lock-btn-custom">
+                            {{#ifCond data.status '==' 'active'}}
+                                Lock
+                            {{else}}
+                                Unlock
+                            {{/ifCond}}
+                        </div>
+                    {{/ifTwoCondCustom}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{{#section 'script'}}
+    <script src="/js/account/accountDetail.js"></script>
+{{/section}}
