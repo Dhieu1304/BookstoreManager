@@ -5,6 +5,7 @@ const errorRouter = require("./errorRouter");
 const chartRouter = require("./chartRouter");
 const tableRouter = require("./tableRouter");
 const saleRouter = require("./saleRouter");
+const importRouter = require("./importRouter");
 const apiRouter = require("./api/initApiRouter");
 
 const authController = require('../controllers/authController');
@@ -28,6 +29,7 @@ module.exports.initRouter = (app) => {
     app.use('/', authRouter);
 
     app.use('/sale', saleRouter);
+    app.use('/import', importRouter);
     app.use('/api', apiRouter);
 
 }

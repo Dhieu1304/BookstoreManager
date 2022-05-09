@@ -3,9 +3,9 @@ window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
     // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-    const saleReceiptDetailTable = document.getElementById('saleReceiptDetailTable');
-    if (saleReceiptDetailTable) {
-        new simpleDatatables.DataTable(saleReceiptDetailTable, {
+    const importReceiptDetailTable = document.getElementById('importReceiptDetailTable');
+    if (importReceiptDetailTable) {
+        new simpleDatatables.DataTable(importReceiptDetailTable, {
             searchable: false,
             perPageSelect: false,
             paging: false,
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
-const saleDetailRowDataSource = $("#saleDetailTableRowTemplate").html();
+const importDetailRowDataSource = $("#importDetailTableRowTemplate").html();
 
 let bookStocks = [];
 let customers = [];
@@ -38,7 +38,7 @@ $(document).ready(function() {
             // console.log("bookStocks:", bookStocks);
 
             // const isbn = "771878463-0";
-            // addNewSaleDetailRow(isbn);
+            // addNewImportDetailRow(isbn);
         }
 
     });
@@ -59,7 +59,7 @@ $(document).ready(function() {
         if (e.key === 'Enter' || e.keyCode === 13) {
             
             const isbn = isbnIpEle.val();
-            addNewSaleDetailRow(isbn);
+            addNewImportDetailRow(isbn);
             isbnIpEle.val("");
         }
 
@@ -71,7 +71,7 @@ $(document).ready(function() {
         
     //     const isbn =  $("#isbnIp").val();
     //     console.log("isbn:",isbn);
-    //     addNewSaleDetailRow(isbn);
+    //     addNewImportDetailRow(isbn);
     //     // $("#isbnIp").val("");
     // })
     
@@ -110,8 +110,8 @@ $(document).ready(function() {
 
 
 
-function removeSaleReceiptDetailRow(index){
-    const row = $("#saleReceiptDetailItem"+index);
+function removeImportReceiptDetailRow(index){
+    const row = $("#importReceiptDetailItem"+index);
     removeBookStockIdIndex = currentBookStockIdArr.indexOf(index);
     currentBookStockIdArr.splice(removeBookStockIdIndex, 1);
     row.remove();
@@ -119,19 +119,19 @@ function removeSaleReceiptDetailRow(index){
     console.log(currentBookStockIdArr);
 
     if (currentBookStockIdArr.length == 0){
-        const saleDetailTablelBodyEle = $("#saleDetailTabelBody");
-        saleDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+        const importDetailTablelBodyEle = $("#importDetailTabelBody");
+        importDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
     }
 }
 
 
-function addNewSaleDetailRow(isbn){
+function addNewImportDetailRow(isbn){
     // const isbn = isbnIpEle.val().trim();
 
     const bookStock = bookStocks.find(x => x.book.isbn === isbn);
 
 
-    const saleDetailTablelBodyEle = $("#saleDetailTabelBody");
+    const importDetailTablelBodyEle = $("#importDetailTabelBody");
 
 
     if(!bookStock){
@@ -140,7 +140,7 @@ function addNewSaleDetailRow(isbn){
 
     const id = bookStock.id;
     if (currentBookStockIdArr.length == 0){
-        saleDetailTablelBodyEle.find('tr:first').remove();
+        importDetailTablelBodyEle.find('tr:first').remove();
     }
     else{
         if (currentBookStockIdArr.includes(id)){
@@ -154,17 +154,16 @@ function addNewSaleDetailRow(isbn){
     currentBookStockIdArr.push(id);
     // console.log("bookStock:", bookStock);
 
-    // console.log("saleDetailRowDataSource: ", saleDetailRowDataSource);
+    // console.log("importDetailRowDataSource: ", importDetailRowDataSource);
 
-    const tableDataTemplate = Handlebars.compile(saleDetailRowDataSource);
+    const tableDataTemplate = Handlebars.compile(importDetailRowDataSource);
 
     
-    saleDetailTablelBodyEle.append(tableDataTemplate(bookStock));
+    importDetailTablelBodyEle.append(tableDataTemplate(bookStock));
 
     // console.log("row: ",tableDataTemplate(bookStock));    
 
 }    
-
 
 
 function resetDafautInput(e, val){
@@ -180,7 +179,7 @@ function resetDafautInput(e, val){
 
 
 {/* <tr>
-<td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+<td><img class="import-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
 <td>Tiger Nixon</td>
 <td>System Architect</td>
 <td>Edinburgh</td>
@@ -196,8 +195,8 @@ function resetDafautInput(e, val){
 </td>
 </tr> */}
 
-{/* <tr id="saleReceiptDetailItem0">
-<td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+{/* <tr id="importReceiptDetailItem0">
+<td><img class="import-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
 <td>Tiger Nixon</td>
 <td>System Architect</td>
 <td>Edinburgh</td>
@@ -206,7 +205,7 @@ function resetDafautInput(e, val){
 <td>$320,800</td>
 <td>$320,800</td>
 <td>
-    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailItem(0)">
+    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailItem(0)">
         <i class="fa-solid fa-trash custom-btn-icon"></i>
     </button>
 </td>

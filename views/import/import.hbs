@@ -1,13 +1,13 @@
 
 {{#section 'css'}}
-    <link href="/stylesheets/sale.css" rel="stylesheet"/>
+    <link href="/stylesheets/import.css" rel="stylesheet"/>
 {{/section}}
 
-<main class="sale-container">
-    <form action="/sale/add" method="post">
+<main class="import-container">
+    <form action="/import/add" method="post">
     <div class="row">
         <div class="row filter">  
-            <div class="col-3">
+            <div class="col-4">
                 <div class="input-group">
                     <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
@@ -16,6 +16,9 @@
                         </button> --}}
                         <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
                             <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <button id="addBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-2" data-toggle="modal" data-target="#addBookModal">
+                            Thêm sách mới <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
                     <div class="invalid-feedback">
@@ -33,7 +36,7 @@
     <div class="row mt-2">
         <div class="col-md-9 col-xs-12">
             <div class="content">             
-                <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
+                <table id="importReceiptDetailTable" class="import-receip-detail-table">
                     <thead>
                         <tr>
                             <th>Ảnh</th>
@@ -62,22 +65,22 @@
                             <th>Xóa</th>
                         </tr>
                     </tfoot>
-                    <tbody id="saleDetailTabelBody">
-                        <script type="text/x-handlebars-template" id="saleDetailTableRowTemplate">
-                        
-                            <tr id="saleReceiptDetailItem\{{id}}">
+                    <tbody id="importDetailTabelBody">
+                        <script type="text/x-handlebars-template" id="importDetailTableRowTemplate">
+                            <tr id="importReceiptDetailItem\{{id}}">
                                 <input type="hidden" name="bookIds" value="\{{id}}">
-                                <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                                <td><img class="import-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                                 <td>\{{book.isbn}}</td>
                                 <td>\{{book.title}}</td>
                                 <td>\{{book.num_page}}</td>
                                 <td>\{{book.publication_date}}</td>
                                 <td>\{{book.publisher.name}}</td>
                                 <td>Sang</td>
-                                <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}"></td>
-                                <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
+                            
+                                <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})"></td>
+                                <td><input type="number" class="import-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,0)"></td>
                                 <td>
-                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailRow(\{{id}})">
+                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailRow(\{{id}})">
                                         <i class="fa-solid fa-trash custom-btn-icon"></i>
                                     </button>
                                 </td>
@@ -91,60 +94,32 @@
             </div>
         </div>
         <div class="mr-4 col-md-3 col-xs-12">
-            <div class="sale-form">
-                <div class="row sale-form-top">
+            <div class="import-form">
+                <div class="row import-form-top">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
-                            <div class="col-md-9 col-sm-9 col-xs-6">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input class="form-control" type="date">
                             </div>
                         </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <div class="input-group">
-                                    <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="tel" required>
-                                    <input id="customerId" name="customerId" type="hidden">
-                                    <div class="input-group-append">
-                                        <button id="addNewCustomerModalBtn" type="button" class="mx-2 btn btn-success rounded-circle" data-toggle="modal" data-target="#addNewCustomerModal">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Vui lòng chọn số điện thoại
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="form-control" type="text" readonly>
-                            </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Nợ cũ</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="form-control" type="text" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row sale-form-bottom">
-                    <div class="col-md-12 col-xs-12">
-                        <div class="py-2 form-group row">
+                        <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input type="text" class="form-control text-right" readonly>
                             </div>
                         </div>
-                        <div class="py-2 form-group row">
+                        <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input type="text" class="form-control text-right" readonly>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row import-form-bottom">
+                    <div class="col-md-12 col-xs-12">
+
                     </div>
                 </div>
             </div>
@@ -252,5 +227,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="/js/sale.js"></script>
+    <script src="/js/import.js"></script>
 {{/section}}
