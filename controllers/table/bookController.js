@@ -1,28 +1,23 @@
-const bookService=require('../../services/table/bookService');
+const bookService = require('../../services/table/bookService');
+const bookImgService = require('../../services/bookImgService');
 
-exports.bookList=async (req,res)=>{
-    const data=req.query;
+exports.bookList = async (req, res) => {
+    const data = req.query;
     // console.log(data);
-    const page=parseInt(data.page)||1;
-    const limit=parseInt(data.limit)||10;
+    const page = parseInt(data.page) || 1;
+    const limit = parseInt(data.limit) || 10;
 
 
-    //const brandNames = await brandService.getAllBrandName(true);
 
-//Lấy products
-    const allBooks = await bookService.bookList(page,limit,true);
-    //console.log("ALL BOOK controller", books);
-//products
+    const allBooks = await bookService.bookList(page, limit, true);
     const books = allBooks.rows;
-    //console.log("BOOK controller", books);
-//Số lượng các products
     const count = allBooks.count;
 
-// for (let product of products) {
-//     const id = product.id;
-//     const picture = await pictureService.getAvatarPictureByProductId(id);
-//     product.picture = picture;
-// }
+    for (let book of books) {
+        const id = book.id;
+        const image = await bookImgService.getAvatarImgByBookId(id);
+        book.image = image;
+    }
 
     const pagination = {
         page: page,
@@ -30,7 +25,7 @@ exports.bookList=async (req,res)=>{
         totalRows: count
     };
 
-    res.render('table/book', { title: 'Book List', layout: 'layout.hbs', books, pagination })
+    res.render('table/book', {title: 'Book List', layout: 'layout.hbs', books, pagination})
 };
 
 
