@@ -1,3 +1,4 @@
+const author = require("../../models/author");
 
 window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
@@ -211,7 +212,86 @@ $(document).ready(function() {
 
     })
 
+    $("#addNewAuthorBtn").click(function(e){
+        
+        const authorName =  $("#newAuthor").val();
+
+
+            $.ajax({
+            url: "/api/stock/author/add",
+            method: 'POST',
+            data: {
+                authorName
+            },
+            success(data){
+
+                author = data.author;
+                console.log("author:", author);
+
+                authors.push(author);
+            }
+
+    }
+            );
+
+        $("#newAuthor").val("");
+
+
+
+    })
     
+    
+    $("#addNewPublisherBtn").click(function(e){
+        
+        const publisherName =  $("#newPublisher").val();
+
+
+            $.ajax({
+            url: "/api/stock/publisher/add",
+            method: 'POST',
+            data: {
+                publisherName
+            },
+            success(data){
+                publisher = data.publisher;
+                console.log("publisher:", publisher);
+                publishers.push(publisher);
+            }
+
+    }
+            );
+
+        $("#newPublisher").val("");
+
+    })
+    
+
+    $("#addNewCategoryBtn").click(function(e){
+        
+        const categoryName =  $("#newCategory").val();
+
+
+            $.ajax({
+            url: "/api/stock/category/add",
+            method: 'POST',
+            data: {
+                categoryName
+            },
+            success(data){
+                category = data.category;
+                console.log("category:", category);
+
+                categorys.push(category);
+            }
+
+    }
+            );
+
+        $("#newCategory").val("");
+
+    })
+    
+
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
     // isbnIpEle.blur(function(){
     //     isbnIpEle.val("");
@@ -471,6 +551,10 @@ function resetDafautInput(e, val){
     }
 
 }
+
+
+
+
 
 
 

@@ -33,12 +33,12 @@ module.exports.addBook = async (req, res) => {
 
 module.exports.addPublisher = async (req, res) => {
 
-
     //Test
-    const name = 'xxx';
+    const data = req.body;
+    const publisherName = data.publisherName
 
 
-    const publisher = await publisherService.addPublisher(name);
+    const publisher = await publisherService.addAuthor(publisherName);
 
     res.status(200).json({publisher});
 }
@@ -47,11 +47,11 @@ module.exports.addPublisher = async (req, res) => {
 module.exports.addAuthor = async (req, res) => {
 
 
-    //Test
-    const name = 'xxx';
+    const data = req.body;
+    const authorName = data.authorName
 
 
-    const author = await authorService.addAuthor(name);
+    const author = await authorService.addAuthor(authorName);
 
     res.status(200).json({author});
 }
@@ -59,11 +59,11 @@ module.exports.addAuthor = async (req, res) => {
 module.exports.addCategory = async (req, res) => {
 
 
-    //Test
-    const name = 'xxx';
+    const data = req.body;
+    const categoryName = data.categoryName
 
 
-    const category = await categoryService.addCategory(name);
+    const category = await categoryService.addAuthor(categoryName);
 
     res.status(200).json({category});
 }

@@ -5,9 +5,9 @@ const bookStockApiController = require("../../controllers/api/bookStockApiContro
 router.get('/', bookStockApiController.getAllBookStock);
 router.get('/book/add', bookStockApiController.addBook);
 
-router.get('/category/add', bookStockApiController.addCategory);
-router.get('/publisher/add', bookStockApiController.addPublisher);
-router.get('/author/add', bookStockApiController.addAuthor);
+router.post('/category/add', bookStockApiController.addCategory);
+router.post('/publisher/add', bookStockApiController.addPublisher);
+router.post('/author/add', bookStockApiController.addAuthor);
 
 
 module.exports = router;
