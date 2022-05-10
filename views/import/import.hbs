@@ -67,8 +67,8 @@
                     </tfoot>
                     <tbody id="importDetailTabelBody">
                         <script type="text/x-handlebars-template" id="importDetailTableRowTemplate">
-                            <tr id="importReceiptDetailItem\{{id}}">
-                                <input type="hidden" name="bookIds" value="\{{id}}">
+                            <tr id="importReceiptDetailItem\{{book_id}}">
+                                <input type="hidden" name="bookIds" value="\{{book_id}}">
                                 <td><img class="import-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
                                 <td>\{{book.isbn}}</td>
                                 <td>\{{book.title}}</td>
@@ -80,7 +80,7 @@
                                 <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})" oninput="updateTotalFinalPrice()"></td>
                                 <td><input type="number" class="import-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,0)"></td>
                                 <td>
-                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailRow(\{{id}})">
+                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailRow(\{{book_id}})">
                                         <i class="fa-solid fa-trash custom-btn-icon"></i>
                                     </button>
                                 </td>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="row justify-content-end">
                             <div class="col-xl-4 col-md-12">
-                                <button id="addCategoryBtn" type="button" class="btn btn-success rounded-circle">
+                                <button id="addNewCategoryBtn" type="button" class="btn btn-success rounded-circle">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
@@ -245,20 +245,20 @@
                     <div class="row">
                         <div class="form-group col">
                             <label class="col-form-label">ISBN:</label>
-                            <input type="text" class="form-control">
+                            <input id="newBookIsbn" type="text" class="form-control">
                         </div>
                         <div class="form-group col">
                             <label class="col-form-label">Số trang:</label>
-                            <input type="number" class="form-control">
+                            <input id="newBookPageNumber" type="number" class="form-control">
                         </div>
                         <div class="form-group col">
                             <label class="col-form-label">Ngày xuất bản:</label>
-                            <input type="Date" class="form-control">
+                            <input id="newBookPublisherDate" type="Date" class="form-control">
                       </div>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Tiêu đề:</label>
-                        <input type="text" class="form-control">
+                        <input id="newBookTitle" type="text" class="form-control">
                     </div>
 
                     <div class="row">
@@ -399,7 +399,7 @@
                                                         <option value="{{name}}"></option>
                                                     {{/each}}
                                                 </datalist> 
-                                                <input id="publisher" name="publisher" type="hidden" class="form-control">                    
+                                                <input id="publisherId" name="publisherId" type="hidden" class="form-control">                    
                                             </div>
                                         </div>
                                     </div>
@@ -414,7 +414,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" id="addNewBookBtn" class="btn btn-primary">Save changes</button>
             </div>
             </div>
         </div>    
@@ -430,11 +430,11 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
     <script>
-        const bookStocks = JSON.parse('{{{json bookStocks}}}');
-        const authors = JSON.parse('{{{json authors}}}');
+        let bookStocks = JSON.parse('{{{json bookStocks}}}');
+        let authors = JSON.parse('{{{json authors}}}');
 
-        const publishers = JSON.parse('{{{json publishers}}}');
-        const categorys = JSON.parse('{{{json categorys}}}');
+        let publishers = JSON.parse('{{{json publishers}}}');
+        let categorys = JSON.parse('{{{json categorys}}}');
 
         
     </script>

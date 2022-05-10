@@ -1,4 +1,3 @@
-const author = require("../../models/author");
 
 window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
@@ -290,6 +289,98 @@ $(document).ready(function() {
         $("#newCategory").val("");
 
     })
+
+
+    $("#addNewBookBtn").click(function(e){
+        
+
+        newBookIsbn = $("#newBookIsbn").val();
+        newBookPageNumber = $("#newBookPageNumber").val();
+        newBookPublisherDate = $("#newBookPublisherDate").val();
+        newBookTitle = $("#newBookTitle").val();
+        publisherId = $("#publisherId").val();
+
+        authorIds = [];
+        categoryIds = [];
+
+
+        $('input[name^="authorIds"]').each(function() {
+            authorIds.push($(this).val());
+            console.log("authorId ", $(this).val());
+            console.log("authorIds: ", authorIds);
+        });
+        
+
+        $('input[name^="categoryIds"]').each(function() {
+            categoryIds.push($(this).val());
+            console.log("categoryId ", $(this).val());
+            console.log("categoryIds: ", categoryIds);
+        });
+
+
+
+            $.ajax({
+            url: "/api/stock/book/add",
+            method: 'POST',
+            data: {
+                newBookIsbn,
+                newBookPageNumber,
+                newBookPublisherDate,
+                newBookTitle,
+                publisherId,
+                authorIds: authorIds,
+                categoryIds: categoryIds
+            },
+            success(data){
+                bookStock = data.bookStock;
+                console.log("bookStock:", bookStock);
+
+                bookStocks.push(bookStock);
+            }
+
+     }
+            );
+
+
+            $.ajax({
+                url: "/api/stock",
+                success(data){
+                    // bookStock = data.bookStock;
+                    bookStocks = data.bookStocks;
+                    console.log("bookStock:", bookStock);
+    
+                    // bookStocks.push(bookStock);
+                }
+    
+         }
+                );
+
+        $("#newBookIsbn").val("");
+        $("#newBookPageNumber").val("");
+        $("#newBookPublisherDate").val("");
+        $("#newBookTitle").val("");
+        $("#publisherId").val("");
+        $("#publisherIp").val("");
+
+    
+
+
+        for (let authorId of authorIds){
+            removeAuthorTableRow("authorItem", authorId);
+        }
+
+        for (let categoryId of categoryIds){
+            
+            removeCategoryTableRow("categoryItem", categoryId);
+        }
+
+
+
+        // changePublisherId();
+
+    })
+
+    
     
 
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
@@ -458,7 +549,7 @@ function changePublisherId(){
         return;
     }
 
-    $("#publisher").val(publisher.id);
+    $("#publisherId").val(publisher.id);
 
     // console.log('$("#publisher").val()', $("#publisher").val());
 

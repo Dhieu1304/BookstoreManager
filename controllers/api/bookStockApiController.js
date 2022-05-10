@@ -18,16 +18,46 @@ module.exports.getAllBookStock = async (req, res) => {
 module.exports.addBook = async (req, res) => {
 
 
+    const data = req.body;
+
+    const newBookIsbn = data.newBookIsbn;
+    const newBookPageNumber = data.newBookPageNumber;
+    const newBookPublisherDate = data.newBookPublisherDate;
+    const newBookTitle = data.newBookTitle;
+    const publisherId = data.publisherId;
+    const authorIds = data['authorIds[]']
+    const categoryIds = data['categoryIds[]']
+
+
     //Test
-    const isbn = 'xxx';
-    const title = 'yyy';
-    const num_page = 100;
-    const publication_date = new Date();
-    const publisher_id = 5;
+    // const isbn = 'xxx';
+    // const title = 'yyy';
+    // const num_page = 100;
+    // const publication_date = new Date();
+    // const publisher_id = 5;
 
-    const book = await bookService.addBook(isbn, title, num_page, publication_date, publisher_id);
+    const book = await bookService.addBook(newBookIsbn, newBookTitle, newBookPageNumber, newBookPublisherDate, publisherId);
 
-    res.status(200).json({book});
+    const bookId = book.id;
+
+    if(authorIds){
+        for await (let authorId of authorIds){
+            await bookService.addBookAuthor(bookId, authorId);
+        }
+    }
+
+
+    if(categoryIds){
+        for await (let categoryId of categoryIds){
+            await bookService.addBookAuthor(bookId, categoryId);
+        }
+    }
+
+
+
+    const bookStock = await bookStockService.getBookStockById(bookId,false);
+
+    res.status(200).json({bookStock});
 }
 
 
@@ -38,7 +68,7 @@ module.exports.addPublisher = async (req, res) => {
     const publisherName = data.publisherName
 
 
-    const publisher = await publisherService.addAuthor(publisherName);
+    const publisher = await publisherService.addPublisher(publisherName);
 
     res.status(200).json({publisher});
 }
@@ -63,7 +93,19 @@ module.exports.addCategory = async (req, res) => {
     const categoryName = data.categoryName
 
 
-    const category = await categoryService.addAuthor(categoryName);
+    const category = await categoryService.addCategory(categoryName);
 
     res.status(200).json({category});
+}
+
+
+module.exports.getBookStockByBookId = async (req, res) => {
+
+
+    const bookId = req.params.id;
+
+
+    const bookStock = await bookStockService.getBookStockById(bookId,false);
+
+    res.status(200).json({bookStock});
 }

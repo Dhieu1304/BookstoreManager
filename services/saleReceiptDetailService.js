@@ -16,7 +16,7 @@ exports.addSaleReceiptDetail = async (book_id, sale_receipt_id, quantityStr, pri
 
         const bookStocks = await models.book_stock.findAll({
             where: ({
-                id: book_id,
+                book_id: book_id,
             })
         })
 
