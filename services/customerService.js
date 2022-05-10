@@ -34,3 +34,25 @@ exports.getCustomerInforByPhoneNumber = async (phone, raw = false) => {
     }
 
 }
+
+exports.addNewCustomer = async(name ,phone , email ,address) => {
+    try{
+        
+
+        const customer = await models.customer.create(
+            {
+                name: name,
+                phone: phone,
+                email: email,
+                address: address,
+                dept: 0
+            }
+        );
+
+        return customer;
+    }catch (e) {
+        console.log(e);
+    }
+}
+
+

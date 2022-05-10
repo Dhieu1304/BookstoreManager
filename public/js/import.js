@@ -57,7 +57,6 @@ let currentBookStockIdArr = [];
 
 //     // authors = [
 //     //     {name: "Sang"},
-//     //     {name: "Mi"},
 //     // ]
 
 //     console.log("authors:", authors);
@@ -373,8 +372,6 @@ $(document).ready(function() {
             
             removeCategoryTableRow("categoryItem", categoryId);
         }
-
-
 
         // changePublisherId();
 

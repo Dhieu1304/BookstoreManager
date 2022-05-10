@@ -1,4 +1,5 @@
 
+
 window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
     // https://github.com/fiduswriter/Simple-DataTables/wiki
@@ -22,26 +23,37 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
+let customers = [];
 
 const saleDetailRowDataSource = $("#saleDetailTableRowTemplate").html();
 
-let bookStocks = [];
-let customers = [];
 let currentBookStockIdArr = [];
+
+$.ajax({
+    url: "/api/customer",
+    success(data){
+        customers = data.customers;
+        // console.log("bookStocks:", bookStocks);
+
+        // const isbn = "771878463-0";
+        // addNewSaleDetailRow(isbn);
+    }
+
+});
 
 $(document).ready(function() {
 
-    $.ajax({
-        url: "/api/stock",
-        success(data){
-            bookStocks = data.bookStocks;
-            // console.log("bookStocks:", bookStocks);
+    // $.ajax({
+    //     url: "/api/stock",
+    //     success(data){
+    //         bookStocks = data.bookStocks;
+    //         // console.log("bookStocks:", bookStocks);
 
-            // const isbn = "771878463-0";
-            // addNewSaleDetailRow(isbn);
-        }
+    //         // const isbn = "771878463-0";
+    //         // addNewSaleDetailRow(isbn);
+    //     }
 
-    });
+    // });
 
 
     $(window).keydown(function(event){
@@ -63,7 +75,22 @@ $(document).ready(function() {
             isbnIpEle.val("");
         }
 
+        
     });
+
+    
+    $("#addRowBtn").click(function(e){
+        console.log("addRowBtn click");
+        console.log("xxx", $("#isbnIp"));
+        
+        const isbn =  $("#isbnIp").val();
+        console.log("isbn:",isbn);
+        addNewSaleDetailRow(isbn);
+        $("#isbnIp").val("");
+    })
+
+
+
 
     // $("#addRowBtn").click(function(e){
     //     console.log("addRowBtn click");
@@ -76,14 +103,14 @@ $(document).ready(function() {
     // })
     
     // Sau khi đưa trỏ chuột ra ngoài input của isbnIpEle thì làm rỗng nó.
-    isbnIpEle.blur(function(){
-        isbnIpEle.val("");
-    });
+    // isbnIpEle.blur(function(){
+    //     isbnIpEle.val("");
+    // });
 
 
     const customerPhoneNumberIpEle = $("#customerPhoneNumberIp");
 
-    customerPhoneNumberIpEle.blur(function(){
+    customerPhoneNumberIpEle.change(function(){
 
         const phoneNumber = customerPhoneNumberIpEle.val().trim();
         $.ajax({
@@ -94,6 +121,10 @@ $(document).ready(function() {
 
                 if(customer){
                     $("#customerId").val(customer.id);
+
+                    $("#customerDept").val(customer.dept);
+
+                    $("#customerName").val(customer.name);
                 }else{
                     alert("Số điện thoại không tồn tại");
                     customerPhoneNumberIpEle.val("");
@@ -103,6 +134,45 @@ $(document).ready(function() {
 
         });
     });
+
+
+
+    $("#addNewCustomerBtn").click(function(e){
+        
+    
+
+        newCustormerName = $("#newCustormerName").val();
+        newCustormerPhone = $("#newCustormerPhone").val();
+        newCustormerEmail = $("#newCustormerEmail").val();
+        newCustormerAddress = $("#newCustormerAddress").val();
+
+
+            $.ajax({
+            url: "/api/customer/add",
+            method: 'POST',
+            data: {
+                newCustormerName,
+                newCustormerPhone,
+                newCustormerEmail,
+                newCustormerAddress
+            },
+            success(data){
+
+                customer = data.customer;
+                console.log("customer:", customer);
+
+                customers.push(customer);
+
+                $("#newCustormerName").val("");
+                $("#newCustormerPhone").val("");
+                $("#newCustormerEmail").val("");
+                $("#newCustormerAddress").val("");
+            
+            }
+
+    })
+
+})
 
     
 
@@ -122,6 +192,8 @@ function removeSaleReceiptDetailRow(index){
         const saleDetailTablelBodyEle = $("#saleDetailTabelBody");
         saleDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
     }
+
+    updateTotalFinalPrice();
 }
 
 
@@ -162,9 +234,24 @@ function addNewSaleDetailRow(isbn){
     saleDetailTablelBodyEle.append(tableDataTemplate(bookStock));
 
     // console.log("row: ",tableDataTemplate(bookStock));    
+    updateTotalFinalPrice();
 
 }    
 
+
+function updateTotalFinalPrice(){
+
+    let total = 0;
+    $('input[name^="prices"]').each(function() {
+        total += parseFloat( $( this ).val() ) || 0;
+    });
+
+    console.log("total: ", total);
+
+    $('#totalPrice').val(total);
+    $('#finalPrice').val(total);
+    
+}
 
 
 function resetDafautInput(e, val){

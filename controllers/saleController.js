@@ -1,9 +1,16 @@
 
 const saleReceiptService = require('../services/saleReceiptService');
 const saleReceiptDetailService = require("../services/saleReceiptDetailService");
+const bookStockService = require("../services/bookStockService");
+const customerService = require("../services/customerService");
 
-exports.getSalePage = (req, res) => {
-    res.render('sale/sale', {title: 'Sale'});
+exports.getSalePage = async (req, res) => {
+
+    const bookStocks = await bookStockService.getAllBookStock(false);
+
+    const customers = await customerService.getAllCustomerInfor(true);
+
+    res.render('sale/sale', {title: 'Sale', bookStocks, customers});
 }
 
 exports.addSaleReceipt = async (req, res) => {

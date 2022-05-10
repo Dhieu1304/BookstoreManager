@@ -17,3 +17,19 @@ module.exports.getCustomerInforByPhoneNumber = async (req, res) => {
 }
 
 
+module.exports.addNewCustomer = async (req, res) => {
+
+    const data = req.body;
+    const newCustormerName = data.newCustormerName;
+    const newCustormerPhone = data.newCustormerPhone;
+    const newCustormerEmail = data.newCustormerEmail;
+    const newCustormerAddress = data.newCustormerAddress;
+
+
+    const customer = await customerService.addNewCustomer(newCustormerName ,newCustormerPhone ,newCustormerEmail ,newCustormerAddress);
+
+    res.status(200).json({customer});
+}
+
+
+
