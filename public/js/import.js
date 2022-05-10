@@ -19,15 +19,83 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    const categoryTable = document.getElementById('categoryTable');
+    if (categoryTable) {
+        new simpleDatatables.DataTable(categoryTable, {
+            searchable: false,
+            perPageSelect: false,
+            paging: false,
+        });
+    }
+
+    const authorTable = document.getElementById('authorTable');
+    if (authorTable) {
+        new simpleDatatables.DataTable(authorTable, {
+            searchable: false,
+            perPageSelect: false,
+            paging: false,
+        });
+    }
 
 });
 
 
 const importDetailRowDataSource = $("#importDetailTableRowTemplate").html();
 
-let bookStocks = [];
 let customers = [];
 let currentBookStockIdArr = [];
+
+
+// const authorListDataSource = $("#authorListTemplate").html();
+
+
+
+// async function resetAuthorList(){
+
+
+//     // await getAuthorList();
+
+//     // authors = [
+//     //     {name: "Sang"},
+//     //     {name: "Mi"},
+//     // ]
+
+//     console.log("authors:", authors);
+
+//     console.log("authorListDataSource: ", authorListDataSource);
+
+//     const authorListEle = $("#authorList");
+
+//     console.log("authorListEle html:", authorListEle.html());
+
+//     console.log("authorListEle: ", authorListEle);
+
+//     const authorListDataTemplate = Handlebars.compile(authorListDataSource);
+    
+//     console.log("authorListDataTemplate: ", authorListDataTemplate);
+
+//     let xxx = "Sang"
+
+//     authorListEle.html(authorListDataTemplate({authors}));
+
+//     console.log("authorListData: ", authorListDataTemplate(authors));
+
+// }
+
+
+// function getAuthorList(){
+//     $.ajax({
+//         url: "/api/author",
+//         success(data){
+//             authors = data.authors;
+//             console.log(authors);
+//         }
+//     });
+// }
+
+
+
+
 
 
 function defautCreateAtDate(){
@@ -42,22 +110,27 @@ function defautCreateAtDate(){
 
 }
 
+
+// getAuthorList();
 $(document).ready(function() {
 
 
     defautCreateAtDate();
 
-    $.ajax({
-        url: "/api/stock",
-        success(data){
-            bookStocks = data.bookStocks;
-            // console.log("bookStocks:", bookStocks);
+    // $.ajax({
+    //     url: "/api/stock",
+    //     success(data){
+    //         bookStocks = data.bookStocks;
+    //         console.log("bookStocks:", bookStocks);
 
-            // const isbn = "771878463-0";
-            // addNewImportDetailRow(isbn);
-        }
+    //         // const isbn = "771878463-0";
+    //         // addNewImportDetailRow(isbn);
+    //     }
 
-    });
+    // });
+
+
+    // resetAuthorList();
 
 
     $(window).keydown(function(event){
@@ -91,6 +164,51 @@ $(document).ready(function() {
         console.log("isbn:",isbn);
         addNewImportDetailRow(isbn);
         $("#isbnIp").val("");
+    })
+
+
+    $("#addCategoryRowBtn").click(function(e){
+        
+        const categoryName =  $("#categoryIp").val();
+
+        const category = categorys.find(category => {
+            return category.name === categoryName;
+          });
+
+        if (!category){
+            alert("Không tồn tại category này, vui lòng nhập lại hoặc thêm mới");
+            return;
+        }
+
+
+        $("#categoryIp").val("");
+
+        console.log("category:",category);
+        addNewCategoryRow(category);
+
+    })
+
+
+    
+    $("#addAuthorRowBtn").click(function(e){
+        
+        const authorName =  $("#authorIp").val();
+
+        const author = authors.find(author => {
+            return author.name === authorName;
+          });
+
+        if (!author){
+            alert("Không tồn tại author này, vui lòng nhập lại hoặc thêm mới");
+            return;
+        }
+
+
+        $("#authorIp").val("");
+
+        console.log("author:",author);
+        addNewAuthorRow(author);
+
     })
 
     
@@ -129,6 +247,143 @@ $(document).ready(function() {
 })
 
 
+const categoryRowDataSource = $("#categoryTableRowTemplate").html();
+
+const currentCategoryIdArr = []
+function addNewCategoryRow(category){
+
+
+    const categoryTableBodyEle = $("#categoryTableBody");
+
+    const id = category.id;
+    if (currentCategoryIdArr.length == 0){
+        categoryTableBodyEle.find('tr:first').remove();
+    }
+    else{
+        if (currentCategoryIdArr.includes(id)){
+            // console.log("Đã tồn tạo ID");
+            return;
+        }
+    }
+
+    currentCategoryIdArr.push(id);
+
+
+
+    console.log("categoryRowDataSource: ", categoryRowDataSource);
+
+    const tableDataTemplate = Handlebars.compile(categoryRowDataSource);
+
+
+
+    
+    categoryTableBodyEle.append(tableDataTemplate(category));
+
+    console.log("row: ",tableDataTemplate(category));    
+}
+
+function removeCategoryTableRow(preId, index){
+
+
+    const row = $("#" + preId + index);
+    console.log("row: ", row);
+
+    removeIdIndex = currentCategoryIdArr.indexOf(index);
+    currentCategoryIdArr.splice(removeIdIndex, 1);
+    row.remove();
+    // console.log(currentCategoryIdArr);
+
+    console.log(currentCategoryIdArr);
+
+
+
+    if (currentCategoryIdArr.length == 0){
+        const categoryTableBodyEle = $("#categoryTableBody");
+        categoryTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+    }
+
+}
+
+
+
+
+
+const authorRowDataSource = $("#authorTableRowTemplate").html();
+
+const currentAuthorIdArr = []
+function addNewAuthorRow(author){
+
+
+    const authorTableBodyEle = $("#authorTableBody");
+
+    const id = author.id;
+    if (currentAuthorIdArr.length == 0){
+        authorTableBodyEle.find('tr:first').remove();
+    }
+    else{
+        if (currentAuthorIdArr.includes(id)){
+            // console.log("Đã tồn tạo ID");
+            return;
+        }
+    }
+
+    currentAuthorIdArr.push(id);
+
+
+
+    console.log("authorRowDataSource: ", authorRowDataSource);
+
+    const tableDataTemplate = Handlebars.compile(authorRowDataSource);
+
+
+
+    
+    authorTableBodyEle.append(tableDataTemplate(author));
+
+    console.log("row: ",tableDataTemplate(author));    
+}
+
+function removeAuthorTableRow(preId, index){
+
+
+    const row = $("#" + preId + index);
+    console.log("row: ", row);
+
+    removeIdIndex = currentAuthorIdArr.indexOf(index);
+    currentAuthorIdArr.splice(removeIdIndex, 1);
+    row.remove();
+    // console.log(currentAuthorIdArr);
+
+    console.log(currentAuthorIdArr);
+
+
+
+    if (currentAuthorIdArr.length == 0){
+        const authorTableBodyEle = $("#authorTableBody");
+        authorTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+    }
+
+}
+
+
+function changePublisherId(){
+    const publisherName = $("#publisherIp").val();
+
+    const publisher = publishers.find(publisher => {
+        return publisher.name === publisherName;
+        });
+
+    if (!publisher){
+        alert("Không tồn tại publisher này, vui lòng nhập lại hoặc thêm mới");
+        return;
+    }
+
+    $("#publisher").val(publisher.id);
+
+    // console.log('$("#publisher").val()', $("#publisher").val());
+
+}
+
 
 function removeImportReceiptDetailRow(index){
     const row = $("#importReceiptDetailItem"+index);
@@ -137,6 +392,8 @@ function removeImportReceiptDetailRow(index){
     row.remove();
 
     console.log(currentBookStockIdArr);
+
+
 
     if (currentBookStockIdArr.length == 0){
         const importDetailTablelBodyEle = $("#importDetailTabelBody");
@@ -157,7 +414,7 @@ function addNewImportDetailRow(isbn){
 
 
     if(!bookStock){
-        return
+        return;
     }
 
     const id = bookStock.id;
@@ -176,14 +433,14 @@ function addNewImportDetailRow(isbn){
     currentBookStockIdArr.push(id);
     // console.log("bookStock:", bookStock);
 
-    // console.log("importDetailRowDataSource: ", importDetailRowDataSource);
+    console.log("importDetailRowDataSource: ", importDetailRowDataSource);
 
     const tableDataTemplate = Handlebars.compile(importDetailRowDataSource);
 
     
     importDetailTablelBodyEle.append(tableDataTemplate(bookStock));
 
-    // console.log("row: ",tableDataTemplate(bookStock));    
+    console.log("row: ",tableDataTemplate(bookStock));    
     updateTotalFinalPrice();
 
 }    

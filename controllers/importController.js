@@ -1,10 +1,24 @@
 
 const importReceiptService = require('../services/importReceiptService');
 const importReceiptDetailService = require("../services/importReceiptDetailService");
+const authorService = require("../services/authorService");
+const publisherService = require("../services/publisherService");
+const categoryService = require("../services/categoryService");
+const bookStockService = require("../services/bookStockService");
 
 
-exports.getImportPage = (req, res) => {
-    res.render('import/import', {title: 'Import'});
+exports.getImportPage = async (req, res) => {
+
+
+    const bookStocks = await bookStockService.getAllBookStock(false);
+
+    const authors = await authorService.getAllAuthorInfor(true);
+
+    const publishers = await publisherService.getAllPublisherInfor(true);
+
+    const categorys = await categoryService.getAllCategoryInfor(true);
+
+    res.render('import/import', {title: 'Import', authors, bookStocks, publishers, categorys});
 }
 
 exports.addImportReceipt = async (req, res) => {
@@ -15,6 +29,12 @@ exports.addImportReceipt = async (req, res) => {
 
 
     const bookIds = data.bookIds;
+
+    if(!bookIds){
+        res.redirect('/import');
+        return;
+    }
+
     const prices = data.prices;
     const quantitys = data.quantitys;
 

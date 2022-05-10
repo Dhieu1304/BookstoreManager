@@ -17,7 +17,7 @@
                         <button id="showBookModalBtn" type="button" class="mx-2 btn btn-info rounded-2" data-toggle="modal" data-target="#showBookModal">
                             Danh sách <i class="fa-solid fa-list"></i>
                         </button>
-                        <button id="addBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-2" data-toggle="modal" data-target="#addBookModal">
+                        <button id="addNewBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-2" data-toggle="modal" data-target="#addNewBookModal">
                             Thêm sách mới <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -117,14 +117,44 @@
                         </div>
                     </div>
                 </div>
-                <div class="row import-form-bottom">
+                <div class="row import-form-middle">
                     <div class="col-md-12 col-xs-12">
-
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Tác giả</label>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
+                                <input class="form-control" type="text" readonly id="newAuthor" name="newAuthor">
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-xl-4 col-md-12">
+                                <button class="btn btn-success rounded-circle">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row import-form-middle">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Danh mục</label>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
+                                <input class="form-control" type="text" readonly id="newCategory" name="newCategory">
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-xl-4 col-md-12">
+                                <button class="btn btn-success rounded-circle">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     </form>
 
 
@@ -184,33 +214,185 @@
     
     </div>
 
-    <div id="addNewCustomerModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+    <div id="addNewBookModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Thêm sách mới</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="addNewCustomerForm">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label class="col-form-label">ISBN:</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="form-group col">
+                            <label class="col-form-label">Số trang:</label>
+                            <input type="number" class="form-control">
+                        </div>
+                        <div class="form-group col">
+                            <label class="col-form-label">Ngày xuất bản:</label>
+                            <input type="Date" class="form-control">
+                      </div>
+                    </div>
                     <div class="form-group">
-                        <label class="col-form-label">Họ tên:</label>
+                        <label class="col-form-label">Tiêu đề:</label>
                         <input type="text" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Số điện thoại:</label>
-                        <input type="tel" class="form-control">
+
+                    <div class="row">
+                        <div class="col-xl-4 col-md-12" >
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label class="col-form-label">Tác giả</label>
+                                            <div class="input-group">
+                                                <input list="authorList" id="authorIp"  name="author" type="text" class="form-control">
+                                                <datalist id="authorList">
+                                                    {{#each authors}}
+                                                        <option value="{{name}}"></option>
+                                                    {{/each}}
+                                                </datalist> 
+                                                <div class="input-group-append">
+                                                    <button id="addAuthorRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
+                                                        Thêm <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col">
+                                        <table id="authorTable" class="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Author</th>
+                                                    <th>Xóa</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Author</th>
+                                                    <th>Xóa</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody id="authorTableBody">
+                                                <script type="text/x-handlebars-template" id="authorTableRowTemplate">
+                                                    <tr id="authorItem\{{id}}">
+                                                        <input type="hidden" name="authorIds" value="\{{id}}">
+                                                        <td>
+                                                            \{{name}}
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeAuthorTableRow('authorItem',\{{id}})">
+                                                                <i class="fa-solid fa-trash custom-btn-icon"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </script>
+                                            </tbody>
+                                        </table> 
+                                    
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-12" >
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label class="col-form-label">Danh mục</label>
+                                            <div class="input-group">
+                                                <input list="categoryList" id="categoryIp"  name="category" type="text" class="form-control">
+                                                <datalist id="categoryList">
+                                                    {{#each categorys}}
+                                                        <option value="{{name}}"></option>
+                                                    {{/each}}
+                                                </datalist> 
+                                                <div class="input-group-append">
+                                                    <button id="addCategoryRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
+                                                        Thêm <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col">
+                                        <table id="categoryTable" class="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Xóa</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Xóa</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody id="categoryTableBody">
+                                                <script type="text/x-handlebars-template" id="categoryTableRowTemplate">
+                                                    <tr id="categoryItem\{{id}}">
+                                                        <input type="hidden" name="categoryIds" value="\{{id}}">
+                                                        <td>
+                                                            \{{name}}
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeCategoryTableRow('categoryItem',\{{id}})">
+                                                                <i class="fa-solid fa-trash custom-btn-icon"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </script>
+                                            </tbody>
+                                        </table> 
+                                    
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-12" >
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label class="col-form-label">Nhà xuất bản</label>
+                                            <div class="input-group">
+                                                <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">
+                                                <datalist id="publisherList">
+                                                    {{#each publishers}}
+                                                        <option value="{{name}}"></option>
+                                                    {{/each}}
+                                                </datalist> 
+                                                <input id="publisher" name="publisher" type="hidden" class="form-control">                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Email:</label>
-                        <input type="email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label">Địa chỉ:</label>
-                        <input type="text" class="form-control">
-                    </div>
+
+
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -218,14 +400,26 @@
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div>
             </div>
-        </div>
-    
+        </div>    
     </div>
+
+
+    
 </main>
 
 {{#section 'script'}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="/js/helper/helper.js"></script>
+    <script>
+        const bookStocks = JSON.parse('{{{json bookStocks}}}');
+        const authors = JSON.parse('{{{json authors}}}');
+
+        const publishers = JSON.parse('{{{json publishers}}}');
+        const categorys = JSON.parse('{{{json categorys}}}');
+
+        
+    </script>
     <script src="/js/import.js"></script>
 {{/section}}
