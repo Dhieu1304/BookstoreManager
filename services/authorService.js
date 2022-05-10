@@ -16,3 +16,20 @@ exports.getAllAuthorInfor = async (raw = false) => {
 
 }
 
+exports.addAuthor = async (name) => {
+    try{
+    
+
+        const author = await models.author.create(
+            {
+               name: name
+            }
+        );
+
+        return author;
+    }catch (e) {
+        console.log(e);
+    }
+}
+
+

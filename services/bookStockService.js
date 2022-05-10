@@ -1,5 +1,26 @@
 const { models } = require('../models');
 
+
+
+exports.addBookStock = async (book_id, quantity, price, status = 'active') => {
+    try{
+        num_page = parseInt(num_page) || 0
+
+        const bookStock = await models.book_stock.create(
+            {
+                book_id: book_id,
+                quantity: quantity,
+                price: price,
+                status: status,
+            }
+        );
+
+        return bookStock;
+    }catch (e) {
+        console.log(e);
+    }
+}
+
 exports.getAllBookStock = async (raw = false) => {
     return await models.book_stock.findAll({
         raw: raw,

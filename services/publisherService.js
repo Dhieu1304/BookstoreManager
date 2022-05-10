@@ -16,3 +16,18 @@ exports.getAllPublisherInfor = async (raw = false) => {
 
 }
 
+exports.addPublisher = async (name) => {
+    try{
+    
+
+        const publisher = await models.publisher.create(
+            {
+               name: name
+            }
+        );
+
+        return publisher;
+    }catch (e) {
+        console.log(e);
+    }
+}
