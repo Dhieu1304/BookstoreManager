@@ -30,22 +30,25 @@ module.exports.getAllAccount = async (req, res) => {
 }
 
 module.exports.getAccounts = async (req, res) => {
-    let role = '';
-    if (req.query && req.query.role) {
-        role = req.query.role;
-    }
-    else {
-        return res.render('index');
-    }
+    const role = req.query.role;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
 
     /*if ( !req.user || (role === req.user.role) || req.user.role === "staff" || role === "superadmin") {
         return res.render('index');
     }*/
 
 
-    const data = await accountService.getAllAccountByRole(role);
+    const data = await accountService.getAllAccountByRole(role, page, limit);
 
-    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data});
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: data.count,
+    }
+
+    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});
 }
 /*
 
@@ -98,8 +101,8 @@ module.exports.getAdminDetail = async (req, res) => {
 
 module.exports.editAccountApi = async (req, res) => {
     const id = req.params.id;
-    if (!id || !req.body.first_name|| !req.body.last_name|| !req.body.email|| !req.body.gender
-        || !req.body.phone_number|| !req.body.address|| !req.body.role|| !req.body.status) {
+    if (!id || !req.body.first_name || !req.body.last_name || !req.body.email || !req.body.gender
+        || !req.body.phone_number || !req.body.address || !req.body.role || !req.body.status) {
         return res.status(200).json({
             errCode: 2,
             errMessage: "Missing Parameter!",

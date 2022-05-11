@@ -109,3 +109,38 @@ function selectParam(key, value) {
     location.href = url;
 }
 */
+
+
+const urlParams = new URLSearchParams(window.location.search);
+/*
+let createParams = {
+    page: 1,
+    role: 'staff',/!*
+    search: '',*!/
+};*/
+
+let params = {
+    page: 1,
+    role: '',/*
+    search: '',*/
+};
+
+for (let key in params) {
+    if (!urlParams.has(key)) {
+        urlParams.append(key, params[key]);
+    } else {
+        params[key] = urlParams.get(key);
+    }
+    console.log("params:", params);
+}
+
+$(document).ready(() => {
+    let currentPage = urlParams.get('page') || 1;
+    $('#pagination li a').each((index, item) => {
+        //href = /account?page=3
+        const page = $(item).attr('href').split('=')[1];
+        urlParams.set('page', page);
+        $(item).attr('href', '/account?' + urlParams.toString());
+    })
+    urlParams.set('page', currentPage);
+});

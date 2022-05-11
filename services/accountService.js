@@ -42,13 +42,15 @@ module.exports.getAccountByEmail = (email) => {
     })
 }
 
-module.exports.getAllAccountByRole = (role) => {
+module.exports.getAllAccountByRole = (role, page, limit) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const accounts = await models.account.findAll({
+            const accounts = await models.account.findAndCountAll({
                 where: {
                     role: role
                 },
+                offset: (page - 1) * limit,
+                limit: limit,
                 raw: true
             });
 
