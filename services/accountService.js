@@ -42,13 +42,31 @@ module.exports.getAccountByEmail = (email) => {
     })
 }
 
-module.exports.getAllAccount = (role) => {
+module.exports.getAllAccountByRole = (role) => {
     return new Promise(async (resolve, reject) => {
         try {
             const accounts = await models.account.findAll({
                 where: {
                     role: role
                 },
+                raw: true
+            });
+
+            if (accounts) {
+                resolve(accounts);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+module.exports.getAllAccount = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const accounts = await models.account.findAll({
                 raw: true
             });
 
@@ -79,6 +97,8 @@ module.exports.editAccountById = (data) => {
                 account.gender = data.gender;
                 account.phone_number = data.phone_number;
                 account.address = data.address;
+                account.role = data.role;
+                account.status = data.status;
 
                 await account.save();
 

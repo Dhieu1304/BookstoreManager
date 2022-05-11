@@ -1,6 +1,7 @@
 const accountService = require("../services/accountService");
 const path = require("path");
 const multer = require("multer");
+/*
 
 module.exports.getStaffPage = async (req, res) => {
 
@@ -20,6 +21,33 @@ module.exports.getAdminPage = async (req, res) => {
 
     res.render('account', {TypeName: 'Admin', data});
 }
+*/
+
+module.exports.getAllAccount = async (req, res) => {
+    const data = await accountService.getAllAccount();
+
+    res.render('account', {TypeName: "All Accounts", data});
+}
+
+module.exports.getAccounts = async (req, res) => {
+    let role = '';
+    if (req.query && req.query.role) {
+        role = req.query.role;
+    }
+    else {
+        return res.render('index');
+    }
+
+    /*if ( !req.user || (role === req.user.role) || req.user.role === "staff" || role === "superadmin") {
+        return res.render('index');
+    }*/
+
+
+    const data = await accountService.getAllAccountByRole(role);
+
+    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data});
+}
+/*
 
 module.exports.getStaffDetail = async (req, res) => {
 
@@ -35,6 +63,23 @@ module.exports.getStaffDetail = async (req, res) => {
 
     res.render('account/detail', {data});
 }
+*/
+
+module.exports.getAccountDetail = async (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        return res.render('index');
+    }
+
+    let data = await accountService.getAccountById(id);
+    /*if (!req.user || (data.role === req.user.role) || req.user.role === "staff" || data.role === "superadmin") {
+        return res.render('index');
+    }*/
+
+    res.render('account/detail', {data});
+}
+
+/*
 
 module.exports.getAdminDetail = async (req, res) => {
     const id = req.params.id;
@@ -49,11 +94,17 @@ module.exports.getAdminDetail = async (req, res) => {
 
     res.render('account/detail', {data});
 }
+*/
 
 module.exports.editAccountApi = async (req, res) => {
     const id = req.params.id;
-    if (!id) {
-        return;
+    if (!id || !req.body.first_name|| !req.body.last_name|| !req.body.email|| !req.body.gender
+        || !req.body.phone_number|| !req.body.address|| !req.body.role|| !req.body.status) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Missing Parameter!",
+            data: {}
+        })
     }
 
     let account = {
@@ -64,6 +115,8 @@ module.exports.editAccountApi = async (req, res) => {
         gender: req.body.gender,
         phone_number: req.body.phone_number,
         address: req.body.address,
+        role: req.body.role,
+        status: req.body.status,
     }
 
     let data = await accountService.editAccountById(account);
@@ -92,8 +145,6 @@ const storage = multer.diskStorage({
         cb(null, 'public/assets/images')
     },
     filename: function (req, file, cb) {
-        /*const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, file.fieldname + '-' + uniqueSuffix)*/
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 })

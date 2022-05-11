@@ -269,6 +269,7 @@
     font-family: initial;
 }
 
+/*
 .account-detail-custom {
     margin-top: 50px;
     min-width: 300px;
@@ -302,6 +303,7 @@
     cursor: pointer;
     color: #0a53be;
 }
+*/
 
 .btn-detail-acc-custom {
     float: right;
@@ -325,6 +327,7 @@
     border: 1px solid greenyellow;
 }
 
+/*
 .btn-detail-acc-custom .lock-btn-custom {
     cursor: pointer;
     margin: 5px;
@@ -340,6 +343,7 @@
 .btn-detail-acc-custom .lock-btn-custom:hover {
     border: 1px solid greenyellow;
 }
+*/
 
 .custom-input-edit {
     display: contents;
@@ -445,4 +449,49 @@
 
 .btn-change-avatar:hover {
     background: #798eb0;
+}
+
+.acc-body-custom {
+}
+
+.table-account-detail {
+    min-width: 400px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 3px;
+}
+
+.table-account-detail td {
+    padding: 10px 2px 5px 2px;
+}
+
+.table-account-detail td:first-child {
+    min-width: 100px;
+    width: 30%;
+    font-weight: 600;
+}
+
+.table-account-detail td:nth-child(2) {
+    max-width: 450px;
+    width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-account-detail td:nth-child(3) {
+    width: 5%;
+}
+
+.dd-edit-custom {
+    cursor: pointer;
+    color: #3d77c9;
+}
+
+.row-detail-account {
+    margin: 10px;
+}
+
+.flex-input-custom {
+    width: -webkit-fill-available;
 }

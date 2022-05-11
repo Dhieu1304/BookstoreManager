@@ -2,11 +2,19 @@
     <div class="container-fluid px-4">
         <div id="avatar-modal" class="avatar-modal">
             <span class="modal-close">&times;</span>
-            <img class="avatar-modal-content" id="img-avatar-preview" src={{data.avatar}}>
+            {{#if data.avatar}}
+                <img class="avatar-modal-content" id="img-avatar-preview" src={{data.avatar}}>
+            {{else}}
+                <img class="avatar-modal-content" id="img-avatar-preview" src="/assets/img/default-avatar.jpg">
+            {{/if}}
         </div>
         <div class="profile-custom">
             <div class="figure-img-custom">
-                <img onclick="showModalImagePreview()" src={{data.avatar}} id="img-avatar" alt=""/>
+                {{#if data.avatar}}
+                    <img onclick="showModalImagePreview()" src={{data.avatar}} id="img-avatar" alt=""/>
+                {{else}}
+                    <img onclick="showModalImagePreview()" src="/assets/img/default-avatar.jpg" id="img-avatar" alt=""/>
+                {{/if}}
                 <form enctype="multipart/form-data" hidden>
                     <input id="id-account" value="{{data.id}}"/>
                     <input type="file" name="avatar" accept="image/*" id="up-avatar"/>
@@ -17,11 +25,51 @@
                 </div>
                 <header>
                     <h1 id="full-name-header">{{data.first_name}} {{data.last_name}}</h1>
-                    <div class="small-title-role">({{data.role}})</div>
+                    <input class="small-title-role" id="account-role" hidden value="{{data.role}}"/>
+                    <input class="small-title-role" id="user-role" hidden value="{{user.role}}"/>
                 </header>
             </div>
             <div class="acc-body-custom">
-                <div class="account-detail-custom">
+                <table class="table-account-detail">
+                    <tbody>
+                    <tr class="row-detail-account">
+                        <td>Full name:</td>
+                        <td>{{data.first_name}} {{data.last_name}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(0)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{data.email}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(1)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Phone:</td>
+                        <td>{{data.phone_number}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(2)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td>{{data.gender}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(3)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>{{data.address}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(4)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Role:</td>
+                        <td>{{data.role}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(5)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td>{{data.status}}</td>
+                        <td class="dd-edit-custom" onclick="handleEdit(6)"><i class="fas fa-edit"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--<div class="account-detail-custom">
                     <div class="dl-custom">
                         <div class="dt-custom">Full name:</div>
                         <div id="full-name" class="custom-input-edit">
@@ -46,7 +94,7 @@
                         <div class="dt-custom">Gender:</div>
                         <div id="gender" class="custom-input-edit">
                             <div class="dd-custom" id="gender-val">{{data.gender}}</div>
-                            <div class="dd-edit-custom" onclick="handleEditGender('gender')">
+                            <div class="dd-edit-custom" onclick="handleEdit('gender')">
                                 <i class="fas fa-edit"></i>
                             </div>
                         </div>
@@ -70,23 +118,39 @@
                         </div>
                     </div>
                     <div class="dl-custom">
-                        <div class="dt-custom">Create at:</div>
-                        <div class="dd-custom">{{data.create_at}}</div>
+                        <div class="dt-custom">Role:</div>
+                        <div id="role" class="custom-input-edit">
+                            <div class="dd-custom" id="role-val">{{data.role}}</div>
+                            <div class="dd-edit-custom" onclick="handleEdit('role')">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                        </div>
                     </div>
                     {{#ifTwoCondCustom user.role 'admin' 'superadmin'}}
-                        <div class="dl-custom">
-                            <div class="dt-custom">Uid:</div>
-                            <div class="dd-custom">{{data.uid}}</div>
-                        </div>
-                        <div class="dl-custom">
-                            <div class="dt-custom">Status:</div>
-                            <div class="dd-custom">{{data.status}}</div>
+                        <div id="show-for-manager">
+                            <div class="dl-custom">
+                                <div class="dt-custom">Status:</div>
+                                <div id="status" class="custom-input-edit">
+                                    <div class="dd-custom" id="status-val">{{data.status}}</div>
+                                    <div class="dd-edit-custom" onclick="handleEdit('status')">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dl-custom">
+                                <div class="dt-custom">Create at:</div>
+                                <div class="dd-custom">{{data.create_at}}</div>
+                            </div>
+                            <div class="dl-custom">
+                                <div class="dt-custom">Uid:</div>
+                                <div class="dd-custom">{{data.uid}}</div>
+                            </div>
                         </div>
                     {{/ifTwoCondCustom}}
-                </div>
+                </div>-->
                 <div class="btn-detail-acc-custom">
                     <div class="save-btn-custom" onclick="handleEditAccount({{data.id}})">Save</div>
-                    {{#ifTwoCondCustom user.role 'admin' 'superadmin'}}
+                    <!--{{#ifTwoCondCustom user.role 'admin' 'superadmin'}}
                         <div class="lock-btn-custom">
                             {{#ifCond data.status '==' 'active'}}
                                 Lock
@@ -94,7 +158,7 @@
                                 Unlock
                             {{/ifCond}}
                         </div>
-                    {{/ifTwoCondCustom}}
+                    {{/ifTwoCondCustom}}-->
                 </div>
             </div>
         </div>
