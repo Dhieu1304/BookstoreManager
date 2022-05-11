@@ -1,4 +1,5 @@
 const passport = require("../services/auth/passport");
+const accountService = require("../services/accountService");
 
 module.exports.login = (req, res) => {
     res.render('auth/login', {layout: false, errorLogin: req.query.errorLogin !== undefined});
@@ -61,6 +62,16 @@ module.exports.logout = async (req, res) => {
 
 module.exports.checkAdmin = async (req, res, next) => {
     if (req.user) {
+        if (req.user.role === 'admin'){
+            return next();
+        }
+    }
+
+    res.redirect('/');
+}
+
+module.exports.checkAdminSuperAdmin = async (req, res, next) => {
+    if (req.user) {
         if (req.user.role === 'admin' || req.user.role === 'superadmin'){
             return next();
         }
@@ -77,4 +88,10 @@ module.exports.checkSuperAdmin = async (req, res, next) => {
     }
 
     res.redirect('/');
+}
+
+module.exports.myAccount =  async (req, res) => {
+    const data = await accountService.getAccountById(req.user.id);
+
+    res.render('account/detail', {TypeName: "My Account", data});
 }
