@@ -1,0 +1,38 @@
+.import-container{
+    background-color: #F7F7F7;
+    padding: 24px;
+}
+
+.import-form{
+    
+}
+
+.import-form-top,
+.import-form-bottom{
+    margin-bottom: 20px;
+    padding: 24px 12px;
+    background-color: #ffffff;
+    border: 1px solid #E6E9ED;
+}
+
+.content{
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid #E6E9ED;
+}
+
+.custom-btn{
+    padding: 4px 12px;
+}
+
+.custom-btn-icon{
+    font-size: 14px;
+}
+
+.import-book-img{
+    width: 50px;
+}
+
+.select-modal-content{
+    width: fit-content;
+}

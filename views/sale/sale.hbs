@@ -1,0 +1,266 @@
+
+{{#section 'css'}}
+    <link href="/stylesheets/sale.css" rel="stylesheet"/>
+{{/section}}
+
+<main class="sale-container">
+    <form action="/sale/add" method="post">
+    <div class="row">
+        <div class="row filter">  
+            <div class="col-3">
+                <div class="input-group">
+                    <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
+                    <div class="input-group-append">
+                        <button id="addRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
+                            Thêm <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="invalid-feedback">
+                        Vui lòng chọn số điện thoại
+                    </div>
+                </div>
+            </div>    
+            <div class="col-3">
+                <button type="submit" class="mx-2 btn btn-success custom-btn">
+                    Lưu <i class="fa-solid fa-pen custom-btn-icon"></i>
+                </button>
+            </div>          
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-9 col-xs-12">
+            <div class="content">             
+                <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </tfoot>
+                    <tbody id="saleDetailTabelBody">
+                        <script type="text/x-handlebars-template" id="saleDetailTableRowTemplate">
+                        
+                            <tr id="saleReceiptDetailItem\{{book_id}}">
+                                <input type="hidden" name="bookIds" value="\{{book_id}}">
+                                <td><img class="sale-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                                <td>\{{book.isbn}}</td>
+                                <td>\{{book.title}}</td>
+                                <td>\{{book.num_page}}</td>
+                                <td>\{{book.publication_date}}</td>
+                                <td>\{{book.publisher.name}}</td>
+                                <td>Sang</td>
+                                <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}" ></td>
+                                <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
+                                <td>
+                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailRow(\{{book_id}})">
+                                        <i class="fa-solid fa-trash custom-btn-icon"></i>
+                                    </button>
+                                </td>
+                            </tr> 
+                        
+                        </script>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <div class="mr-4 col-md-3 col-xs-12">
+            <div class="sale-form">
+                <div class="row sale-form-top">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
+                            <div class="col-md-9 col-sm-9 col-xs-6">
+                                <input class="form-control" type="date">
+                            </div>
+                        </div>
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div class="input-group">
+                                    <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="tel" required>
+                                    <input id="customerId" name="customerId" type="hidden">
+                                    <div class="input-group-append">
+                                        <button id="addNewCustomerModalBtn" type="button" class="mx-2 btn btn-success rounded-circle" data-toggle="modal" data-target="#addNewCustomerModal">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Vui lòng chọn số điện thoại
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input class="form-control" id="customerName" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-3 col-sm-3 col-xs-12">Nợ cũ</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <input class="form-control" id="customerDept" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row sale-form-bottom">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="py-2 form-group row">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
+                            </div>
+                        </div>
+                        <div class="py-2 form-group row">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+
+
+    <!-- Modal -->
+
+    <div id="showBookModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Chọn sách</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <table id="showBookTable">
+                    <thead>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Chọn</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Ảnh</th>
+                            <th>ISBN</th>
+                            <th>Tiêu đề</th>
+                            <th>Số trang</th>
+                            <th>Ngày NB</th>
+                            <th>NXB</th>
+                            <th>Tác giả</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Chọn</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    
+    </div>
+
+    <div id="addNewCustomerModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNewCustomerForm">
+                    <div class="form-group">
+                        <label class="col-form-label">Họ tên:</label>
+                        <input id="newCustormerName" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Số điện thoại:</label>
+                        <input id="newCustormerPhone" type="tel" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Email:</label>
+                        <input id="newCustormerEmail" type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Địa chỉ:</label>
+                        <input id="newCustormerAddress" type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addNewCustomerBtn" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    
+    </div>
+</main>
+
+{{#section 'script'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="/js/helper/helper.js"></script>
+
+    <script>
+        let bookStocks = JSON.parse('{{{json bookStocks}}}');
+        
+        
+
+        console.log("bookStocks: ",bookStocks);
+    </script>
+
+    <script src="/js/sale.js"></script>
+{{/section}}
