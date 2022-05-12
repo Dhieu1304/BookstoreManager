@@ -1,4 +1,3 @@
-
 /*header*/
 .img-avatar-header {
     border-radius: 100%;
@@ -21,4 +20,478 @@
 .form-input-password-custom .custom-show-hide-password .custom-icon-show-hide-password {
     position: absolute;
     padding-right: 8px;
+}
+
+/*account*/
+.table-account-custom {
+    min-width: 800px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 3px;
+}
+
+.table-header-custom {
+    margin-bottom: 15px;
+    background: #299be4;
+}
+
+.data-table-dropdown {
+    float: left;
+    margin-left: 15px;
+    box-sizing: border-box;
+    margin-top: 14px;
+}
+
+.data-table-selector {
+    background-position: right 0.75rem center;
+    background-size: 11px 6px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/img/dropdown.png");
+    font-weight: 600;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #ced4da;
+    width: auto;
+    display: inline-block;
+    padding-left: 1.125rem;
+    padding-right: 2.125rem;
+    margin-right: 0.25rem;
+    height: 35px;
+}
+
+.data-value-selector {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.table-title-account {
+    height: 60px;
+    color: #fff;
+    padding: 16px 30px;
+    margin: -20px -25px 10px;
+    border-radius: 3px 3px 0 0;
+}
+
+.custom-btn-account {
+    cursor: pointer;
+    padding: 5px 7px 5px 7px;
+    color: #566787;
+    float: right;
+    font-size: 14px;
+    background: #fff;
+    border: none;
+    min-width: 50px;
+    border-radius: 2px;
+    outline: none !important;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.custom-btn-account span {
+    font-weight: bold;
+    color: #3c4043;
+}
+
+.custom-btn-account:hover {
+    background: #f2f3f5;
+}
+
+.table-body-custom {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border: none;
+}
+
+.table-body-custom td:nth-child(5) {
+    text-align: center;
+}
+
+.table-body-custom th:nth-child(5) {
+    text-align: center;
+}
+
+.custom-name-picture {
+    display: flex;
+}
+
+.table-body-custom, th, td {
+    padding: 0 5px 0 5px;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-body-custom td {
+    padding: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-body-custom tr {
+    height: 65px;
+    vertical-align: middle;
+}
+
+.table-body-custom thead tr {
+    background: #eef0f3;
+}
+
+.table-body-custom td:first-child {
+    max-width: 250px;
+}
+
+.table-body-custom td:nth-child(2) {
+    max-width: 300px;
+}
+
+.avatar-table-custom {
+    vertical-align: middle;
+    margin-right: 10px;
+    border-style: none;
+}
+
+.custom-text-table {
+    padding-top: 5px;
+    width: calc(100% - 40px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.edit-account {
+    color: #0a53be;
+    margin-right: 5px;
+}
+
+.lock-account {
+    color: red;
+}
+
+.unlock-account {
+    color: #0dcaf0;
+}
+
+.edit-account:hover {
+    cursor: pointer;
+}
+
+.lock-account:hover {
+    cursor: pointer;
+}
+
+.unlock-account:hover {
+    cursor: pointer;
+}
+
+.custom-status-account {
+    display: flex;
+}
+
+.custom-text-status {
+    margin: auto auto auto 5px;
+}
+
+.status-account-custom {
+    font-size: 40px;
+    padding-bottom: 5px;
+}
+
+.acc-active {
+    color: #10c469 !important;
+}
+
+.acc-lock {
+    color: #ff5b5b !important;
+}
+
+.clearfix-table-custom {
+    color: #566787;
+    background: #f5f5f5;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+    display: block;
+}
+
+.hint-text-custom {
+    float: left;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.pagination-table-custom {
+    float: right;
+    margin: 0 0 5px 0;
+    padding-left: 0;
+    border-radius: 0.25rem;
+}
+
+
+/*account detail*/
+
+.profile-custom {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: row;
+}
+
+.figure-img-custom {
+    width: 400px;
+    height: auto;
+    margin-right: 10px;
+    display: flex;
+    flex-flow: column;
+}
+
+.figure-img-custom img {
+    border-radius: 100%;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.figure-img-custom header {
+    margin: 0 auto;
+}
+
+.figure-img-custom img:hover {
+    opacity: 0.8;
+}
+
+.small-title-role {
+    margin-top: -15px;
+    opacity: 0.8;
+    font-style: italic;
+    font-size: 20px;
+    font-family: initial;
+}
+
+/*
+.account-detail-custom {
+    margin-top: 50px;
+    min-width: 300px;
+    height: auto;
+}
+
+.account-detail-custom {
+    display: block;
+}
+
+.account-detail-custom .dl-custom {
+    padding: 10px 0px 10px 0px;
+    border-bottom: 1px solid #e1e1e1;
+    height: auto;
+    display: flex;
+}
+
+.account-detail-custom .dl-custom .dt-custom {
+    margin: 0;
+    width: 27%;
+    font-weight: bold;
+}
+
+.account-detail-custom .dl-custom .dd-custom {
+    width: 70%;
+    padding-right: 2px;
+}
+
+.account-detail-custom .dl-custom .dd-edit-custom {
+    width: 3%;
+    cursor: pointer;
+    color: #0a53be;
+}
+*/
+
+.btn-detail-acc-custom {
+    float: right;
+    display: flex;
+    margin-top: 20px;
+}
+
+.btn-detail-acc-custom .save-btn-custom {
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10%;
+    color: white;
+    background: #1c771c;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+    width: 57px;
+    height: 36px;
+}
+
+.btn-detail-acc-custom .save-btn-custom:hover {
+    border: 1px solid greenyellow;
+}
+
+/*
+.btn-detail-acc-custom .lock-btn-custom {
+    cursor: pointer;
+    margin: 5px;
+    font-weight: 700;
+    border-radius: 10%;
+    color: white;
+    background: #961c1c;
+    padding: 5px 10px 5px 10px;
+    width: 57px;
+    height: 36px;
+}
+
+.btn-detail-acc-custom .lock-btn-custom:hover {
+    border: 1px solid greenyellow;
+}
+*/
+
+.custom-input-edit {
+    display: contents;
+}
+
+.input-custom {
+    width: 325px;
+    margin-right: 5px;
+}
+
+.dd-save-custom {
+    width: 3%;
+    cursor: pointer;
+    color: #9b153d;
+}
+
+.image-edit-custom {
+    margin: 0 auto;
+}
+
+
+/*modal*/
+.avatar-modal {
+    margin-top: 60px;
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.avatar-modal-content {
+    margin: auto;
+    display: block;
+    max-width: 700px;
+    width: auto;
+    height: 500px;
+
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+.btn-change-avatar {
+    margin: 10px;
+    padding: 5px;
+    background: #50509a;
+    font-weight: 600;
+    border-radius: 5%;
+    cursor: pointer;
+    color: azure;
+}
+
+.btn-change-avatar:hover {
+    background: #798eb0;
+}
+
+.acc-body-custom {
+}
+
+.table-account-detail {
+    min-width: 400px;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 3px;
+}
+
+.table-account-detail td {
+    padding: 10px 2px 5px 2px;
+}
+
+.table-account-detail td:first-child {
+    min-width: 100px;
+    width: 30%;
+    font-weight: 600;
+}
+
+.table-account-detail td:nth-child(2) {
+    max-width: 450px;
+    width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-account-detail td:nth-child(3) {
+    width: 5%;
+}
+
+.dd-edit-custom {
+    cursor: pointer;
+    color: #3d77c9;
+}
+
+.row-detail-account {
+    margin: 10px;
+}
+
+.flex-input-custom {
+    width: -webkit-fill-available;
 }

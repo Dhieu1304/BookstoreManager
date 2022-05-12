@@ -4,6 +4,7 @@ const layoutRouter = require("./layoutRouter");
 const errorRouter = require("./errorRouter");
 const chartRouter = require("./chartRouter");
 const tableRouter = require("./tableRouter");
+const accountRouter = require("./accountRouter");
 const saleRouter = require("./saleRouter");
 const importRouter = require("./importRouter");
 const billRouter = require("./billRouter");
@@ -21,17 +22,17 @@ module.exports.initRouter = (app) => {
         next();
     })
 
-    app.use('/', homeRouter);
+    app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
     // app.use('/', authController.checkAuthenticated, homeRouter);
     app.use('/layout', layoutRouter);
     app.use('/error', errorRouter);
     app.use('/chart', chartRouter);
     app.use('/table', tableRouter);
     app.use('/', authRouter);
-
+    app.use('/account', accountRouter);
+  
     app.use('/sale', saleRouter);
     app.use('/import', importRouter);
     app.use('/bill', billRouter);
     app.use('/api', apiRouter);
-
 }

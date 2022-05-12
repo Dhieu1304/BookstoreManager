@@ -4,10 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const {initRouter} = require("./routes/initRouter");
-const hbs = require("hbs");
-const passport = require("./services/auth/passport");
-const session = require('express-session');
-const expressHandlebarsSections = require('express-handlebars-sections');
+const {configPassport} = require("./config/configPassport");
+const {configHbs} = require("./config/configHbs");
 require('dotenv').config();
 
 const app = express();
@@ -23,21 +21,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //passport
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+configPassport(app);
 
-hbs.registerPartials(__dirname + '/views/partials');
-hbs.registerHelper('section', expressHandlebarsSections());
+//hbs
+const dir = __dirname + '/views/partials';
+configHbs(dir);
 
 hbs.registerHelper('json', function(context) {
   return JSON.stringify(context);
 });
 
+//Router
 initRouter(app);
 
 // catch 404 and forward to error handler
