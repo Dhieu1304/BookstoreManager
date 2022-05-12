@@ -6,9 +6,7 @@ const logger = require('morgan');
 const {initRouter} = require("./routes/initRouter");
 const {configPassport} = require("./config/configPassport");
 const {configHbs} = require("./config/configHbs");
-const hbs = require("hbs");
 require('dotenv').config();
-const multer  = require('multer');
 
 const app = express();
 
