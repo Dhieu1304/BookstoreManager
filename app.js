@@ -27,6 +27,10 @@ configPassport(app);
 const dir = __dirname + '/views/partials';
 configHbs(dir);
 
+hbs.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
 //Router
 initRouter(app);
 
