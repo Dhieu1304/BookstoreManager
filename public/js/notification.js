@@ -1,5 +1,6 @@
 const DEFAULT_NOTIFICATION_OPTIONS = {
-  position: 'top-right',
+  // position: 'top-right',
+  position: 'bottom-right',
   autoClose: 5000,
   canClose: true,
   showProgress: true,
