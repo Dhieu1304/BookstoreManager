@@ -34,6 +34,10 @@ app.use(passport.session());
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerHelper('section', expressHandlebarsSections());
 
+hbs.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
 initRouter(app);
 
 // catch 404 and forward to error handler
