@@ -1,0 +1,14 @@
+/*login*/
+.form-input-password-custom {
+    display: flex;
+}
+
+.form-input-password-custom .custom-show-hide-password {
+    align-items: center;
+    cursor: pointer;
+}
+
+.form-input-password-custom .custom-show-hide-password .custom-icon-show-hide-password {
+    position: absolute;
+    padding-right: 8px;
+}

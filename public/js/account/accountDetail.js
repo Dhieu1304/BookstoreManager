@@ -1,194 +1,6 @@
-/*
-function handleEdit(id) {
-
-    let type = '';
-    let inputEl = '';
-    switch (id) {
-        case "email":
-            type = 'email';
-            break;
-        case "phone-number":
-            type = 'number';
-            break;
-        case "gender":
-            inputEl = `
-                <select style="margin-right: 5px" id="${id}-val">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-                <div class="dd-save-custom" onclick="handleSave('${id}')">
-                    <i class="fas fa-save"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        case "role":
-            inputEl = `
-                <select style="margin-right: 5px" id="${id}-val">
-                    <option value="staff">staff</option>
-                    <option value="admin">admin</option>
-                    <option value="superadmin">superadmin</option>
-                </select>
-                <div class="dd-save-custom" onclick="handleSave('${id}')">
-                    <i class="fas fa-save"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        case "status":
-            inputEl = `
-                <select style="margin-right: 5px" id="${id}-val">
-                    <option value="active">active</option>
-                    <option value="block">block</option>
-                </select>
-                <div class="dd-save-custom" onclick="handleSave('${id}')">
-                    <i class="fas fa-save"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        default:
-            type = 'text';
-    }
-
-    const val = $.trim($(`#${id}-val`).text());
-
-    inputEl = `
-        <input class="input-custom" id="${id}-val" type="${type}" value="${val}"/>
-        <div class="dd-save-custom" onclick="handleSave('${id}')">
-            <i class="fas fa-save"></i>
-        </div>
-    `;
-
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-
-
-function handleSave(id) {
-
-    let inputEl = '';
-
-    switch (id) {
-        case "gender":
-            let genderVal = document.getElementById(`${id}-val`).value;
-
-            console.log('genderVal:', genderVal);
-
-            inputEl = `
-                <div class="dd-custom" id="${id}-val">${genderVal}</div>
-                <div class="dd-edit-custom" onclick="handleEdit('${id}')">
-                    <i class="fas fa-edit"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        case "role":
-            let roleVal = document.getElementById(`${id}-val`).value;
-
-            console.log('roleVal:', roleVal);
-
-            inputEl = `
-                <div class="dd-custom" id="${id}-val">${roleVal}</div>
-                <div class="dd-edit-custom" onclick="handleEdit('${id}')">
-                    <i class="fas fa-edit"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        case "status":
-            let statusVal = document.getElementById(`${id}-val`).value;
-
-            console.log('statusVal:', statusVal);
-
-            inputEl = `
-                <div class="dd-custom" id="${id}-val">${statusVal}</div>
-                <div class="dd-edit-custom" onclick="handleEdit('${id}')">
-                    <i class="fas fa-edit"></i>
-                </div>
-            `;
-
-            document.getElementById(id).innerHTML = inputEl;
-
-            return;
-        default:
-            break;
-    }
-
-    let val = $(`#${id}-val`).val();
-
-    inputEl = `
-        <div class="dd-custom" id="${id}-val">${val}</div>
-        <div class="dd-edit-custom" onclick="handleEdit('${id}')">
-            <i class="fas fa-edit"></i>
-        </div>
-    `;
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-*/
-
-/*
-function handleEditGender(id) {
-    const val = $.trim($(`#${id}-val`).text());
-    console.log('val:', val);
-    let inputEl = `
-        <select style="margin-right: 5px" id="${id}-val">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <div class="dd-save-custom" onclick="handleSaveGender('${id}')">
-            <i class="fas fa-save"></i>
-        </div>
-    `;
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-
-function handleSaveGender(id) {
-    let e = document.getElementById(`${id}-val`);
-    let val = e.value;
-    //    e.options[e.selectedIndex].text;
-
-    console.log('val:', val);
-
-    let inputEl = `
-        <div class="dd-custom"id="${id}-val">${val}</div>
-        <div class="dd-edit-custom" onclick="handleEditGender('${id}')">
-            <i class="fas fa-edit"></i>
-        </div>
-    `;
-
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-*/
 
 function handleEditAccount(id) {
     console.log('id', id);
-    /*const name = $.trim($('#full-name-val').text());
-    const email = $.trim($('#email-val').text());
-    const gender = $.trim($('#gender-val').text());
-    const phone_number = $.trim($('#phone-number-val').text());
-    const address = $.trim($('#address-val').text());
-    const role = $.trim($('#role-val').text());
-    const status = $.trim($('#status-val').text());
-
-    const index = name.lastIndexOf(" ");
-    const first_name = name.substring(0, index);
-    const last_name = name.substring(index + 1, name.length);
-*/
-
 
     const name = document.getElementsByTagName("tr")[0].getElementsByTagName("td")[1].innerHTML;
     const email = document.getElementsByTagName("tr")[1].getElementsByTagName("td")[1].innerHTML;
@@ -286,51 +98,23 @@ function handleSaveAvatar() {
     `;
 }
 
-/*
-function handleEditRole(id) {
-    const val = $.trim($(`#${id}-val`).text());
-    console.log('val:', val);
-    let inputEl = `
-        <select style="margin-right: 5px" id="${id}-val">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <div class="dd-save-custom" onclick="handleSaveRole('${id}')">
-            <i class="fas fa-save"></i>
-        </div>
-    `;
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-
-
-function handleSaveRole(id) {
-    let e = document.getElementById(`${id}-val`);
-    let val = e.value;
-    //    e.options[e.selectedIndex].text;
-
-    console.log('val:', val);
-
-    let inputEl = `
-        <div class="dd-custom"id="${id}-val">${val}</div>
-        <div class="dd-edit-custom" onclick="handleEditGender('${id}')">
-            <i class="fas fa-edit"></i>
-        </div>
-    `;
-
-    let el = document.getElementById(id);
-    el.innerHTML = inputEl;
-}
-*/
-
-/*
 
 $(document).ready(function () {
-    const account_role = $('#account-role').val();
-    const user_role = $('#user-role').val();
-    console.log('roles:', account_role, user_role);
+    const accountRole = $('#account-role').val();
+    const userRole = $('#user-role').val();
+    console.log('roles:', accountRole, userRole);
 
-    let tr = document.getElementsByTagName("tr")[0];
+    if (userRole === 'superadmin' && (accountRole === 'admin' || accountRole === 'staff') ||
+        (userRole === 'admin' && accountRole === 'staff')) {
+    }
+    else {
+        document.getElementsByTagName("tr")[5].getElementsByTagName("td")[2].innerHTML = `<tr></tr>`;
+        document.getElementsByTagName("tr")[6].getElementsByTagName("td")[2].innerHTML = `<tr></tr>`;
+        document.getElementsByTagName("tr")[7].style.display = 'none';
+        document.getElementsByTagName("tr")[8].style.display = 'none';
+    }
+
+    /*let tr =
     console.log('tr:', tr);
     let td = tr.getElementsByTagName("td")[1];
     console.log('td:', td.innerHTML);
@@ -341,9 +125,8 @@ $(document).ready(function () {
             <input value="${td.innerHTML}" onfocusout="lostFocus(${0})" id="0-val"/>
         `
     }
-
-});
 */
+});
 
 function handleEdit(id) {
     let tr = document.getElementsByTagName("tr")[id];
@@ -401,18 +184,6 @@ function handleChangeDropDown(id) {
     td.innerHTML = val;
     tr.getElementsByTagName("td")[2].hidden = false;
 }
-/*
-
-function handleChangeRole() {
-    const val = $('#5-val option:selected').text();
-    console.log(val);
-
-    let tr = document.getElementsByTagName("tr")[5];
-    let td = tr.getElementsByTagName("td")[1];
-    td.innerHTML = val;
-    tr.getElementsByTagName("td")[2].hidden = false;
-}
-*/
 
 function lostFocus(id) {
     let tr = document.getElementsByTagName("tr")[id];

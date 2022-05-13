@@ -1,3 +1,7 @@
+{{#section 'css'}}
+    <link href="/stylesheets/account/account.css" rel="stylesheet"/>
+{{/section}}
+
 <main>
     <div class="container-fluid px-4">
         <h3 class="mt-4">{{TypeName}} Management</h3>
@@ -8,8 +12,8 @@
             <div class="table-header-custom">
                 <div class="data-table-dropdown">
                     <select class="data-table-selector">
-                        <option class="data-value-selector" value="5">5</option>
-                        <option class="data-value-selector" value="10" selected="">10</option>
+                        <option class="data-value-selector" value="5" selected> 5</option>
+                        <option class="data-value-selector" value="10">10</option>
                         <option class="data-value-selector" value="15">15</option>
                         <option class="data-value-selector" value="20">20</option>
                         <option class="data-value-selector" value="25">25</option>
@@ -28,7 +32,7 @@
                 </div>
             </div>
 
-            <table class="table-body-custom" id="accountMangement">
+            <table class="table-body-custom table table-hover" id="accountMangement">
                 <thead>
                 <tr>
                     <th>Name</th>

@@ -1,27 +1,18 @@
 const accountService = require("../services/accountService");
-/*const path = require("path");
-const multer = require("multer");*/
-/*
 
-module.exports.getStaffPage = async (req, res) => {
 
-    const data = await accountService.getAllAccount("staff");
-    const pagination = {
-        page: 3,
-        limit: 10,
-        totalRows: 30
+const checkRole = (userRole, accountRole) => {
+
+    if (userRole === "superadmin" && (accountRole === "admin" || accountRole === "staff")) {
+        return true;
     }
 
-    res.render('account', {TypeName: 'Staff', data, pagination});
+    if (userRole === "admin" && accountRole === "staff") {
+        return true;
+    }
+
+    return false;
 }
-
-module.exports.getAdminPage = async (req, res) => {
-
-    const data = await accountService.getAllAccount("admin");
-
-    res.render('account', {TypeName: 'Admin', data});
-}
-*/
 
 module.exports.getAllAccount = async (req, res) => {
     const data = await accountService.getAllAccount();
@@ -31,13 +22,16 @@ module.exports.getAllAccount = async (req, res) => {
 
 module.exports.getAccounts = async (req, res) => {
     const role = req.query.role;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
 
-
-    /*if ( !req.user || (role === req.user.role) || req.user.role === "staff" || role === "superadmin") {
+    /*if (checkRole(req.user.role, role)){
+        console.log("user Role is true");
+    }else {
+        console.log("\n>>>you don't have permission to access this page!\n");
         return res.render('index');
     }*/
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
 
 
     const data = await accountService.getAllAccountByRole(role, page, limit);
@@ -50,23 +44,7 @@ module.exports.getAccounts = async (req, res) => {
 
     res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});
 }
-/*
 
-module.exports.getStaffDetail = async (req, res) => {
-
-    const id = req.params.id;
-    if (!id) {
-        return res.render('index');
-    }
-
-    let data = await accountService.getAccountById(id);
-    if (data.role !== "staff") {
-        return res.render('index');
-    }
-
-    res.render('account/detail', {data});
-}
-*/
 
 module.exports.getAccountDetail = async (req, res) => {
     const id = req.params.id;
@@ -75,29 +53,13 @@ module.exports.getAccountDetail = async (req, res) => {
     }
 
     let data = await accountService.getAccountById(id);
-    /*if (!req.user || (data.role === req.user.role) || req.user.role === "staff" || data.role === "superadmin") {
-        return res.render('index');
+
+    /*if (checkRole(req.user.role, data.role)){
+        console.log("user Role is true");
     }*/
 
     res.render('account/detail', {data});
 }
-
-/*
-
-module.exports.getAdminDetail = async (req, res) => {
-    const id = req.params.id;
-    if (!id) {
-        return res.render('index');
-    }
-
-    let data = await accountService.getAccountById(id);
-    if (data.role !== "admin") {
-        return res.render('index');
-    }
-
-    res.render('account/detail', {data});
-}
-*/
 
 module.exports.editAccountApi = async (req, res) => {
     const id = req.params.id;
@@ -142,21 +104,6 @@ module.exports.editAccountApi = async (req, res) => {
     })
 
 }
-/*
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/assets/images')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-})
-
-module.exports.handleUpload = () => {
-    return multer({storage: storage});
-}
-*/
 
 module.exports.UploadImage = async (req, res) => {
 
