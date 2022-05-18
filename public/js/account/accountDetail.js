@@ -113,19 +113,6 @@ $(document).ready(function () {
         document.getElementsByTagName("tr")[7].style.display = 'none';
         document.getElementsByTagName("tr")[8].style.display = 'none';
     }
-
-    /*let tr =
-    console.log('tr:', tr);
-    let td = tr.getElementsByTagName("td")[1];
-    console.log('td:', td.innerHTML);
-    let editBtn = tr.getElementsByTagName("td")[2];
-    editBtn.onclick = () => {
-        editBtn.hidden = true;
-        td.innerHTML = `
-            <input value="${td.innerHTML}" onfocusout="lostFocus(${0})" id="0-val"/>
-        `
-    }
-*/
 });
 
 function handleEdit(id) {

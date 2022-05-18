@@ -51,17 +51,15 @@
 
 .custom-btn-account {
     cursor: pointer;
-    padding: 5px 7px 5px 7px;
+    /*padding: 5px 7px 5px 7px;*/
     color: #566787;
-    float: right;
     font-size: 14px;
     background: #fff;
     border: none;
     min-width: 50px;
     border-radius: 2px;
     outline: none !important;
-    margin-left: 10px;
-    margin-right: 5px;
+    margin: 5px 5px 5px 10px;
 }
 
 .custom-btn-account span {
@@ -201,4 +199,51 @@
     margin: 0 0 5px 0;
     padding-left: 0;
     border-radius: 0.25rem;
+}
+
+.table-filter-custom {
+    margin-top: -10px;
+    margin-bottom: 15px;
+    background: #c186d3;
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+
+.filter-table-dropdown {
+    box-sizing: border-box;
+}
+
+.search-filter-account {
+    display: inline-flex;
+}
+
+.search-filter {
+    box-sizing: border-box;
+}
+
+.filter-item-custom {
+    margin: 0 5px 0 5px;
+}
+
+.label-filter-custom {
+    font-weight: bold;
+}
+
+.filter-btn-custom {
+    border: none;
+    color: #566787;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 2px;
+    outline: none !important;
+}
+
+.OK-btn-custom {
+    padding: 5px 10px 5px 10px;
+    background: #fff;
+    color: green;
+    cursor: pointer;
 }

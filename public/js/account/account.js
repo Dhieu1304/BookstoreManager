@@ -111,26 +111,44 @@ function selectParam(key, value) {
 */
 
 
-const urlParams = new URLSearchParams(window.location.search);
-/*
-let createParams = {
-    page: 1,
-    role: 'staff',/!*
-    search: '',*!/
-};*/
 
-let params = {
-    page: 1,
-    role: '',/*
+$(document).ready(() => {
+
+    //filter - search
+    const urlParams = new URLSearchParams(window.location.search);
+
+    let params = {
+        page: 1,
+        role: '',
+        limit: 5,/*
     search: '',*/
-};
+    };
 
-for (let key in params) {
-    if (!urlParams.has(key)) {
-        urlParams.append(key, params[key]);
-    } else {
-        params[key] = urlParams.get(key);
+
+    for (let key in params) {
+        if (!urlParams.has(key)) {
+            urlParams.append(key, params[key]);
+        } else {
+            params[key] = urlParams.get(key);
+        }
     }
-    console.log("params:", params);
-}
 
+    console.log("params:", params);
+
+    $('#selectItemPerPage').on('change', function() {
+        console.log(this.value);
+        params['limit'] = this.value;
+        console.log("params:", params);
+    });
+
+});
+
+const handleHideShowFilter = () => {
+    let filterBtn = document.getElementById('filter');
+    if (filterBtn.style.display !== 'none'){
+        filterBtn.style.display = 'none';
+    }
+    else {
+        filterBtn.style.display = 'flex';
+    }
+}
