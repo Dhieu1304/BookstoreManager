@@ -1,5 +1,6 @@
 {{#section 'css'}}
     <link href="/stylesheets/account/account.css" rel="stylesheet"/>
+    <script src="/js/jquery.twbsPagination.js" type="text/javascript"></script>
 {{/section}}
 
 <main>
@@ -30,7 +31,7 @@
 
             <div class="table-filter-custom" id="filter" style="display: none">
                 <div class="filter-table-dropdown filter-item-custom" title="Limit">
-                    <select class="data-table-selector" id="selectItemPerPage">
+                    <select class="data-table-selector" id="limit" onchange="selectOnchange('limit')">
                         <option class="data-value-selector" value="5" selected> 5</option>
                         <option class="data-value-selector" value="10">10</option>
                         <option class="data-value-selector" value="20">20</option>
@@ -40,13 +41,13 @@
 
                 <div class="search-filter-account" title="Search">
                     <input class="dataTable-input search-filter filter-item-custom" placeholder="Search..."
-                           type="text"/>
+                           type="text" id="search-input"/>
                 </div>
 
                 <div class="filter-table-dropdown filter-item-custom" title="Gender">
                     <label class="label-filter-custom" for="selectGender">Gender:</label>
-                    <select class="data-table-selector" id="selectGender">
-                        <option class="data-value-selector" value="" selected>All</option>
+                    <select class="data-table-selector" id="gender" onchange="selectOnchange('gender')">
+                        <option class="data-value-selector" value="All" selected>All</option>
                         <option class="data-value-selector" value="Male">Male</option>
                         <option class="data-value-selector" value="Female">Female</option>
                     </select>
@@ -54,13 +55,13 @@
 
                 <div class="filter-table-dropdown filter-item-custom" title="Gender">
                     <label class="label-filter-custom" for="selectStatus">Status:</label>
-                    <select class="data-table-selector" id="selectStatus">
-                        <option class="data-value-selector" value="" selected>All</option>
+                    <select class="data-table-selector" id="status" onchange="selectOnchange('status')">
+                        <option class="data-value-selector" value="All" selected>All</option>
                         <option class="data-value-selector" value="active">active</option>
                         <option class="data-value-selector" value="locked">locked</option>
                     </select>
                 </div>
-                <div class="OK-btn-custom">
+                <div class="OK-btn-custom" onclick="handleFilter()">
                     <span class="label-filter-custom">OK</span>
                 </div>
             </div>
@@ -117,13 +118,13 @@
                 {{/each}}
                 </tbody>
             </table>
-
+<!--
             <div class="clearfix-table-custom">
                 <div class="hint-text-custom">Showing <b>10</b> out of <b>100</b> entries</div>
                 <nav aria-label="Page navigation example" id="pagination" class="pagination-table-custom">
                     {{{createPagination pagination paginationClass="pagination"}}}
                 </nav>
-                <!--
+                &lt;!&ndash;
                 <ul class="pagination-table-custom">
                     <li class="page-item-custom"><a href="#" class="">Previous</a></li>
                     <li class="page-item-custom"><a href="#" class="">1</a></li>
@@ -133,8 +134,21 @@
                     <li class="page-item-custom"><a href="#" class="">5</a></li>
                     <li class="page-item-custom"><a href="#" class="">Next</a></li>
                 </ul>
-                -->
-            </div>
+                &ndash;&gt;
+            </div>-->
+
+
+            <!--<div class="demo" style="height: 100px">
+                <div id="page">
+                    <ul class="pagination"></ul>
+                </div>
+                <label id="info">Page information will be displayed here.</label>
+            </div>-->
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+
         </div>
     </div>
 </main>

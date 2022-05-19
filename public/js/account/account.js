@@ -1,154 +1,76 @@
-/*
 
-$(document).ready(() => {
+const urlParams = new URLSearchParams(window.location.search);
 
-
-    let typeName = $(".container-fluid h3").text();
-
-    $.ajax({
-        url: '/account/api/admin',
-        type: 'get',
-        success: function (res) {
-            console.log('res:', res);
-
-            if (res.errCode != 0) {
-                notification(res.errMessage, NOTY_TYPE.FAIL);
-            } else {
-                renderView(res.data)
-            }
-        }
-    });
-
-});
-
-const renderView = (data) => {
-
-    if (data == {}) {
-        return;
-    }
-
-    let tbodyAccount = document.getElementById("tbody-table-account-management");
-    let view = '';
-    let statusView = '';
-
-    for (let i = 0; i < data.length; i++) {
-
-        if (data[i].status == "active") {
-            statusView = `
-                <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                   <i class="fas fa-lock"></i>
-                </span>
-            `
-        }
-        else {
-            statusView = `
-                <span href="#" class="unlock-account" title="UnLock" data-toggle="tooltip">
-                   <i class="fas fa-key"></i>
-                </span>
-            `
-        }
-
-        view += `
-    <tr>
-        <td>
-            <div class="custom-name-picture"><img
-                    src=${data[i].avatar}
-                    class="avatar-table-custom img-avatar-header" alt="Avatar">
-                <span class="custom-text-table">${data[i].first_name + ' ' + data[i].last_name}</span>
-            </div>
-        </td>
-        <td>
-            <span>${data[i].email}</span>
-        </td>
-        <td>${data[i].gender}</td>
-        <td>
-            <div class="custom-status-account">
-                <div class="status-account-custom acc-active">•</div>
-                <div class="custom-text-status">${data[i].status}</div>
-            </div>
-        </td>
-        <td>
-            <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                <i class="fas fa-user-edit"></i>
-            </span>
-            ${statusView}
-        </td>
-    </tr>
-    `
-    }
-
-    tbodyAccount.innerHTML = view;
-
-}
-*/
-/*
-let urlParams = new URLSearchParams(location.search);
 let params = {
-    // filter
-}
+    page: 1,
+    role: '',
+    limit: 5,
+    search: '',
+    gender: 'All',
+    status: 'All'
+};
+
+let currentPage = urlParams.get('page') || 1;
+urlParams.set('page', currentPage);
+
 for (let key in params) {
     if (!urlParams.has(key)) {
         urlParams.append(key, params[key]);
-    }
-}*/
-
-
-/*
-function selectParam(key, value) {
-    let roleVal = $(".container-fluid h3").text();
-    if (roleVal === "Staff Management") {
-        roleVal = "admin"
     } else {
-        roleVal = "staff"
+        params[key] = urlParams.get(key);
     }
-
-    console.log('roleVal:', roleVal);
-
-    urlParams.set(key, value);
-    let url = `/account/${roleVal}?${urlParams.toString()}`;
-    location.href = url;
 }
-*/
 
+console.log("params:", params);
 
-
-$(document).ready(() => {
-
-    //filter - search
-    const urlParams = new URLSearchParams(window.location.search);
-
-    let params = {
-        page: 1,
-        role: '',
-        limit: 5,/*
-    search: '',*/
-    };
-
-
-    for (let key in params) {
-        if (!urlParams.has(key)) {
-            urlParams.append(key, params[key]);
-        } else {
-            params[key] = urlParams.get(key);
-        }
-    }
-
+const selectOnchange = (id) => {
+    const val = document.getElementById(`${id}`).value;
+    console.log(val);
+    params[`${id}`] = val;
     console.log("params:", params);
-
-    $('#selectItemPerPage').on('change', function() {
-        console.log(this.value);
-        params['limit'] = this.value;
-        console.log("params:", params);
-    });
-
-});
+}
 
 const handleHideShowFilter = () => {
     let filterBtn = document.getElementById('filter');
-    if (filterBtn.style.display !== 'none'){
+    if (filterBtn.style.display !== 'none') {
         filterBtn.style.display = 'none';
-    }
-    else {
+    } else {
         filterBtn.style.display = 'flex';
     }
 }
+
+const handleFilter = (isReset = true) => {
+    if (isReset === true) {
+        params['page'] = 1;
+        $('#pagination').children('li').eq(0).click();
+    }
+
+    params['search'] = document.getElementById('search-input').value;
+
+    for (let key in params) {
+        urlParams.append(key, params[key]);
+        if (!urlParams.has(key)) {
+            urlParams.append(key, params[key]);
+        } else {
+            urlParams.set(key, params[key]);
+        }
+    }
+
+    let url = '/account?' + urlParams.toString();
+    window.history.pushState({path: url}, '', url);
+
+}
+
+$(function () {
+    window.pagObj = $('#pagination').twbsPagination({
+        totalPages: 5,
+        visiblePages: 3,
+        onPageClick: function (event, page) {
+            console.info(page + ' (from options)');
+        }
+    }).on('page', function (event, page) {
+        console.info(page + ' (from event listening)');
+        params['page'] = page;
+        handleFilter(false);
+    });
+});
