@@ -2,18 +2,14 @@ $(document).ready(() => {
     $('#pagination li').addClass('page-item');
     $('#pagination li a').addClass('page-link');
 
-    /*const urlParams = new URLSearchParams(window.location.search);
-    const UrlHref = window.location.href;
-    const first = UrlHref.lastIndexOf("/");
-    let end = UrlHref.indexOf("?");
-    let result = UrlHref.substring(first, end + 1);
-
-    let currentPage = urlParams.get('page') || 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get("page") || 1;
     $('#pagination li a').each((index, item) => {
-        //href = ?page=3
-        const page = $(item).attr('href').split('=')[1];
-        urlParams.set('page', page);
-        $(item).attr('href', result + urlParams.toString());
+        let itemPage = $(item).attr('href').split('=')[1];
+        urlParams.set("page", itemPage);
+        const itemHref = location.pathname + '?' + urlParams1.toString();
+        $(item).attr('href', itemHref);
     })
-    urlParams.set('page', currentPage);*/
+
+    urlParams.set("page", currentPage);
 });

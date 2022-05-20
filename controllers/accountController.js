@@ -21,14 +21,14 @@ module.exports.getAllAccount = async (req, res) => {
 }
 
 module.exports.getAccounts = async (req, res) => {
-    const role = req.query.role;
+    /*const role = req.query.role;
 
-    /*if (checkRole(req.user.role, role)){
+    /!*if (checkRole(req.user.role, role)){
         console.log("user Role is true");
     }else {
         console.log("\n>>>you don't have permission to access this page!\n");
         return res.render('index');
-    }*/
+    }*!/
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
@@ -42,7 +42,15 @@ module.exports.getAccounts = async (req, res) => {
         totalRows: data.count,
     }
 
-    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});
+    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});*/
+    const pagination = {
+        page: 1,
+        limit: 5,
+        totalRows: 7,
+    }
+    // res.locals.pagination = pagination;
+    // res.render('account', {pagination});
+    res.render('account');
 }
 
 
@@ -126,4 +134,68 @@ module.exports.UploadImage = async (req, res) => {
         errMessage: "Error occurred!",
         link: ''
     });
+}
+
+module.exports.ApiListAccount = async (req, res) => {
+    /*if (checkRole(req.user.role, role)){
+        console.log("user Role is true");
+    }else {
+        console.log("\n>>>you don't have permission to access this page!\n");
+        return res.render('index');
+    }*/
+
+
+    const page = parseInt(req.body.page) || 1;
+    const limit = parseInt(req.body.limit) || 5;
+    const {role, search, gender, status} = req.body;
+
+    let filter = {
+        role: role,
+        page: page,
+        limit: limit,
+        search: search,
+        gender: gender,
+        status: status
+    }
+
+    console.log('filter:', filter);
+    //const data = await accountService.getAllAccountByRole(role, page, limit);
+
+    // const accounts = await accountService.getAllAccountByRole(filter.role, filter.page, filter.limit);
+    const accounts = await accountService.getAccountsFilter(filter);
+
+    /*const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: accounts.count || 0
+    }*/
+
+    let pagination = {
+        page: filter.page,
+        limit: filter.limit,
+        totalRows: 0,
+    }
+    if (accounts) {
+
+        pagination.totalRows = accounts.count;
+
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "Successful!",
+            data: {
+                accounts: accounts.rows,
+                pagination: pagination
+            },
+
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error!",
+        data: {
+            accounts: {},
+            pagination: pagination
+        }
+    })
 }

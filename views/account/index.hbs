@@ -1,13 +1,12 @@
 {{#section 'css'}}
     <link href="/stylesheets/account/account.css" rel="stylesheet"/>
-    <script src="/js/pagination/jquery.twbsPagination.js" type="text/javascript"></script>
 {{/section}}
 
 <main>
     <div class="container-fluid px-4">
-        <h3 class="mt-4">{{TypeName}} Management</h3>
+        <h3 class="mt-4" id="title-h3">{{TypeName}} Management</h3>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">List {{TypeName}}</li>
+            <li class="breadcrumb-item active" id="title-li">List {{TypeName}}</li>
         </ol>
         <div class="table-account-custom">
             <div class="table-header-custom d-flex">
@@ -20,7 +19,7 @@
                 <div class="d-flex">
                     <div class="custom-btn-account p-2">
                         <i class="fas fa-plus-circle" style="color: green"></i>
-                        <span>Add New User</span>
+                        <span>Add New</span>
                     </div>
                     <div class="custom-btn-account p-2">
                         <i class="fas fa-file" style="color: #2e0559"></i>
@@ -77,11 +76,13 @@
                 </tr>
                 </thead>
                 <tbody id="tbody-table-account-management">
-                {{#each data}}
+
+<!--                render api-->
+                <!--{{#each data}}
                     <tr>
                         <td>
-                            <div class="custom-name-picture" href="#"><img
-                                    src={{this.avatar}}
+                            <div class="custom-name-picture" href="#">
+                                <img src={{this.avatar}}
                                     class="avatar-table-custom img-avatar-header" alt="Avatar">
                                 <span class="custom-text-table">{{this.first_name}} {{this.last_name}}</span>
                             </div>
@@ -115,19 +116,33 @@
                             {{/ifCond}}
                         </td>
                     </tr>
-                {{/each}}
+                {{/each}}-->
+
+
                 </tbody>
             </table>
 
-            <nav aria-label="Page navigation">
-                <ul class="pagination" id="pagination"></ul>
-            </nav>
+            <div class="clearfix-table-custom">
+                <div class="hint-text-custom" id="hint-text-pagination"></div>
+                <nav aria-label="Page navigation example" id="pagination" class="pagination-table-custom">
+                    {{{createPagination pagination paginationClass="pagination"}}}
+                </nav>
+
+                <script type="text/x-handlebars-template" id="paginationTemplate">
+                      \{{{createPagination pagination paginationClass="pagination"}}}
+                </script>
+
+            </div>
+
+
 
         </div>
     </div>
 </main>
 
 {{#section 'script'}}
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/account/account.js"></script>
+    <script src="/js/pagination/paginationHelper.js"></script>
 <!--    <script src="/js/pagination/pagination.js"></script>-->
 {{/section}}

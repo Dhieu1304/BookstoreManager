@@ -1,4 +1,5 @@
 const {models} = require("../models");
+const Op = require('sequelize').Op;
 
 module.exports.getAccountById = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -129,6 +130,65 @@ module.exports.editAvatarById = (id, link) => {
                 await account.save();
 
                 resolve(account);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+
+module.exports.getAccountsFilter = (filter) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let option = {
+                offset: (filter.page - 1) * filter.limit,
+                limit: filter.limit,
+                raw: true
+            };
+
+            if (filter.search !== '') {
+                option.where = {
+                    role: filter.role,
+                    [Op.or]: [
+                        {
+                            first_name: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        },
+                        {
+                            last_name: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        },
+                        {
+                            email: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        }
+                    ]
+                }
+            }
+            else {
+                option.where = {
+                    role: filter.role
+                }
+            }
+
+            if (filter.gender !== 'All') {
+                option.where.gender = filter.gender;
+            }
+
+            if (filter.status !== 'All') {
+                option.where.status = filter.status;
+            }
+
+            const accounts = await models.account.findAndCountAll(option);
+
+            if (accounts) {
+                resolve(accounts);
             } else {
                 resolve(false);
             }
