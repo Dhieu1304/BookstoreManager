@@ -17,6 +17,11 @@ passport.use(new LocalStrategy({
                 return done(null, false, {message: 'Incorrect email!'});
             }
 
+            if (user.status !== 'active') {
+                console.log('Tai khoan bi khoa');
+                return done(null, false, {message: 'Your account has been locked!'});
+            }
+
             const checkPassword = await bcryptService.checkPassword(password, user.password);
 
             if (!checkPassword) {
