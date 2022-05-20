@@ -146,6 +146,7 @@ module.exports.getAccountsFilter = (filter) => {
             let option = {
                 offset: (filter.page - 1) * filter.limit,
                 limit: filter.limit,
+                order: ['id'],
                 raw: true
             };
 
@@ -189,6 +190,30 @@ module.exports.getAccountsFilter = (filter) => {
 
             if (accounts) {
                 resolve(accounts);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+module.exports.EditAccountStatusById = (id, status) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const account = await models.account.findOne({
+                where: {
+                    id: id
+                }
+            });
+
+            if (account) {
+                account.status = status;
+
+                await account.save();
+
+                resolve(account);
             } else {
                 resolve(false);
             }

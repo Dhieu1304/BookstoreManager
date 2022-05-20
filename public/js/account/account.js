@@ -12,12 +12,16 @@ let params = {
     status: 'All'
 };
 
+const ACCOUNT_ACTION = {
+    LOCK: 'LOCK',
+    UNLOCK: 'UNLOCK'
+}
+
 for (let key in params) {
     if (!urlParams.has(key)) {
         urlParams.append(key, params[key]);
     } else {
         params[key] = urlParams.get(key);
-        console.log('key:', key);
         const el = document.getElementById(`${key}`);
         if (el) {
             el.value = urlParams.get(key);
@@ -48,15 +52,6 @@ const handleFilter = (isReset = true) => {
 
     params['search'] = document.getElementById('search').value;
 
-    for (let key in params) {
-        urlParams.append(key, params[key]);
-        if (!urlParams.has(key)) {
-            urlParams.append(key, params[key]);
-        } else {
-            urlParams.set(key, params[key]);
-        }
-    }
-
     getAPIData();
 
 }
@@ -64,8 +59,17 @@ const handleFilter = (isReset = true) => {
 const getAPIData = () => {
 
     //đẩy param lên thanh url (mặc dù api nhưng vẫn tạo link cho filter)
+    for (let key in params) {
+        if (!urlParams.has(key)) {
+            urlParams.append(key, params[key]);
+        } else {
+            urlParams.set(key, params[key]);
+        }
+    }
+
     let url = '/account?' + urlParams.toString();
     window.history.pushState({path: url}, '', url);
+
 
     $.ajax({
         url: `/account/api/listAccount`,
@@ -110,11 +114,13 @@ const handleRenderView = (data) => {
 
             if (item.status === 'active') {
                 statusHtml = `<div class="status-account-custom acc-active">•</div>`;
-                actionHtml = `<span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
+                actionHtml = `<span onclick="handleShowModalAccount(${item.id})" 
+                            class="lock-account" title="Lock" data-toggle="tooltip">
                         <i class="fas fa-lock"></i></span>`;
             } else {
                 statusHtml = `<div class="status-account-custom acc-lock">•</div>`;
-                actionHtml = `<span href="#" class="unlock-account" title="UnLock" data-toggle="tooltip">
+                actionHtml = `<span onclick="handleShowModalAccount(${item.id}, ACCOUNT_ACTION.UNLOCK)" 
+                                class="unlock-account" title="UnLock" data-toggle="tooltip">
                         <i class="fas fa-key"></i></span>`;
             }
 
@@ -122,9 +128,11 @@ const handleRenderView = (data) => {
                 `
                 <tr>
                     <td>
-                        <div class="custom-name-picture" href="#">
-                            <img src=${item.avatar}
+                        <div id="infoAccount${item.id}" class="custom-name-picture">
+                            <a href="/account/${item.id}">
+                                <img src=${item.avatar}
                                 class="avatar-table-custom img-avatar-header" alt="Avatar">
+                            </a>
                             <span class="custom-text-table">${item.first_name} ${item.last_name}</span>
                         </div>
                     </td>
@@ -140,9 +148,11 @@ const handleRenderView = (data) => {
                         </div>
                     </td>
                     <td>
-                    <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                        <i class="fas fa-user-edit"></i>
-                    </span>
+                        <a href="/account/${item.id}">
+                            <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
+                                <i class="fas fa-user-edit"></i>
+                            </span>
+                        </a>
                     ${actionHtml}
                     </td>
                 </tr>
@@ -178,4 +188,77 @@ $("#pagination").on('click', '.page-link', function (e) {
 //Viet hoa chu cai dau
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+// modal
+let modal = document.getElementById("modalConfirm");
+
+document.getElementsByClassName("close")[0].onclick = function () {
+    hideModal();
+}
+
+document.getElementById('cancelBtn').onclick = function () {
+    hideModal();
+}
+
+
+window.onclick = function (event) {
+    if (event.target === modal) {
+        hideModal();
+    }
+}
+
+function hideModal() {
+    modal.style.display = "none";
+}
+
+// 0 unlock - 1 lock
+function handleShowModalAccount(id, type = ACCOUNT_ACTION.LOCK) {
+    modal.style.display = "block";
+
+    const accountInfo = document.getElementById(`infoAccount${id}`);
+    console.log('accountInfo: ', accountInfo)
+
+    let modalBodyInfo = `<h6>Are you sure to ${type} this account:</h6>`;
+    modalBodyInfo += accountInfo.innerHTML;
+    console.log('modalBodyInfo: ', modalBodyInfo)
+    document.getElementById('modal-body').innerHTML = modalBodyInfo;
+
+    document.getElementById('continueBtn').onclick = function () {
+        handleLockUnlockAccount(id, type);
+        hideModal();
+    }
+
+}
+
+function handleLockUnlockAccount(id, type) {
+
+    let status = 'active';
+    if (type === ACCOUNT_ACTION.LOCK) {
+        status = 'locked';
+    }
+
+    $.ajax({
+        url: `/account/api/editStatus`,
+        type: 'post',
+        data: {
+            id: id,
+            status: status
+        },
+        success: function (res) {
+            console.log('Data:', res.data);
+
+            if (res.errCode !== 0) {
+                notification(res.errMessage, NOTY_TYPE.FAIL);
+            } else {
+
+                notification(res.errMessage, NOTY_TYPE.SUCCESS);
+
+                //load lai trang
+                getAPIData();
+
+            }
+        }
+    })
 }

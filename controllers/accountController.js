@@ -136,7 +136,7 @@ module.exports.UploadImage = async (req, res) => {
     });
 }
 
-module.exports.ApiListAccount = async (req, res) => {
+module.exports.apiListAccount = async (req, res) => {
     /*if (checkRole(req.user.role, role)){
         console.log("user Role is true");
     }else {
@@ -198,4 +198,38 @@ module.exports.ApiListAccount = async (req, res) => {
             pagination: pagination
         }
     })
+}
+
+module.exports.editStatusAccount = async (req, res) => {
+    let {id, status} = req.body;
+
+    if (!id || !status) {
+
+        if (status !== 'active' || status !== 'locked') {
+            return res.status(200).json({
+                errCode: 1,
+                errMessage: "Error! Please try again!!",
+            })
+        }
+
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Missing Parameter",
+        })
+    }
+
+    let data = await accountService.EditAccountStatusById(id, status.toLowerCase());
+
+    if (data) {
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "Successful!"
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error! Please try again!!",
+    })
+
 }

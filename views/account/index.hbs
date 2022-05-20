@@ -4,6 +4,28 @@
 
 <main>
     <div class="container-fluid px-4">
+
+<!--        modal-->
+        <div id="modalConfirm" class="modal">
+            <div class="modal-sm modal-custom">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-custom">
+                        <h6>Confirm</h6>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+
+                    </div>
+                    <div class="modal-footer modal-footer-custom">
+                        <button id="continueBtn">Continue</button>
+                        <button id="cancelBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <h3 class="mt-4" id="title-h3">{{TypeName}} Management</h3>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active" id="title-li">List {{TypeName}}</li>
@@ -76,7 +98,7 @@
                 </tr>
                 </thead>
                 <tbody id="tbody-table-account-management">
-                    <!--Render View from API ajax-->
+                <!--Render View from API ajax-->
                 </tbody>
             </table>
 
@@ -88,6 +110,7 @@
 
                 <script type="text/x-handlebars-template" id="paginationTemplate">
                       \{{{createPagination pagination paginationClass="pagination"}}}
+
                 </script>
 
             </div>
@@ -99,5 +122,5 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/account/account.js"></script>
     <script src="/js/pagination/paginationHelper.js"></script>
-<!--    <script src="/js/pagination/pagination.js"></script>-->
+    <!--    <script src="/js/pagination/pagination.js"></script>-->
 {{/section}}
