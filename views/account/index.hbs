@@ -40,7 +40,7 @@
 
                 <div class="search-filter-account" title="Search">
                     <input class="dataTable-input search-filter filter-item-custom" placeholder="Search..."
-                           type="text" id="search-input"/>
+                           type="text" id="search"/>
                 </div>
 
                 <div class="filter-table-dropdown filter-item-custom" title="Gender">
@@ -76,49 +76,7 @@
                 </tr>
                 </thead>
                 <tbody id="tbody-table-account-management">
-
-<!--                render api-->
-                <!--{{#each data}}
-                    <tr>
-                        <td>
-                            <div class="custom-name-picture" href="#">
-                                <img src={{this.avatar}}
-                                    class="avatar-table-custom img-avatar-header" alt="Avatar">
-                                <span class="custom-text-table">{{this.first_name}} {{this.last_name}}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span>{{this.email}}</span>
-                        </td>
-                        <td>Male</td>
-                        <td>
-                            <div class="custom-status-account">
-                                {{#ifCond this.status '==' 'active'}}
-                                    <div class="status-account-custom acc-active">•</div>
-                                {{else}}
-                                    <div class="status-account-custom acc-lock">•</div>
-                                {{/ifCond}}
-                                <div class="custom-text-status">{{this.status}}</div>
-                            </div>
-                        </td>
-                        <td>
-                        <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
-                            <i class="fas fa-user-edit"></i>
-                        </span>
-                            {{#ifCond this.status '==' 'active'}}
-                                <span href="#" class="lock-account" title="Lock" data-toggle="tooltip">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                            {{else}}
-                                <span href="#" class="unlock-account" title="UnLock" data-toggle="tooltip">
-                            <i class="fas fa-key"></i>
-                        </span>
-                            {{/ifCond}}
-                        </td>
-                    </tr>
-                {{/each}}-->
-
-
+                    <!--Render View from API ajax-->
                 </tbody>
             </table>
 
@@ -133,9 +91,6 @@
                 </script>
 
             </div>
-
-
-
         </div>
     </div>
 </main>

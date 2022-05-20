@@ -17,6 +17,11 @@ for (let key in params) {
         urlParams.append(key, params[key]);
     } else {
         params[key] = urlParams.get(key);
+        console.log('key:', key);
+        const el = document.getElementById(`${key}`);
+        if (el) {
+            el.value = urlParams.get(key);
+        }
     }
 }
 
@@ -41,7 +46,7 @@ const handleFilter = (isReset = true) => {
         params['page'] = 1;
     }
 
-    params['search'] = document.getElementById('search-input').value;
+    params['search'] = document.getElementById('search').value;
 
     for (let key in params) {
         urlParams.append(key, params[key]);
