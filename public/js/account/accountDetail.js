@@ -1,4 +1,3 @@
-
 function handleEditAccount(id) {
     console.log('id', id);
 
@@ -30,15 +29,13 @@ function handleEditAccount(id) {
         },
         success: function (data) {
             console.log('Data:', data);
-            if (data.errCode === 2 || data.errCode === 1) {
+            if (data.errCode !== 0) {
                 notification(data.errMessage, NOTY_TYPE.FAIL);
             } else {
-                if (data.errCode === 0) {
-                    let e = document.getElementById("full-name-header");
-                    e.innerHTML = `${data.data.first_name} ${data.data.last_name}`
+                let e = document.getElementById("full-name-header");
+                e.innerHTML = `${data.data.first_name} ${data.data.last_name}`
 
-                    notification(data.errMessage, NOTY_TYPE.SUCCESS);
-                }
+                notification(data.errMessage, NOTY_TYPE.SUCCESS);
             }
         }
     })
@@ -106,8 +103,7 @@ $(document).ready(function () {
 
     if (userRole === 'superadmin' && (accountRole === 'admin' || accountRole === 'staff') ||
         (userRole === 'admin' && accountRole === 'staff')) {
-    }
-    else {
+    } else {
         document.getElementsByTagName("tr")[5].getElementsByTagName("td")[2].innerHTML = `<tr></tr>`;
         document.getElementsByTagName("tr")[6].getElementsByTagName("td")[2].innerHTML = `<tr></tr>`;
         document.getElementsByTagName("tr")[7].style.display = 'none';
@@ -151,7 +147,7 @@ function handleEdit(id) {
                 <select style="margin-right: 5px" id="${id}-val" name="${id}-val" onchange="handleChangeDropDown(${id})">
                     <option disabled selected value>-- select an option -- </option>
                     <option value="active">active</option>
-                    <option value="block">block</option>
+                    <option value="locked">locked</option>
                 </select>
             `;
         return;

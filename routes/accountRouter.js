@@ -20,5 +20,6 @@ router.get('/:id', accountController.getAccountDetail);
 router.post('/upload/image', multer.handleUpload().single('avatar'), accountController.UploadImage);
 router.post('/api/listAccount', accountController.apiListAccount);
 router.post('/api/editStatus', accountController.editStatusAccount);
+router.post('/api/addNewAccount', accountController.addNewAccount);
 
 module.exports = router;

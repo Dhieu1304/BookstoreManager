@@ -1,5 +1,6 @@
 const accountService = require("../services/accountService");
-
+const {v4: uuidv4} = require('uuid');
+const bcryptService = require("../services/bcryptService");
 
 const checkRole = (userRole, accountRole) => {
 
@@ -204,18 +205,17 @@ module.exports.editStatusAccount = async (req, res) => {
     let {id, status} = req.body;
 
     if (!id || !status) {
-
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Missing Parameter",
+        })
+    } else {
         if (status !== 'active' || status !== 'locked') {
             return res.status(200).json({
                 errCode: 1,
                 errMessage: "Error! Please try again!!",
             })
         }
-
-        return res.status(200).json({
-            errCode: 2,
-            errMessage: "Missing Parameter",
-        })
     }
 
     let data = await accountService.EditAccountStatusById(id, status.toLowerCase());
@@ -233,3 +233,44 @@ module.exports.editStatusAccount = async (req, res) => {
     })
 
 }
+
+module.exports.addNewAccount = async (req, res) => {
+
+    let {first_name, last_name, email, phone_number, gender, role, address} = req.body;
+
+    if (!first_name || !last_name || !email) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Missing Parameter",
+        })
+    } else {
+        const existAccount = await accountService.getAccountByEmail(email);
+
+        if (existAccount) {
+            return res.status(200).json({
+                errCode: 3,
+                errMessage: "This email is already in use!!",
+            })
+        }
+    }
+
+    const uid = uuidv4();
+    const password = first_name + last_name;
+    const hashPassword = await bcryptService.hashPassword(password.toLowerCase());
+    let account = {first_name, last_name, email, password: hashPassword, phone_number, gender, role, address, uid: uid};
+
+    let data = await accountService.addNewAccount(account);
+
+    if (data) {
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "Successful!"
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error! Please try again!!",
+    })
+}
+

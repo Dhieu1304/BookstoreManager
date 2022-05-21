@@ -222,3 +222,30 @@ module.exports.EditAccountStatusById = (id, status) => {
         }
     })
 }
+
+module.exports.addNewAccount = (accountInfo) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const account = await models.account.create({
+                first_name: accountInfo.first_name,
+                last_name: accountInfo.last_name,
+                email: accountInfo.email,
+                password: accountInfo.password,
+                phone_number: accountInfo.phone_number,
+                gender: accountInfo.gender,
+                role: accountInfo.role,
+                address: accountInfo.address,
+                uid: accountInfo.uid
+            });
+
+            if (account) {
+                resolve(account);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+

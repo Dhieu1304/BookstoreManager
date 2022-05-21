@@ -130,7 +130,7 @@ const handleRenderView = (data) => {
                     <td>
                         <div id="infoAccount${item.id}" class="custom-name-picture">
                             <a href="/account/${item.id}">
-                                <img src=${item.avatar}
+                                <img src=${item.avatar || '/assets/img/default-avatar.jpg'}
                                 class="avatar-table-custom img-avatar-header" alt="Avatar">
                             </a>
                             <span class="custom-text-table">${item.first_name} ${item.last_name}</span>
@@ -192,30 +192,36 @@ function capitalizeFirstLetter(string) {
 
 
 // modal
-let modal = document.getElementById("modalConfirm");
+let modalConfirmEditStatus = document.getElementById("modalConfirm");
+let modalAddNew = document.getElementById("modalAddNew");
 
-document.getElementsByClassName("close")[0].onclick = function () {
-    hideModal();
-}
+handleCancelModal('cancelBtn'); //Nut Cancel
+handleCancelModal('close-modal'); //Dau X
 
-document.getElementById('cancelBtn').onclick = function () {
-    hideModal();
-}
-
-
-window.onclick = function (event) {
-    if (event.target === modal) {
-        hideModal();
+function handleCancelModal(Class_Name) {
+    let closeBtns = document.getElementsByClassName(`${Class_Name}`);
+    for (let i = 0; i < closeBtns.length; i++) {
+        let thisBtn = closeBtns[i];
+        thisBtn.addEventListener("click", function () {
+            let modal = document.getElementById(this.dataset.modal);
+            modal.style.display = "none";
+        }, false);
     }
 }
 
-function hideModal() {
-    modal.style.display = "none";
+window.onclick = function (event) {
+    if (event.target === modalConfirmEditStatus) {
+        modalConfirmEditStatus.style.display = "none";
+    }
+
+    /*if (event.target === modalAddNew) {
+        modalAddNew.style.display = "none";
+    }*/
 }
 
 // 0 unlock - 1 lock
 function handleShowModalAccount(id, type = ACCOUNT_ACTION.LOCK) {
-    modal.style.display = "block";
+    modalConfirmEditStatus.style.display = "block";
 
     const accountInfo = document.getElementById(`infoAccount${id}`);
     console.log('accountInfo: ', accountInfo)
@@ -223,13 +229,12 @@ function handleShowModalAccount(id, type = ACCOUNT_ACTION.LOCK) {
     let modalBodyInfo = `<h6>Are you sure to ${type} this account:</h6>`;
     modalBodyInfo += accountInfo.innerHTML;
     console.log('modalBodyInfo: ', modalBodyInfo)
-    document.getElementById('modal-body').innerHTML = modalBodyInfo;
+    document.getElementById('modal-body-status').innerHTML = modalBodyInfo;
 
-    document.getElementById('continueBtn').onclick = function () {
+    document.getElementById('continueStatusBtn').onclick = function () {
         handleLockUnlockAccount(id, type);
-        hideModal();
+        modalConfirmEditStatus.style.display = "none";
     }
-
 }
 
 function handleLockUnlockAccount(id, type) {
@@ -262,3 +267,73 @@ function handleLockUnlockAccount(id, type) {
         }
     })
 }
+
+function handleShowModalAddNew() {
+    modalAddNew.style.display = "block";
+
+    document.getElementById('inputRole').value = params.role;
+    document.getElementById('cancelBtnAddNew').onclick = function (e) {
+        e.preventDefault();
+    }
+
+}
+
+let account = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: '',
+    gender: '',
+    role: params.role,
+    address: ''
+}
+
+document.getElementById('SubmitAddNewBtn').onclick = function (e) {
+    let isFormValid  = document.getElementById('form-add-new').checkValidity();
+
+    if(!isFormValid) {
+        document.getElementById('form-add-new').reportValidity();
+    } else {
+        e.preventDefault();
+
+        account.first_name = $('#inputFirstName').val();
+        account.last_name = $('#inputLastName').val();
+        account.email = $('#inputEmail').val();
+        account.phone_number = $('#inputPhone').val();
+        account.gender = $('#inputGender').val();
+        account.address = $('#inputAddress').val();
+
+        console.log('account:', account);
+
+        $.ajax({
+            url: `/account/api/addNewAccount`,
+            type: 'post',
+            data: account,
+            success: function (res) {
+                console.log('Data:', res.data);
+
+                if (res.errCode !== 0) {
+                    notification(res.errMessage, NOTY_TYPE.FAIL);
+                } else {
+                    //An modal
+                    modalAddNew.style.display = "none";
+                    //reset input
+                    $('#inputFirstName').val('');
+                    $('#inputLastName').val('');
+                    $('#inputEmail').val('');
+                    $('#inputPhone').val('');
+                    $('#inputGender').val('');
+                    $('#inputAddress').val('');
+
+                    notification(res.errMessage, NOTY_TYPE.SUCCESS);
+
+                    //load lai trang
+                    getAPIData();
+
+                }
+            }
+        })
+
+
+    }
+};

@@ -91,6 +91,10 @@ module.exports.checkSuperAdmin = async (req, res, next) => {
 }
 
 module.exports.myAccount =  async (req, res) => {
+    if (!req.user || !req.user.id) {
+        return res.redirect('/');
+    }
+
     const data = await accountService.getAccountById(req.user.id);
 
     res.render('account/detail', {TypeName: "My Account", data});
