@@ -210,7 +210,7 @@ module.exports.editStatusAccount = async (req, res) => {
             errMessage: "Missing Parameter",
         })
     } else {
-        if (status !== 'active' || status !== 'locked') {
+        if (status !== 'active' && status !== 'locked') {
             return res.status(200).json({
                 errCode: 1,
                 errMessage: "Error! Please try again!!",
