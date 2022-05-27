@@ -8,6 +8,7 @@
 
 ## <font color='red'>* NOTE  !important</font>
 **Something change from Dhieu**
+- Sửa status bảng account thành 'active' và 'locked' (chỉ sửa ở local :3 chưa sửa trong file sql *nói chung cũng không ảnh hưởng gì mấy (chỉ hiển thị cho đẹp :3)*)
 
 - Hiện tại đã bỏ xác thực người dùng mới vào đc web để mn tiện làm các phần khác, muốn ktra thì:
     - Bỏ cmt ở /*authController.checkAuthenticated*/ trong file initRouter
@@ -17,9 +18,7 @@
         - password: 123456
 
 - Có thêm multer (upload file), muốn dùng thì lấy ở utils/multer.js
-- Có thêm pagination (phân trang), muốn dùng thì lấy ở /js/pagination/pagination.js
 - Có thêm notification (thông báo giống toast), muốn dùng thì gọi hàm: notification("message", NOTY_TYPE.FAIL); (FAIL/SUCCESS/INFO) >>Đã thêm ở layout, chỉ dùng thôi
-- Cấu hình hbs ở config/configHbs (muốn cấu hình gì thì thêm vào :3)
 
 
 ## Tham khảo (Sang)
