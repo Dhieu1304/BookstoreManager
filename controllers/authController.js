@@ -4,11 +4,7 @@ const bcryptService = require("../services/bcryptService");
 const authService = require("../services/auth/authService");
 
 module.exports.login = (req, res) => {
-    res.render('auth/login', {layout: false, errorLogin: req.query.errorLogin !== undefined});
-}
-
-module.exports.register = (req, res) => {
-    res.render('auth/register', {layout: false});
+    res.render('auth/login', {layout: false});
 }
 
 module.exports.forgotPassword = (req, res) => {

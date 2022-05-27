@@ -1,4 +1,5 @@
 const {models} = require("../../models");
+
 module.exports.changeAccountPassword = (email, hashPassword) => {
     return new Promise(async (resolve, reject) => {
         try {
