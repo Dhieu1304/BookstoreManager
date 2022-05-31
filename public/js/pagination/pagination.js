@@ -7,7 +7,7 @@ $(document).ready(() => {
     $('#pagination li a').each((index, item) => {
         let itemPage = $(item).attr('href').split('=')[1];
         urlParams.set("page", itemPage);
-        const itemHref = location.pathname + '?' + urlParams1.toString();
+        const itemHref = location.pathname + '?' + urlParams.toString();
         $(item).attr('href', itemHref);
     })
 

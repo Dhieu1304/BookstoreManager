@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.get('/', customerController.customerPage);
 router.post('/api/listCustomer', customerController.apiListCustomer);
+router.get('/exportExcel', customerController.exportUser);
 
 module.exports = router;
