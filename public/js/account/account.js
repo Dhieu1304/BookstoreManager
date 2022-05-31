@@ -70,6 +70,11 @@ const getAPIData = () => {
     let url = '/account?' + urlParams.toString();
     window.history.pushState({path: url}, '', url);
 
+    //update link export customer
+    const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
+    console.log('hrefExportData:', hrefExportData);
+    document.getElementById('export-account').href = hrefExportData;
+
 
     $.ajax({
         url: `/account/api/listAccount`,

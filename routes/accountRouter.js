@@ -15,11 +15,12 @@ router.get('/admin/:id', accountController.getAdminDetail);
  */
 router.get('/', accountController.getAccounts);
 router.post('/api/edit/:id', accountController.editAccountApi);
-router.get('/:id', accountController.getAccountDetail);
+router.get('/detail/:id', accountController.getAccountDetail);
 // router.post('/upload/image', accountController.handleUpload().single('avatar'), accountController.UploadImage);
 router.post('/upload/image', multer.handleUpload().single('avatar'), accountController.UploadImage);
 router.post('/api/listAccount', accountController.apiListAccount);
 router.post('/api/editStatus', accountController.editStatusAccount);
 router.post('/api/addNewAccount', accountController.addNewAccount);
+router.get('/exportAccountData', accountController.exportAccountData);
 
 module.exports = router;

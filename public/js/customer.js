@@ -39,7 +39,7 @@ const getAPIData = () => {
 
 
     //update link export customer
-    const hrefExportData = '/customer/exportExcel?' + urlParams.toString()
+    const hrefExportData = '/customer/exportExcel?' + urlParams.toString();
     console.log('hrefExportData:', hrefExportData);
     document.getElementById('export-customer').href = hrefExportData;
 
@@ -63,7 +63,6 @@ const getAPIData = () => {
 
 $(function () {
     getAPIData();
-
 });
 
 const handleRenderView = (resData) => {
@@ -131,137 +130,3 @@ function handleFilterCustomer() {
     console.log('param: ', params);
     getAPIData();
 }
-
-
-/*
-let modalAddNewCustomer = document.getElementById("modalCreateNewCustomer");
-
-function handleShowModalCreateCustomer() {
-    modalAddNewCustomer.style.display = "block";
-}
-
-function handleCancelModal() {
-    modalAddNewCustomer.style.display = "none";
-}
-
-window.onclick = function (event) {
-    if (event.target === modalAddNewCustomer) {
-        modalAddNewCustomer.style.display = "none";
-    }
-}
-
-function handleCreateNewCustomer(event) {
-    event.preventDefault();
-
-    console.log("handleCreateNewCustomer");
-}
-*/
-// const {dialog} = require('electron').remote;
-/*
-
-const handleExportExcel = () => {
-    console.log("data: ", resData);
-    /!*const data = resData.customers.map(customer => {
-        return `\n${customer.id}, ${customer.name}, ${customer.email}, ${customer.address}, ${customer.dept}`;
-    });
-    document.getElementById('my_iframe').src = URL.createObjectURL(new Blob([data], {type: ""}));*!/
-    const blob = new Blob([s2ab(atob(resData.customers))], {
-        type: ''
-    });
-
-
-    const href = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement("a"), {
-        href,
-        style: "display:none",
-        download: "export-customers.xlsx",
-    });
-
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(href);
-    a.remove();
-
-
-}
-
-function s2ab(s) {
-    let buf = new ArrayBuffer(s.length);
-    let view = new Uint8Array(buf);
-    for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-    return buf;
-}
-*/
-
-
-/*
-const handleExportExcel = () => {
-    $.ajax({
-        url: `/customer/api/exportExcel`,
-        type: 'get',
-        data: {
-            ...params,
-            workSheetName: "customer",
-        },
-        success: function (res) {
-            console.log('Data:', res);
-
-            /!*let a = document.createElement("a");
-            a.setAttribute('download', '');
-            a.style.display = 'none';
-            a.href = '/assets/down/TKPM.iml';
-            a.click();
-            a.remove();*!/
-
-
-            if (res.errCode !== 0) {
-                notification(res.errMessage, NOTY_TYPE.FAIL);
-            } else {
-                notification(res.errMessage, NOTY_TYPE.SUCCESS);
-            }
-
-            /!*$.ajax({
-                url: `/customer/api/deleteFile`,
-                type: 'post',
-                data: {
-                    pathLink: '/assets/down/TKPM.iml'
-                }
-            });*!/
-
-
-        }
-    });
-}
-*/
-
-
-/*const handleExportExcel = () => {
-    $.ajax({
-        url: `/customer/exportExcel`,
-        type: 'get',
-        data: {
-            ...params,
-            workSheetName: "customer",
-        },
-        success: function (res) {
-            console.log('Data:', res);
-            /!*
-            let a = document.createElement("a");
-            a.setAttribute('download', '');
-            a.style.display = 'none';
-            a.href = '/assets/down/package-lockasdasdasd.json';
-            a.click();
-            a.remove();
-            *!/
-
-            if (res.errCode !== 0) {
-                notification(res.errMessage, NOTY_TYPE.FAIL);
-            } else {
-                notification(res.errMessage, NOTY_TYPE.SUCCESS);
-            }
-
-
-        }
-    });
-}*/
-

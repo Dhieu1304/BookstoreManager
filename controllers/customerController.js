@@ -53,7 +53,7 @@ module.exports.apiListCustomer = async (req, res) => {
 }
 
 
-module.exports.exportUser = async (req, res) => {
+module.exports.exportCustomer = async (req, res) => {
     const workbook = new excelJS.Workbook();
     const worksheet = workbook.addWorksheet("Customers");
 

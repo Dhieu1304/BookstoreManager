@@ -1,6 +1,7 @@
 const accountService = require("../services/accountService");
 const {v4: uuidv4} = require('uuid');
 const bcryptService = require("../services/bcryptService");
+const excelJS = require("exceljs");
 
 const checkRole = (userRole, accountRole) => {
 
@@ -14,6 +15,7 @@ const checkRole = (userRole, accountRole) => {
 
     return false;
 }
+/*
 
 module.exports.getAllAccount = async (req, res) => {
     const data = await accountService.getAllAccount();
@@ -22,7 +24,7 @@ module.exports.getAllAccount = async (req, res) => {
 }
 
 module.exports.getAccounts = async (req, res) => {
-    /*const role = req.query.role;
+    /!*const role = req.query.role;
 
     /!*if (checkRole(req.user.role, role)){
         console.log("user Role is true");
@@ -43,7 +45,7 @@ module.exports.getAccounts = async (req, res) => {
         totalRows: data.count,
     }
 
-    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});*/
+    res.render('account', {TypeName: role.charAt(0).toUpperCase() + role.slice(1), data: data.rows, pagination});*!/
     const pagination = {
         page: 1,
         limit: 5,
@@ -51,6 +53,11 @@ module.exports.getAccounts = async (req, res) => {
     }
     // res.locals.pagination = pagination;
     // res.render('account', {pagination});
+    res.render('account');
+}
+*/
+
+module.exports.getAccounts = async (req, res) => {
     res.render('account');
 }
 
@@ -160,16 +167,9 @@ module.exports.apiListAccount = async (req, res) => {
     }
 
     console.log('filter:', filter);
-    //const data = await accountService.getAllAccountByRole(role, page, limit);
 
-    // const accounts = await accountService.getAllAccountByRole(filter.role, filter.page, filter.limit);
     const accounts = await accountService.getAccountsFilter(filter);
 
-    /*const pagination = {
-        page: page,
-        limit: limit,
-        totalRows: accounts.count || 0
-    }*/
 
     let pagination = {
         page: filter.page,
@@ -273,4 +273,67 @@ module.exports.addNewAccount = async (req, res) => {
         errMessage: "Error! Please try again!!",
     })
 }
+
+module.exports.exportAccountData = async (req, res) => {
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const {role, search, gender, status} = req.query;
+
+    let filter = {
+        role: role,
+        page: page,
+        limit: limit,
+        search: search,
+        gender: gender,
+        status: status
+    }
+
+    const accountsRes = await accountService.getAccountsFilter(filter);
+    const accounts = accountsRes.rows;
+
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Account");
+    worksheet.columns = [
+        {header: "No.", key: "s_no", width: 7},
+        {header: "Id.", key: "id", width: 7},
+        {header: "First name", key: "first_name", width: 20},
+        {header: "Last name", key: "last_name", width: 15},
+        {header: "Email", key: "email", width: 30},
+        {header: "Gender", key: "gender", width: 10},
+        {header: "Phone", key: "phone_number", width: 13},
+        {header: "Address", key: "address", width: 30},
+        {header: "Create at", key: "create_at", width: 15},
+        {header: "Status", key: "status", width: 10},
+    ];
+
+    let counter = 1;
+
+    accounts.forEach((account) => {
+        account.s_no = counter;
+        worksheet.addRow(account);
+        counter++;
+    });
+
+    worksheet.getRow(1).eachCell((cell) => {
+        cell.font = {bold: true};
+    });
+
+    try {
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader("Content-Disposition", `attachment; filename=export-accounts.xlsx`);
+
+        return workbook.xlsx.write(res).then(() => {
+            res.status(200);
+        });
+    } catch (err) {
+        res.send({
+            status: "error",
+            message: "Something went wrong",
+        });
+    }
+};
 

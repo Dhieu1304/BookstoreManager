@@ -43,7 +43,7 @@ module.exports.getAccountByEmail = (email) => {
     })
 }
 
-module.exports.getAllAccountByRole = (role, page, limit) => {
+/*module.exports.getAllAccountByRole = (role, page, limit) => {
     return new Promise(async (resolve, reject) => {
         try {
             const accounts = await models.account.findAndCountAll({
@@ -83,6 +83,7 @@ module.exports.getAllAccount = () => {
         }
     })
 }
+*/
 
 module.exports.editAccountById = (data) => {
     return new Promise(async (resolve, reject) => {
