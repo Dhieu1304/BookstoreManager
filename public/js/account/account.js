@@ -71,9 +71,9 @@ const getAPIData = () => {
     window.history.pushState({path: url}, '', url);
 
     //update link export customer
-    const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
+    /*const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
     console.log('hrefExportData:', hrefExportData);
-    document.getElementById('export-account').href = hrefExportData;
+    document.getElementById('export-account').href = hrefExportData;*/
 
 
     $.ajax({
@@ -119,12 +119,12 @@ const handleRenderView = (data) => {
 
             if (item.status === 'active') {
                 statusHtml = `<div class="status-account-custom acc-active">•</div>`;
-                actionHtml = `<span onclick="handleShowModalAccount(${item.id})" 
+                actionHtml = `<span onclick="handleShowModalStatus(${item.id})" 
                             class="lock-account" title="Lock" data-toggle="tooltip">
                         <i class="fas fa-lock"></i></span>`;
             } else {
                 statusHtml = `<div class="status-account-custom acc-lock">•</div>`;
-                actionHtml = `<span onclick="handleShowModalAccount(${item.id}, ACCOUNT_ACTION.UNLOCK)" 
+                actionHtml = `<span onclick="handleShowModalStatus(${item.id}, ACCOUNT_ACTION.UNLOCK)" 
                                 class="unlock-account" title="UnLock" data-toggle="tooltip">
                         <i class="fas fa-key"></i></span>`;
             }
@@ -134,7 +134,7 @@ const handleRenderView = (data) => {
                 <tr>
                     <td>
                         <div id="infoAccount${item.id}" class="custom-name-picture">
-                            <a href="/account/${item.id}">
+                            <a href="/account/detail/${item.id}">
                                 <img src=${item.avatar || '/assets/img/default-avatar.jpg'}
                                 class="avatar-table-custom img-avatar-header" alt="Avatar">
                             </a>
@@ -153,7 +153,7 @@ const handleRenderView = (data) => {
                         </div>
                     </td>
                     <td>
-                        <a href="/account/${item.id}">
+                        <a href="/account/detail/${item.id}">
                             <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
                                 <i class="fas fa-user-edit"></i>
                             </span>
@@ -224,8 +224,8 @@ window.onclick = function (event) {
     }*/
 }
 
-// 0 unlock - 1 lock
-function handleShowModalAccount(id, type = ACCOUNT_ACTION.LOCK) {
+
+function handleShowModalStatus(id, type = ACCOUNT_ACTION.LOCK) {
     modalConfirmEditStatus.style.display = "block";
 
     const accountInfo = document.getElementById(`infoAccount${id}`);
@@ -241,6 +241,7 @@ function handleShowModalAccount(id, type = ACCOUNT_ACTION.LOCK) {
         modalConfirmEditStatus.style.display = "none";
     }
 }
+
 
 function handleLockUnlockAccount(id, type) {
 
@@ -273,6 +274,7 @@ function handleLockUnlockAccount(id, type) {
     })
 }
 
+
 function handleShowModalAddNew() {
     modalAddNew.style.display = "block";
 
@@ -283,6 +285,7 @@ function handleShowModalAddNew() {
 
 }
 
+
 let account = {
     first_name: '',
     last_name: '',
@@ -292,6 +295,7 @@ let account = {
     role: params.role,
     address: ''
 }
+
 
 document.getElementById('SubmitAddNewBtn').onclick = function (e) {
     let isFormValid  = document.getElementById('form-add-new').checkValidity();
@@ -322,6 +326,7 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
                 } else {
                     //An modal
                     modalAddNew.style.display = "none";
+
                     //reset input
                     $('#inputFirstName').val('');
                     $('#inputLastName').val('');
@@ -342,3 +347,12 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
 
     }
 };
+
+function handleExportAccount() {
+    const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
+    console.log('hrefExportData:', hrefExportData);
+    let a = document.createElement("a");
+    a.setAttribute('href', hrefExportData);
+    a.click();
+    a.remove();
+}

@@ -38,12 +38,6 @@ const getAPIData = () => {
     window.history.pushState({path: url}, '', url);
 
 
-    //update link export customer
-    const hrefExportData = '/customer/exportExcel?' + urlParams.toString();
-    console.log('hrefExportData:', hrefExportData);
-    document.getElementById('export-customer').href = hrefExportData;
-
-
     $.ajax({
         url: `/customer/api/listCustomer`,
         type: 'post',
@@ -129,4 +123,13 @@ function handleFilterCustomer() {
 
     console.log('param: ', params);
     getAPIData();
+}
+
+function handleExportCustomer() {
+    const hrefExportData = '/customer/exportExcel?' + urlParams.toString();
+    console.log('hrefExportData:', hrefExportData);
+    let a = document.createElement("a");
+    a.setAttribute('href', hrefExportData);
+    a.click();
+    a.remove();
 }
