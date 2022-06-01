@@ -2,6 +2,7 @@ const accountService = require("../services/accountService");
 const {v4: uuidv4} = require('uuid');
 const bcryptService = require("../services/bcryptService");
 const excelJS = require("exceljs");
+const moment = require("moment");
 
 const checkRole = (userRole, accountRole) => {
 
@@ -63,23 +64,36 @@ module.exports.getAccounts = async (req, res) => {
 
 
 module.exports.getAccountDetail = async (req, res) => {
-    const id = req.params.id;
+    /*const id = req.params.id;
     if (!id) {
         return res.render('index');
     }
-
     let data = await accountService.getAccountById(id);
 
-    /*if (checkRole(req.user.role, data.role)){
-        console.log("user Role is true");
-    }*/
+    res.render('account/detail', {data});*/
+    res.render('account/detail');
+}
 
-    res.render('account/detail', {data});
+module.exports.getAccountInfo = async (req, res) => {
+    const id = req.body.id;
+    let accountInfo = await accountService.getAccountById(id);
+    if (!accountInfo) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Error!!!",
+        })
+    }
+    accountInfo.create_at = moment(accountInfo.create_at).utc().format('DD-MM-YYYY');
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: "Successful",
+        data: accountInfo
+    })
 }
 
 module.exports.editAccountApi = async (req, res) => {
     const id = req.params.id;
-    if (!id || !req.body.first_name || !req.body.last_name || !req.body.email || !req.body.gender
+    if (!id || !req.body.first_name || !req.body.last_name || !req.body.gender
         || !req.body.phone_number || !req.body.address || !req.body.role || !req.body.status) {
         return res.status(200).json({
             errCode: 2,
@@ -255,8 +269,8 @@ module.exports.addNewAccount = async (req, res) => {
     }
 
     const uid = uuidv4();
-    const password = first_name + last_name;
-    const hashPassword = await bcryptService.hashPassword(password.toLowerCase());
+    const password = '123456';
+    const hashPassword = await bcryptService.hashPassword(password);
     let account = {first_name, last_name, email, password: hashPassword, phone_number, gender, role, address, uid: uid};
 
     let data = await accountService.addNewAccount(account);
@@ -280,14 +294,7 @@ module.exports.exportAccountData = async (req, res) => {
     const limit = parseInt(req.query.limit) || 5;
     const {role, search, gender, status} = req.query;
 
-    let filter = {
-        role: role,
-        page: page,
-        limit: limit,
-        search: search,
-        gender: gender,
-        status: status
-    }
+    let filter = {role, page, limit, search, gender, status};
 
     const accountsRes = await accountService.getAccountsFilter(filter);
     const accounts = accountsRes.rows;
