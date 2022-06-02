@@ -1,4 +1,5 @@
 const { models } = require('../models');
+const Op = require('sequelize').Op;
 
 exports.getAllCustomerInfor = async (raw = false) => {
     try{
@@ -55,4 +56,52 @@ exports.addNewCustomer = async(name ,phone , email ,address) => {
     }
 }
 
+module.exports.getCustomersFilter = (filter) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let option = {
+                offset: (filter.page - 1) * filter.limit,
+                limit: filter.limit,
+                order: ['id'],
+                raw: true
+            };
 
+            if (filter.search !== '') {
+                option.where = {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        },
+                        {
+                            address: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        },
+                        {
+                            phone: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        },
+                        {
+                            email: {
+                                [Op.like]: `%${filter.search}%`
+                            }
+                        }
+                    ]
+                }
+            }
+
+            const customers = await models.customer.findAndCountAll(option);
+
+            if (customers) {
+                resolve(customers);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}

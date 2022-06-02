@@ -1,0 +1,201 @@
+/*account detail*/
+.profile-custom {
+    max-width: 800px;
+    margin: 20px auto;
+    /*display: flex;*/
+    flex-flow: row;
+}
+
+.figure-img-custom {
+    /*width: 400px;*/
+    /*height: auto;*/
+    /*margin-right: 10px;*/
+    display: flex;
+    flex-flow: column;
+}
+
+.figure-img-custom img {
+    border-radius: 100%;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.figure-img-custom header {
+    margin: 0 auto;
+}
+
+.figure-img-custom img:hover {
+    opacity: 0.8;
+}
+
+.small-title-role {
+    width: fit-content;
+    margin: 0 auto;
+    opacity: 0.8;
+    font-style: italic;
+    font-size: 20px;
+    font-family: initial;
+}
+
+.btn-detail-acc-custom {
+    /*float: right;*/
+    display: flex;
+    margin: 20px auto 0;
+}
+
+.btn-detail-acc-custom .save-btn-custom {
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10%;
+    color: white;
+    background:#1172c2;
+    padding: 5px 10px 5px 10px;
+    height: 36px;
+    margin: 0 auto;
+}
+
+.btn-detail-acc-custom .save-btn-custom:hover {
+    border: 1px solid greenyellow;
+}
+
+.custom-input-edit {
+    display: contents;
+}
+
+.input-custom {
+    width: 325px;
+    margin-right: 5px;
+}
+
+.dd-save-custom {
+    width: 3%;
+    cursor: pointer;
+    color: #9b153d;
+}
+
+.image-edit-custom {
+    margin: 0 auto;
+}
+
+
+/*modal*/
+.avatar-modal {
+    margin-top: 60px;
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.avatar-modal-content {
+    object-fit: cover;
+    margin: auto;
+    display: block;
+    max-width: 700px;
+    width: auto;
+    height: 500px;
+
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+    }
+}
+
+.acc-body-custom {
+    margin-top: 10px;
+}
+
+.table-account-detail {
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 3px;
+}
+
+.table-account-detail td {
+    padding: 10px 2px 5px 2px;
+}
+
+.table-account-detail td:first-child {
+    min-width: 100px;
+    width: 30%;
+    font-weight: 600;
+}
+
+.table-account-detail td:nth-child(2) {
+    /*max-width: 450px;*/
+    width: 65%;
+    /*overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;*/
+}
+
+.table-account-detail td:nth-child(3) {
+    width: 5%;
+}
+
+.dd-edit-custom {
+    cursor: pointer;
+    color: #3d77c9;
+}
+
+.row-detail-account {
+    margin: 10px;
+}
+
+.flex-input-custom {
+    width: -webkit-fill-available;
+}

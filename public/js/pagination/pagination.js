@@ -2,12 +2,14 @@ $(document).ready(() => {
     $('#pagination li').addClass('page-item');
     $('#pagination li a').addClass('page-link');
 
-    let currentPage = urlParams.get('page') || 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get("page") || 1;
     $('#pagination li a').each((index, item) => {
-        //href = /account?page=3
-        const page = $(item).attr('href').split('=')[1];
-        urlParams.set('page', page);
-        $(item).attr('href', '/account?' + urlParams.toString());
+        let itemPage = $(item).attr('href').split('=')[1];
+        urlParams.set("page", itemPage);
+        const itemHref = location.pathname + '?' + urlParams.toString();
+        $(item).attr('href', itemHref);
     })
-    urlParams.set('page', currentPage);
+
+    urlParams.set("page", currentPage);
 });

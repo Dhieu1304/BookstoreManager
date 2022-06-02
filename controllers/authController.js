@@ -1,12 +1,10 @@
 const passport = require("../services/auth/passport");
 const accountService = require("../services/accountService");
+const bcryptService = require("../services/bcryptService");
+const authService = require("../services/auth/authService");
 
 module.exports.login = (req, res) => {
-    res.render('auth/login', {layout: false, errorLogin: req.query.errorLogin !== undefined});
-}
-
-module.exports.register = (req, res) => {
-    res.render('auth/register', {layout: false});
+    res.render('auth/login', {layout: false});
 }
 
 module.exports.forgotPassword = (req, res) => {
@@ -90,8 +88,46 @@ module.exports.checkSuperAdmin = async (req, res, next) => {
     res.redirect('/');
 }
 
-module.exports.myAccount =  async (req, res) => {
-    const data = await accountService.getAccountById(req.user.id);
+module.exports.changePassword = async (req, res, next) => {
+    if (!req.user || !req.user.id) {
+        return res.redirect('/');
+    }
 
-    res.render('account/detail', {TypeName: "My Account", data});
+    res.render('auth/changePassword');
 }
+
+module.exports.apiChangePassword = async (req, res, next) => {
+    if (!req.user || !req.user.id || !req.user.email) {
+        return res.redirect('/');
+    }
+
+    const {currentPassword, newPassword} = req.body;
+
+    const user = await accountService.getAccountByEmail(req.user.email);
+    const checkPassword = await bcryptService.checkPassword(currentPassword, user.password);
+    if (!checkPassword) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Incorrect Current Password!",
+        })
+    }
+    else {
+        const hashPassword = await bcryptService.hashPassword(newPassword)
+        const changePass = await authService.changeAccountPassword(req.user.email, hashPassword);
+
+        if (!changePass) {
+            return res.status(200).json({
+                errCode: 2,
+                errMessage: "Error, Please try again later!",
+            })
+        }
+        else {
+            return res.status(200).json({
+                errCode: 0,
+                errMessage: "Change Password Successful!",
+            })
+        }
+    }
+
+}
+
