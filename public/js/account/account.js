@@ -29,13 +29,6 @@ for (let key in params) {
     }
 }
 
-const selectOnchange = (id) => {
-    const val = document.getElementById(`${id}`).value;
-    console.log(val);
-    params[`${id}`] = val;
-    console.log("params:", params);
-}
-
 const handleHideShowFilter = () => {
     let filterBtn = document.getElementById('filter');
     if (filterBtn.style.display !== 'none') {
@@ -45,15 +38,14 @@ const handleHideShowFilter = () => {
     }
 }
 
-const handleFilter = (isReset = true) => {
-    if (isReset === true) {
-        params['page'] = 1;
-    }
-
+const handleFilter = () => {
+    params['page'] = 1;
+    params['limit'] = document.getElementById('limit').value;
     params['search'] = document.getElementById('search').value;
+    params['gender'] = document.getElementById('gender').value;
+    params['status'] = document.getElementById('status').value;
 
     getAPIData();
-
 }
 
 const getAPIData = () => {
@@ -70,26 +62,19 @@ const getAPIData = () => {
     let url = '/account?' + urlParams.toString();
     window.history.pushState({path: url}, '', url);
 
-    //update link export customer
-    /*const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
-    console.log('hrefExportData:', hrefExportData);
-    document.getElementById('export-account').href = hrefExportData;*/
-
-
     $.ajax({
         url: `/account/api/listAccount`,
         type: 'post',
         data: params,
-        success: function (data) {
-            console.log('Data:', data.data);
+        success: function (res) {
 
-            if (data.errCode !== 0) {
-                notification(data.errMessage, NOTY_TYPE.FAIL);
+            if (res.errCode !== 0) {
+                if (res.result === 'redirect') {
+                    return window.location.replace(res.url);
+                }
+                notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
-
-                handleRenderView(data.data);
-
-                // notification(data.errMessage, NOTY_TYPE.SUCCESS);
+                handleRenderView(res.data);
             }
         }
     })
@@ -100,9 +85,7 @@ const getAPIData = () => {
 }
 
 $(function () {
-
     getAPIData();
-
 });
 
 
@@ -181,12 +164,7 @@ $("#pagination").on('click', '.page-link', function (e) {
     //item là page-link element
     const pageHref = $(e.target).closest("li").find("a").attr('href');
     const clickPageNum = pageHref.split("page=")[1];
-
-    console.log("clickPageNum: ", clickPageNum);
-
     params['page'] = clickPageNum;
-    console.log('params: ', params);
-
     getAPIData();
 })
 
@@ -194,7 +172,6 @@ $("#pagination").on('click', '.page-link', function (e) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
 
 // modal
 let modalConfirmEditStatus = document.getElementById("modalConfirm");
@@ -229,11 +206,9 @@ function handleShowModalStatus(id, type = ACCOUNT_ACTION.LOCK) {
     modalConfirmEditStatus.style.display = "block";
 
     const accountInfo = document.getElementById(`infoAccount${id}`);
-    console.log('accountInfo: ', accountInfo)
 
     let modalBodyInfo = `<h6>Are you sure to ${type} this account:</h6>`;
     modalBodyInfo += accountInfo.innerHTML;
-    console.log('modalBodyInfo: ', modalBodyInfo)
     document.getElementById('modal-body-status').innerHTML = modalBodyInfo;
 
     document.getElementById('continueStatusBtn').onclick = function () {
@@ -258,17 +233,12 @@ function handleLockUnlockAccount(id, type) {
             status: status
         },
         success: function (res) {
-            console.log('Data:', res.data);
-
             if (res.errCode !== 0) {
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
-
                 notification(res.errMessage, NOTY_TYPE.SUCCESS);
-
                 //load lai trang
                 getAPIData();
-
             }
         }
     })
@@ -277,12 +247,10 @@ function handleLockUnlockAccount(id, type) {
 
 function handleShowModalAddNew() {
     modalAddNew.style.display = "block";
-
     document.getElementById('inputRole').value = params.role;
     document.getElementById('cancelBtnAddNew').onclick = function (e) {
         e.preventDefault();
     }
-
 }
 
 
@@ -312,15 +280,11 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
         account.gender = $('#inputGender').val();
         account.address = $('#inputAddress').val();
 
-        console.log('account:', account);
-
         $.ajax({
             url: `/account/api/addNewAccount`,
             type: 'post',
             data: account,
             success: function (res) {
-                console.log('Data:', res.data);
-
                 if (res.errCode !== 0) {
                     notification(res.errMessage, NOTY_TYPE.FAIL);
                 } else {
@@ -339,18 +303,14 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
 
                     //load lai trang
                     getAPIData();
-
                 }
             }
         })
-
-
     }
 };
 
 function handleExportAccount() {
     const hrefExportData = '/account/exportAccountData?' + urlParams.toString();
-    console.log('hrefExportData:', hrefExportData);
     let a = document.createElement("a");
     a.setAttribute('href', hrefExportData);
     a.click();

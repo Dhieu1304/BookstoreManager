@@ -88,16 +88,6 @@ module.exports.checkSuperAdmin = async (req, res, next) => {
     res.redirect('/');
 }
 
-module.exports.myAccount =  async (req, res) => {
-    if (!req.user || !req.user.id) {
-        return res.redirect('/');
-    }
-
-    const data = await accountService.getAccountById(req.user.id);
-
-    res.render('account/detail', {TypeName: "My Account", data});
-}
-
 module.exports.changePassword = async (req, res, next) => {
     if (!req.user || !req.user.id) {
         return res.redirect('/');

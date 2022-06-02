@@ -40,42 +40,6 @@
     font-family: initial;
 }
 
-/*
-.account-detail-custom {
-    margin-top: 50px;
-    min-width: 300px;
-    height: auto;
-}
-
-.account-detail-custom {
-    display: block;
-}
-
-.account-detail-custom .dl-custom {
-    padding: 10px 0px 10px 0px;
-    border-bottom: 1px solid #e1e1e1;
-    height: auto;
-    display: flex;
-}
-
-.account-detail-custom .dl-custom .dt-custom {
-    margin: 0;
-    width: 27%;
-    font-weight: bold;
-}
-
-.account-detail-custom .dl-custom .dd-custom {
-    width: 70%;
-    padding-right: 2px;
-}
-
-.account-detail-custom .dl-custom .dd-edit-custom {
-    width: 3%;
-    cursor: pointer;
-    color: #0a53be;
-}
-*/
-
 .btn-detail-acc-custom {
     /*float: right;*/
     display: flex;
@@ -87,9 +51,8 @@
     font-weight: 700;
     border-radius: 10%;
     color: white;
-    background: #1c771c;
+    background:#1172c2;
     padding: 5px 10px 5px 10px;
-    width: 57px;
     height: 36px;
     margin: 0 auto;
 }
@@ -189,21 +152,6 @@
     .modal-content {
         width: 100%;
     }
-}
-
-.btn-change-avatar {
-    margin: 10px;
-    padding: 5px 10px;
-    background:#1172c2;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    color: azure;
-    font-family:"Open Sans",sans-serif;
-}
-
-.btn-change-avatar:hover {
-    background: #798eb0;
 }
 
 .acc-body-custom {

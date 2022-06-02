@@ -16,14 +16,11 @@ function handleEditAccount() {
         return notification("Missing Parameter!", NOTY_TYPE.FAIL);
     }
 
-    console.log('info:', UserId, first_name, last_name, gender, phone_number, address, role, status);
-
     $.ajax({
         url: `/account/api/edit/${UserId}`,
         type: 'post',
         data: {first_name, last_name, gender, phone_number, address, role, status},
         success: function (data) {
-            console.log('Data:', data);
             if (data.errCode !== 0) {
                 notification(data.errMessage, NOTY_TYPE.FAIL);
             } else {
@@ -64,7 +61,6 @@ function handleSaveAvatar() {
         processData: false,
         data: form_data,
         success: function (res) {
-            console.log('res:', res);
             if (res.errCode !== 0) {
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
@@ -130,7 +126,6 @@ function handleEdit(id) {
 
 function handleChangeDropDown(id) {
     const val = $(`#${id}-val option:selected`).text();
-    console.log(val);
 
     let tr = document.getElementsByTagName("tr")[id];
     let td = tr.getElementsByTagName("td")[1];
@@ -152,8 +147,10 @@ function getAPIData() {
         type: 'post',
         data: {id: UserId},
         success: function (res) {
-            console.log('Data:', res);
             if (res.errCode !== 0) {
+                if (res.result === 'redirect') {
+                    return window.location.replace(res.url);
+                }
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
                 renderView(res.data);
@@ -182,10 +179,9 @@ function renderView(data) {
             <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
         </form>
         
-        <div class="image-edit-custom" id="btn-up-avatar">
-            <div class="btn-change-avatar" onclick="handleChangeAvatar()">Change</div>
+        <div class="btn-detail-acc-custom" id="btn-up-avatar">
+            <div class="save-btn-custom" onclick="handleChangeAvatar()">Change</div>
         </div>
-        
         <header>
             <h1 id="full-name-header">${data.first_name} ${data.last_name}</h1>
             <h6 class="small-title-role" id="account-role">(${data.role})</h6>
@@ -246,6 +242,9 @@ function renderView(data) {
     `;
 
     document.getElementById('table-detail-account').innerHTML = renderAccountInfo;
+
+    document.getElementById('save-btn').innerHTML = `<div class="save-btn-custom" onclick="handleEditAccount(${data.id})">Save</div>`;
+
 }
 
 function showPreview(event) {
@@ -254,5 +253,5 @@ function showPreview(event) {
         document.getElementById("img-avatar-preview").src = src;
         document.getElementById("img-avatar").src = src;
     }
-    document.getElementById('btn-up-avatar').innerHTML = `<div class="btn-change-avatar" onclick="handleSaveAvatar()">Save</div>`;
+    document.getElementById('btn-up-avatar').innerHTML = `<div class="save-btn-custom" onclick="handleSaveAvatar()">Save</div>`;
 }

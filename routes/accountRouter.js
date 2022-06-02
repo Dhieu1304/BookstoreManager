@@ -16,7 +16,7 @@ router.get('/admin/:id', accountController.getAdminDetail);
 router.get('/', accountController.getAccounts);
 router.post('/api/edit/:id', accountController.editAccountApi);
 router.get('/detail/:id', accountController.getAccountDetail);
-router.post('/detailAccount/', /*checkrole*/ accountController.getAccountInfo);
+router.post('/detailAccount/', accountController.getAccountInfo);
 router.post('/upload/image', multer.handleUpload().single('avatar'), accountController.UploadImage);
 router.post('/api/listAccount', accountController.apiListAccount);
 router.post('/api/editStatus', accountController.editStatusAccount);
