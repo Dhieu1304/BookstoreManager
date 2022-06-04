@@ -10,10 +10,10 @@ function handleEditAccount() {
     const role = document.getElementsByTagName("tr")[6].getElementsByTagName("td")[1].innerHTML;
     const status = document.getElementsByTagName("tr")[7].getElementsByTagName("td")[1].innerHTML;
 
-    const regex = /^[a-zA-Z0-9\s,'-]*$/;
+    const regex = /^((?!([<>])).)*$/;
     if (!regex.test(first_name) || !regex.test(last_name) || !regex.test(phone_number) || !regex.test(gender) ||
         !regex.test(address) || !regex.test(role) || !regex.test(status)) {
-        return notification("Missing Parameter!", NOTY_TYPE.FAIL);
+        return notification("Input Error!", NOTY_TYPE.FAIL);
     }
 
     $.ajax({

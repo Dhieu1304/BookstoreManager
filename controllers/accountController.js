@@ -3,6 +3,8 @@ const {v4: uuidv4} = require('uuid');
 const bcryptService = require("../services/bcryptService");
 const excelJS = require("exceljs");
 const moment = require("moment");
+const emailContent = require("../utils/emailContent");
+const emailServices = require("../services/emailService");
 
 const checkRole = (userRole, accountRole) => {
 
@@ -225,13 +227,29 @@ module.exports.addNewAccount = async (req, res) => {
     }
 
     const uid = uuidv4();
-    const password = '123456';
+    const password = (Math.random() + 1).toString(36).substring(2);
     const hashPassword = await bcryptService.hashPassword(password);
     let account = {first_name, last_name, email, password: hashPassword, phone_number, gender, role, address, uid: uid};
 
     let data = await accountService.addNewAccount(account);
 
     if (data) {
+        const fullName = first_name + " " + last_name;
+        const link = `http://localhost:${process.env.PORT}/auth/login`;
+        const content = emailContent.sendEmailAddNew(fullName, role, password, link);
+        let dataEmail = {
+            receiverEmail: email,
+            content: content
+        }
+        const sendEmail = await emailServices.sendEmail(dataEmail);
+
+        if (!sendEmail) {
+            return res.status(200).json({
+                errCode: 3,
+                errMessage: "Error Send Email, Please try again later!",
+            })
+        }
+
         return res.status(200).json({
             errCode: 0,
             errMessage: "Successful!"
