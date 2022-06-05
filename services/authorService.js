@@ -33,3 +33,21 @@ exports.addAuthor = async (name) => {
 }
 
 
+
+exports.getAuthorsByName = async (name, raw = false) => {
+    try{
+        const authors = await models.author.findAll({
+            raw: raw,
+            where: {
+                name: name
+            }
+        });
+
+        return authors;
+    }catch (e){
+        console.log(e);
+    }
+
+}
+
+
