@@ -17,9 +17,7 @@
                         <button id="showBookModalBtn" type="button" class="mx-2 btn btn-info rounded-2" data-toggle="modal" data-target="#showBookModal">
                             Danh sách <i class="fa-solid fa-list"></i>
                         </button>
-                        <button id="addNewBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-2" data-toggle="modal" data-target="#addNewBookModal">
-                            Thêm sách mới <i class="fa-solid fa-plus"></i>
-                        </button>
+                        <button id="addNewBookModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewBookModal">                        </button>
                     </div>
                     <div class="invalid-feedback">
                         Vui lòng chọn số điện thoại
@@ -289,6 +287,7 @@
                                                     <button id="addAuthorRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
                                                         Thêm <i class="fa-solid fa-plus"></i>
                                                     </button>
+                                                    <button id="addNewAuthorModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewAuthorModal"></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -417,9 +416,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -430,7 +426,30 @@
         </div>    
     </div>
 
-
+    <div id="addNewAuthorModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm sách mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNewAuthorModalForm">
+                    <div class="form-group">
+                        <label class="col-form-label">Tác giả:</label>
+                        <input id="newAuthorInModal" type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="newAuthorInModalBtn" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>    
+    </div>
     
 </main>
 
@@ -439,6 +458,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
+    <script src="/js/modal/overlay-modal.js"></script>
     <script>
         let bookStocks = JSON.parse('{{{json bookStocks}}}');
         let authors = JSON.parse('{{{json authors}}}');

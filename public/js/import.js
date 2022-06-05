@@ -58,6 +58,11 @@ function defautCreateAtDate(){
 
 
 
+function initUI(){
+    defautCreateAtDate()
+    overlayModal();
+}
+
 
 
 
@@ -80,10 +85,8 @@ function initEvent(){
             console.log("Enter");        
             const isbn =  $("#isbnIp").val();
             console.log("isbn:",isbn);
-            $("#isbnIp").val("");
-
             addNewImportDetailRow(isbn);
-            isbnIpEle.val("");
+
         }    
     });
 
@@ -100,14 +103,26 @@ function initEvent(){
         console.log("addRowBtn click");        
         const isbn =  $("#isbnIp").val();
         console.log("isbn:",isbn);
-        $("#isbnIp").val("");
-
         addNewImportDetailRow(isbn);
     })
     
 
 
     
+    $("#addNewAuthorBtn").click(async function(e){
+        const authorName =  $("#newAuthor").val();
+        const author = await addNewAuthor(authorName);
+        $("#newAuthor").val("");
+    })
+    
+    $("#newAuthorInModalBtn").click(async function(e){
+        const authorName =  $("#newAuthorInModal").val();
+        const author = await addNewAuthor(authorName);
+        $("#newAuthorInModal").val("");
+    })
+    
+
+
 }
 
 
@@ -128,13 +143,13 @@ let currentBookStockIdArr = [];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 // getAuthorList();
 $(document).ready(function() {
 
 
+
     // Init UI
-    defautCreateAtDate();
+    initUI();
 
 
     initEvent();
@@ -172,7 +187,17 @@ $(document).ready(function() {
           });
 
         if (!author){
-            alert("Không tồn tại author này, vui lòng nhập lại hoặc thêm mới");
+            // alert("Không tồn tại author này, vui lòng nhập lại hoặc thêm mới");
+
+            // $("#addNewBookModal").modal("hide");
+            // $('#addNewBookModal').modal('toggle');
+            $('#addNewAuthorModalBtn').click();
+            // $("#addNewBookModal .close").click()
+
+
+            
+
+            
             return;
         }
 
@@ -181,34 +206,6 @@ $(document).ready(function() {
 
         console.log("author:",author);
         addNewAuthorRow(author);
-
-    })
-
-    $("#addNewAuthorBtn").click(function(e){
-        
-        const authorName =  $("#newAuthor").val();
-
-
-            $.ajax({
-            url: "/api/stock/author/add",
-            method: 'POST',
-            data: {
-                authorName
-            },
-            success(data){
-
-                author = data.author;
-                console.log("author:", author);
-
-                authors.push(author);
-            }
-
-    }
-            );
-
-        $("#newAuthor").val("");
-
-
 
     })
     
@@ -265,7 +262,7 @@ $(document).ready(function() {
 
 
     $("#addNewBookBtn").click(function(e){
-        
+    
 
         newBookIsbn = $("#newBookIsbn").val();
         newBookPageNumber = $("#newBookPageNumber").val();
@@ -581,15 +578,25 @@ function resetDafautInput(e, val){
 async function addNewImportDetailRow(isbn){
     isbn = isbn.trim();
     // const bookStock = bookStocks.find(x => x.book.isbn === isbn);
-    const bookStock = await getBookStockByIsbn(isbn);
-    console.log(`bookStock của ${isbn} là:`, bookStock);
 
+    let bookStock = null;
+
+    if (isbn !== ""){
+        bookStock = await getBookStockByIsbn(isbn);
+    }
+
+    console.log(`bookStock của ${isbn} là:`, bookStock);
     const importDetailTableBodyEle = $("#importDetailTableBody");
 
 
     if(!bookStock){       
+        // $("#addNewBookModal").modal('show');
         $("#addNewBookModalBtn").click();
-        $("#newBookIsbn").val(isbn);
+        
+
+        // if($("#newBookIsbn").val() === ""){
+            $("#newBookIsbn").val(isbn);
+        // }
 
         return;
     }
@@ -622,6 +629,8 @@ async function addNewImportDetailRow(isbn){
     console.log("row: ",tableDataTemplate(bookStock));    
     updateTotalFinalPrice();
 
+    $("#isbnIp").val("");
+
 }    
 
 
@@ -646,8 +655,43 @@ async function getBookStockByIsbn(isbn){
 
     return bookStock;
 
-    
 }
+
+
+async function getAuthorByName(name){
+
+    let author = null;
+    await $.ajax({
+        url: `/api/stock/isbns/${isbn}`,
+        method: 'GET',
+        success(data){
+            author = data.author;
+            console.log(`author của ${isbn} là:`, author);
+        }
+    });       
+
+    return author;
+
+}
+
+
+async function addNewAuthor(authorName){
+    let author = null;
+    $.ajax({
+        url: "/api/stock/author/add",
+        method: 'POST',
+        data: {
+            authorName
+        },
+        success(data){
+            author = data.author;
+            console.log("new author:", author);
+        }
+    });
+    return author;
+}
+
+
 
 
 {/* <tr>
