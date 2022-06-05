@@ -46,6 +46,7 @@
                             <th>Ngày NB</th>
                             <th>NXB</th>
                             <th>Tác giả</th>
+                            <th>Danh mục</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Xóa</th>
@@ -60,23 +61,32 @@
                             <th>Ngày NB</th>
                             <th>NXB</th>
                             <th>Tác giả</th>
+                            <th>Danh mục</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Xóa</th>
                         </tr>
                     </tfoot>
-                    <tbody id="importDetailTabelBody">
+                    <tbody id="importDetailTableBody">
                         <script type="text/x-handlebars-template" id="importDetailTableRowTemplate">
                             <tr id="importReceiptDetailItem\{{book_id}}">
                                 <input type="hidden" name="bookIds" value="\{{book_id}}">
-                                <td><img class="import-book-img"  src="https://robohash.org/nostrumporroexplicabo.png?size=50x50&set=set1"></td>
+                                <td><img class="import-book-img"  src="\{{avatar}}"></td>
                                 <td>\{{book.isbn}}</td>
                                 <td>\{{book.title}}</td>
                                 <td>\{{book.num_page}}</td>
                                 <td>\{{book.publication_date}}</td>
                                 <td>\{{book.publisher.name}}</td>
-                                <td>Sang</td>
-                            
+                                <td> 
+                                    \{{#each book.author_id_authors}}
+                                        -\{{name}}<br>
+                                    \{{/each}}    
+                                </td>
+                                <td> 
+                                    \{{#each book.category_id_categories}}
+                                        -\{{name}}<br>
+                                    \{{/each}}    
+                                </td>
                                 <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})" oninput="updateTotalFinalPrice()"></td>
                                 <td><input type="number" class="import-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,0)"></td>
                                 <td>

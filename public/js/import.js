@@ -1,4 +1,5 @@
-
+////////////////////////////////////////////////////////////////////////////////
+// Create Table
 window.addEventListener('DOMContentLoaded', event => {
     // Simple-DataTables
     // https://github.com/fiduswriter/Simple-DataTables/wiki
@@ -40,97 +41,51 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
-const importDetailRowDataSource = $("#importDetailTableRowTemplate").html();
 
-let customers = [];
-let currentBookStockIdArr = [];
-
-
-// const authorListDataSource = $("#authorListTemplate").html();
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-------------------------------------------------Init UI----------------------------------------------------------------------- */
+/*------------------------------------------------------------------------------------------------------------------------------- */
 
 
-
-// async function resetAuthorList(){
-
-
-//     // await getAuthorList();
-
-//     // authors = [
-//     //     {name: "Sang"},
-//     // ]
-
-//     console.log("authors:", authors);
-
-//     console.log("authorListDataSource: ", authorListDataSource);
-
-//     const authorListEle = $("#authorList");
-
-//     console.log("authorListEle html:", authorListEle.html());
-
-//     console.log("authorListEle: ", authorListEle);
-
-//     const authorListDataTemplate = Handlebars.compile(authorListDataSource);
-    
-//     console.log("authorListDataTemplate: ", authorListDataTemplate);
-
-//     let xxx = "Sang"
-
-//     authorListEle.html(authorListDataTemplate({authors}));
-
-//     console.log("authorListData: ", authorListDataTemplate(authors));
-
-// }
-
-
-// function getAuthorList(){
-//     $.ajax({
-//         url: "/api/author",
-//         success(data){
-//             authors = data.authors;
-//             console.log(authors);
-//         }
-//     });
-// }
-
-
-
-
-
-
+// Set default date for createAt is today
 function defautCreateAtDate(){
     var now = new Date();
-
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-
     $('#createAt').val(today);
-
 }
 
 
-// getAuthorList();
-$(document).ready(function() {
 
 
-    defautCreateAtDate();
-
-    // $.ajax({
-    //     url: "/api/stock",
-    //     success(data){
-    //         bookStocks = data.bookStocks;
-    //         console.log("bookStocks:", bookStocks);
-
-    //         // const isbn = "771878463-0";
-    //         // addNewImportDetailRow(isbn);
-    //     }
-
-    // });
 
 
-    // resetAuthorList();
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-------------------------------------------------init event------------------------------------------------------------------- */
+/*------------------------------------------------------------------------------------------------------------------------------- */
 
+
+function initEvent(){
+
+
+    /**
+     * After the user types isbn in the input form and ENTER or click on addRowBtn Button
+     *  - Add Table Row and clear input form
+     */
+    
+    const isbnIpEle = $("#isbnIp");
+    isbnIpEle.on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            console.log("Enter");        
+            const isbn =  $("#isbnIp").val();
+            console.log("isbn:",isbn);
+            $("#isbnIp").val("");
+
+            addNewImportDetailRow(isbn);
+            isbnIpEle.val("");
+        }    
+    });
 
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
@@ -139,31 +94,50 @@ $(document).ready(function() {
         }
       });
 
-    const isbnIpEle = $("#isbnIp");
 
-    // Sau khi gõ ISBN, nhấn enter thì nó sẽ insert book vào table
-    // Và làm rỗng isbnIpEle
-    isbnIpEle.on('keyup', function (e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
-            
-            const isbn = isbnIpEle.val();
-            addNewImportDetailRow(isbn);
-            isbnIpEle.val("");
-        }
-
-        
-    });
-
-
-    $("#addRowBtn").click(function(e){
-        console.log("addRowBtn click");
-        console.log("xxx", $("#isbnIp"));
-        
+    const addRowBtnEle = $("#addRowBtn");
+    addRowBtnEle.click(function(e){
+        console.log("addRowBtn click");        
         const isbn =  $("#isbnIp").val();
         console.log("isbn:",isbn);
-        addNewImportDetailRow(isbn);
         $("#isbnIp").val("");
+
+        addNewImportDetailRow(isbn);
     })
+    
+
+
+    
+}
+
+
+
+
+
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*--------------------------------------------------Global variable-------------------------------------------------------------- */
+/*------------------------------------------------------------------------------------------------------------------------------- */
+
+
+// importDetailRowDataSource: handlebars-template source for a row of Import Detail Table
+const importDetailRowDataSource = $("#importDetailTableRowTemplate").html();
+let customers = [];
+let currentBookStockIdArr = [];
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// getAuthorList();
+$(document).ready(function() {
+
+
+    // Init UI
+    defautCreateAtDate();
+
+
+    initEvent();
 
 
     $("#addCategoryRowBtn").click(function(e){
@@ -564,54 +538,14 @@ function removeImportReceiptDetailRow(index){
 
 
     if (currentBookStockIdArr.length == 0){
-        const importDetailTablelBodyEle = $("#importDetailTabelBody");
-        importDetailTablelBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+        const importDetailTableBodyEle = $("#importDetailTableBody");
+        importDetailTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
     }
 
     updateTotalFinalPrice();
 }
 
 
-function addNewImportDetailRow(isbn){
-    // const isbn = isbnIpEle.val().trim();
-
-    const bookStock = bookStocks.find(x => x.book.isbn === isbn);
-
-
-    const importDetailTablelBodyEle = $("#importDetailTabelBody");
-
-
-    if(!bookStock){
-        return;
-    }
-
-    const id = bookStock.id;
-    if (currentBookStockIdArr.length == 0){
-        importDetailTablelBodyEle.find('tr:first').remove();
-    }
-    else{
-        if (currentBookStockIdArr.includes(id)){
-            // console.log("Đã tồn tạo ID");
-            return;
-        }
-    }
-
-
-
-    currentBookStockIdArr.push(id);
-    // console.log("bookStock:", bookStock);
-
-    console.log("importDetailRowDataSource: ", importDetailRowDataSource);
-
-    const tableDataTemplate = Handlebars.compile(importDetailRowDataSource);
-
-    
-    importDetailTablelBodyEle.append(tableDataTemplate(bookStock));
-
-    console.log("row: ",tableDataTemplate(bookStock));    
-    updateTotalFinalPrice();
-
-}    
 
 
 function updateTotalFinalPrice(){
@@ -640,10 +574,80 @@ function resetDafautInput(e, val){
 
 }
 
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-----------------------------------------------Define function----------------------------------------------------------------- */
+/*------------------------------------------------------------------------------------------------------------------------------- */
+
+async function addNewImportDetailRow(isbn){
+    isbn = isbn.trim();
+    // const bookStock = bookStocks.find(x => x.book.isbn === isbn);
+    const bookStock = await getBookStockByIsbn(isbn);
+    console.log(`bookStock của ${isbn} là:`, bookStock);
+
+    const importDetailTableBodyEle = $("#importDetailTableBody");
+
+
+    if(!bookStock){       
+        $("#addNewBookModalBtn").click();
+        $("#newBookIsbn").val(isbn);
+
+        return;
+    }
+
+    const id = bookStock.id;
+
+    console.log(`id của ${isbn} là:`, id);
+
+    if (currentBookStockIdArr.length == 0){
+        importDetailTableBodyEle.find('tr:first').remove();
+    }
+    else{
+        if (currentBookStockIdArr.includes(id)){
+            alert("Đã tồn tạo ISBN");
+            return;
+        }
+    }
+
+
+    currentBookStockIdArr.push(id);
+    // console.log("bookStock:", bookStock);
+
+    console.log("importDetailRowDataSource: ", importDetailRowDataSource);
+
+    const tableDataTemplate = Handlebars.compile(importDetailRowDataSource);
+
+    
+    importDetailTableBodyEle.append(tableDataTemplate(bookStock));
+
+    console.log("row: ",tableDataTemplate(bookStock));    
+    updateTotalFinalPrice();
+
+}    
 
 
 
 
+
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-----------------------------------------------Ajax function--------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------------------- */
+
+async function getBookStockByIsbn(isbn){
+
+    let bookStock = null;
+    await $.ajax({
+        url: `/api/stock/isbns/${isbn}`,
+        method: 'GET',
+        success(data){
+            bookStock = data.bookStock;
+            console.log(`bookStock của ${isbn} là:`, bookStock);
+        }
+    });       
+
+    return bookStock;
+
+    
+}
 
 
 {/* <tr>
@@ -678,3 +682,50 @@ function resetDafautInput(e, val){
     </button>
 </td>
 </tr> */}
+
+
+// const authorListDataSource = $("#authorListTemplate").html();
+
+
+
+// async function resetAuthorList(){
+
+
+//     // await getAuthorList();
+
+//     // authors = [
+//     //     {name: "Sang"},
+//     // ]
+
+//     console.log("authors:", authors);
+
+//     console.log("authorListDataSource: ", authorListDataSource);
+
+//     const authorListEle = $("#authorList");
+
+//     console.log("authorListEle html:", authorListEle.html());
+
+//     console.log("authorListEle: ", authorListEle);
+
+//     const authorListDataTemplate = Handlebars.compile(authorListDataSource);
+    
+//     console.log("authorListDataTemplate: ", authorListDataTemplate);
+
+//     let xxx = "Sang"
+
+//     authorListEle.html(authorListDataTemplate({authors}));
+
+//     console.log("authorListData: ", authorListDataTemplate(authors));
+
+// }
+
+
+// function getAuthorList(){
+//     $.ajax({
+//         url: "/api/author",
+//         success(data){
+//             authors = data.authors;
+//             console.log(authors);
+//         }
+//     });
+// }
