@@ -347,9 +347,10 @@
                                                     {{/each}}
                                                 </datalist> 
                                                 <div class="input-group-append">
-                                                    <button id="addCategoryRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
+                                                    <button id="addCategoryTbRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
                                                         Thêm <i class="fa-solid fa-plus"></i>
                                                     </button>
+                                                    <button id="addNewCategoryModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewCategoryModal"></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,7 +379,7 @@
                                                             \{{name}}
                                                         </td>
                                                         <td>
-                                                            <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeCategoryTableRow('categoryItem',\{{id}})">
+                                                            <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeCategoryTbRow('categoryItem',\{{id}})">
                                                                 <i class="fa-solid fa-trash custom-btn-icon"></i>
                                                             </button>
                                                         </td>
@@ -445,12 +446,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="newAuthorInModalBtn" class="btn btn-primary">Save changes</button>
+                <button type="button" id="addNewAuthorInModalBtn" class="btn btn-primary">Save changes</button>
             </div>
             </div>
         </div>    
     </div>
     
+
+    <div id="addNewCategoryModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNewCategoryModalForm">
+                    <div class="form-group">
+                        <label class="col-form-label">Danh mục:</label>
+                        <input id="newCategoryInModal" type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addNewCategoryInModalBtn" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>    
+    </div>
+
 </main>
 
 {{#section 'script'}}
@@ -459,14 +486,5 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
     <script src="/js/modal/overlay-modal.js"></script>
-    <script>
-        let bookStocks = JSON.parse('{{{json bookStocks}}}');
-        let authors = JSON.parse('{{{json authors}}}');
-
-        let publishers = JSON.parse('{{{json publishers}}}');
-        let categorys = JSON.parse('{{{json categorys}}}');
-
-        
-    </script>
     <script src="/js/import.js"></script>
 {{/section}}

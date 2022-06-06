@@ -31,3 +31,20 @@ exports.addPublisher = async (name) => {
         console.log(e);
     }
 }
+
+exports.getPubliserByName = async (name, raw = false) => {
+    try{
+        const publisher = await models.publisher.findOne({
+            raw: raw,
+            where: {
+                name: name
+            }
+        });
+
+        return publisher;
+    }catch (e){
+        console.log(e);
+    }
+
+}
+
