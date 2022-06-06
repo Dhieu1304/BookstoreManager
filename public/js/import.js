@@ -85,7 +85,7 @@ function initEvent(){
             console.log("Enter");        
             const isbn =  $("#isbnIp").val();
             console.log("isbn:",isbn);
-            addNewImportDetailRow(isbn);
+            addImportDetailRow(isbn);
 
         }    
     });
@@ -103,10 +103,9 @@ function initEvent(){
         console.log("addRowBtn click");        
         const isbn =  $("#isbnIp").val();
         console.log("isbn:",isbn);
-        addNewImportDetailRow(isbn);
+        addImportDetailRow(isbn);
     })
     
-
 
     
     $("#addNewAuthorBtn").click(async function(e){
@@ -122,6 +121,15 @@ function initEvent(){
     })
     
 
+
+        
+    $("#addAuthorTbRowBtn").click(function(e){    
+        console.log("addNewAuthorBtn click");
+        const authorName =  $("#authorIp").val();
+        console.log("authorName:",authorName);
+        addAuthorTbRow(authorName);        
+
+    })
 
 }
 
@@ -177,37 +185,7 @@ $(document).ready(function() {
     })
 
 
-    
-    $("#addAuthorRowBtn").click(function(e){
-        
-        const authorName =  $("#authorIp").val();
 
-        const author = authors.find(author => {
-            return author.name === authorName;
-          });
-
-        if (!author){
-            // alert("Không tồn tại author này, vui lòng nhập lại hoặc thêm mới");
-
-            // $("#addNewBookModal").modal("hide");
-            // $('#addNewBookModal').modal('toggle');
-            $('#addNewAuthorModalBtn').click();
-            // $("#addNewBookModal .close").click()
-
-
-            
-
-            
-            return;
-        }
-
-
-        $("#authorIp").val("");
-
-        console.log("author:",author);
-        addNewAuthorRow(author);
-
-    })
     
     
     $("#addNewPublisherBtn").click(function(e){
@@ -336,7 +314,7 @@ $(document).ready(function() {
 
 
         for (let authorId of authorIds){
-            removeAuthorTableRow("authorItem", authorId);
+            removeAuthorTbRow("authorItem", authorId);
         }
 
         for (let categoryId of categoryIds){
@@ -449,60 +427,10 @@ function removeCategoryTableRow(preId, index){
 
 const authorRowDataSource = $("#authorTableRowTemplate").html();
 
-const currentAuthorIdArr = []
-function addNewAuthorRow(author){
-
-
-    const authorTableBodyEle = $("#authorTableBody");
-
-    const id = author.id;
-    if (currentAuthorIdArr.length == 0){
-        authorTableBodyEle.find('tr:first').remove();
-    }
-    else{
-        if (currentAuthorIdArr.includes(id)){
-            // console.log("Đã tồn tạo ID");
-            return;
-        }
-    }
-
-    currentAuthorIdArr.push(id);
+const currentAuthorIdArr = [];
 
 
 
-    console.log("authorRowDataSource: ", authorRowDataSource);
-
-    const tableDataTemplate = Handlebars.compile(authorRowDataSource);
-
-
-
-    
-    authorTableBodyEle.append(tableDataTemplate(author));
-
-    console.log("row: ",tableDataTemplate(author));    
-}
-
-function removeAuthorTableRow(preId, index){
-
-
-    const row = $("#" + preId + index);
-    console.log("row: ", row);
-
-    removeIdIndex = currentAuthorIdArr.indexOf(index);
-    currentAuthorIdArr.splice(removeIdIndex, 1);
-    row.remove();
-    // console.log(currentAuthorIdArr);
-
-    console.log(currentAuthorIdArr);
-
-
-
-    if (currentAuthorIdArr.length == 0){
-        const authorTableBodyEle = $("#authorTableBody");
-        authorTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
-    }
-
-}
 
 
 function changePublisherId(){
@@ -575,7 +503,7 @@ function resetDafautInput(e, val){
 /*-----------------------------------------------Define function----------------------------------------------------------------- */
 /*------------------------------------------------------------------------------------------------------------------------------- */
 
-async function addNewImportDetailRow(isbn){
+async function addImportDetailRow(isbn){
     isbn = isbn.trim();
     // const bookStock = bookStocks.find(x => x.book.isbn === isbn);
 
@@ -634,7 +562,58 @@ async function addNewImportDetailRow(isbn){
 }    
 
 
+async function addAuthorTbRow(authorName){
+    const authors = await getAuthorsByName(authorName);
+    console.log("authors: ", authors);
+    if (!authors || !authors.length === 0){
+        $('#addNewAuthorModalBtn').click();      
+        return;
+    }
+    console.log("authors row data:",authors);
 
+
+    const authorTableBodyEle = $("#authorTableBody");
+    console.log("authorRowDataSource: ", authorRowDataSource);
+    const tableDataTemplate = Handlebars.compile(authorRowDataSource);
+ 
+
+    for (author of authors){
+        console.log("Lặp trong authors")
+        const id = author.id;
+        if (currentAuthorIdArr.length == 0){
+            authorTableBodyEle.find('tr:first').remove();
+        }
+        else{
+            if (currentAuthorIdArr.includes(id)){
+                return;
+            }
+        }
+    
+        currentAuthorIdArr.push(id);
+        authorTableBodyEle.append(tableDataTemplate(author));
+        console.log("row: ",tableDataTemplate(author));         
+    }
+}
+
+
+function removeAuthorTbRow(preId, index){
+
+
+    const row = $("#" + preId + index);
+    console.log("row: ", row);
+
+    removeIdIndex = currentAuthorIdArr.indexOf(index);
+    currentAuthorIdArr.splice(removeIdIndex, 1);
+    row.remove();
+
+    console.log(currentAuthorIdArr);
+
+    if (currentAuthorIdArr.length == 0){
+        const authorTableBodyEle = $("#authorTableBody");
+        authorTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+    }
+
+}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------- */
@@ -658,19 +637,19 @@ async function getBookStockByIsbn(isbn){
 }
 
 
-async function getAuthorByName(name){
+async function getAuthorsByName(name){
 
-    let author = null;
+    let authors = null;
     await $.ajax({
-        url: `/api/stock/isbns/${isbn}`,
+        url: `/api/author/names/${name}`,
         method: 'GET',
         success(data){
-            author = data.author;
-            console.log(`author của ${isbn} là:`, author);
+            authors = data.authors;
+            console.log(`authors của ${name} là:`, authors);
         }
     });       
 
-    return author;
+    return authors;
 
 }
 
