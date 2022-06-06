@@ -75,7 +75,7 @@ function initEvent(){
 
 
     /**
-     * After the user types isbn in the input form and ENTER or click on addRowBtn Button
+     * After the user types isbn in the input form and ENTER or click on addImportDetailTbRowBtn Button
      *  - Add Table Row and clear input form
      */
     
@@ -85,7 +85,7 @@ function initEvent(){
             console.log("Enter");        
             const isbn =  $("#isbnIp").val();
             console.log("isbn:",isbn);
-            addImportDetailRow(isbn);
+            addImportDetailTbRow(isbn);
 
         }    
     });
@@ -98,12 +98,12 @@ function initEvent(){
       });
 
 
-    const addRowBtnEle = $("#addRowBtn");
-    addRowBtnEle.click(function(e){
-        console.log("addRowBtn click");        
+    const addImportDetailTbRowBtnEle = $("#addImportDetailTbRowBtn");
+    addImportDetailTbRowBtnEle.click(function(e){
+        console.log("addImportDetailTbRowBtn click");        
         const isbn =  $("#isbnIp").val();
         console.log("isbn:",isbn);
-        addImportDetailRow(isbn);
+        addImportDetailTbRow(isbn);
     })
     
 
@@ -120,8 +120,6 @@ function initEvent(){
         $("#newAuthorInModal").val("");
     })
     
-
-
         
     $("#addAuthorTbRowBtn").click(function(e){    
         console.log("addNewAuthorBtn click");
@@ -131,6 +129,52 @@ function initEvent(){
 
     })
 
+    
+    $("#addCategoryTbRowBtn").click(function(e){
+        
+        const categoryName =  $("#categoryIp").val();
+
+        const category = categorys.find(category => {
+            return category.name === categoryName;
+          });
+
+        if (!category){
+            alert("Không tồn tại category này, vui lòng nhập lại hoặc thêm mới");
+            return;
+        }
+
+
+        $("#categoryIp").val("");
+
+        console.log("category:",category);
+        addNewCategoryRow(category);
+
+    })
+
+    $("#addNewCategoryBtn").click(function(e){
+        
+        const categoryName =  $("#newCategory").val();
+
+
+            $.ajax({
+            url: "/api/stock/category/add",
+            method: 'POST',
+            data: {
+                categoryName
+            },
+            success(data){
+                category = data.category;
+                console.log("category:", category);
+
+                categorys.push(category);
+            }
+
+    }
+            );
+
+        $("#newCategory").val("");
+
+    })
 }
 
 
@@ -163,27 +207,6 @@ $(document).ready(function() {
     initEvent();
 
 
-    $("#addCategoryRowBtn").click(function(e){
-        
-        const categoryName =  $("#categoryIp").val();
-
-        const category = categorys.find(category => {
-            return category.name === categoryName;
-          });
-
-        if (!category){
-            alert("Không tồn tại category này, vui lòng nhập lại hoặc thêm mới");
-            return;
-        }
-
-
-        $("#categoryIp").val("");
-
-        console.log("category:",category);
-        addNewCategoryRow(category);
-
-    })
-
 
 
     
@@ -213,30 +236,7 @@ $(document).ready(function() {
     })
     
 
-    $("#addNewCategoryBtn").click(function(e){
-        
-        const categoryName =  $("#newCategory").val();
 
-
-            $.ajax({
-            url: "/api/stock/category/add",
-            method: 'POST',
-            data: {
-                categoryName
-            },
-            success(data){
-                category = data.category;
-                console.log("category:", category);
-
-                categorys.push(category);
-            }
-
-    }
-            );
-
-        $("#newCategory").val("");
-
-    })
 
 
     $("#addNewBookBtn").click(function(e){
@@ -452,23 +452,6 @@ function changePublisherId(){
 }
 
 
-function removeImportReceiptDetailRow(index){
-    const row = $("#importReceiptDetailItem"+index);
-    removeBookStockIdIndex = currentBookStockIdArr.indexOf(index);
-    currentBookStockIdArr.splice(removeBookStockIdIndex, 1);
-    row.remove();
-
-    console.log(currentBookStockIdArr);
-
-
-
-    if (currentBookStockIdArr.length == 0){
-        const importDetailTableBodyEle = $("#importDetailTableBody");
-        importDetailTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
-    }
-
-    updateTotalFinalPrice();
-}
 
 
 
@@ -503,7 +486,7 @@ function resetDafautInput(e, val){
 /*-----------------------------------------------Define function----------------------------------------------------------------- */
 /*------------------------------------------------------------------------------------------------------------------------------- */
 
-async function addImportDetailRow(isbn){
+async function addImportDetailTbRow(isbn){
     isbn = isbn.trim();
     // const bookStock = bookStocks.find(x => x.book.isbn === isbn);
 
@@ -560,6 +543,27 @@ async function addImportDetailRow(isbn){
     $("#isbnIp").val("");
 
 }    
+
+
+
+function removeImportDetailTbRow(index){
+    const row = $("#importReceiptDetailItem"+index);
+    removeBookStockIdIndex = currentBookStockIdArr.indexOf(index);
+    currentBookStockIdArr.splice(removeBookStockIdIndex, 1);
+    row.remove();
+
+    console.log(currentBookStockIdArr);
+
+
+
+    if (currentBookStockIdArr.length == 0){
+        const importDetailTableBodyEle = $("#importDetailTableBody");
+        importDetailTableBodyEle.append('<tr><td class="dataTables-empty" colspan="9">No entries found</td></tr>')
+    }
+
+    updateTotalFinalPrice();
+}
+
 
 
 async function addAuthorTbRow(authorName){
@@ -657,7 +661,7 @@ async function getAuthorsByName(name){
 async function addNewAuthor(authorName){
     let author = null;
     $.ajax({
-        url: "/api/stock/author/add",
+        url: "/api/author/add",
         method: 'POST',
         data: {
             authorName
@@ -668,6 +672,23 @@ async function addNewAuthor(authorName){
         }
     });
     return author;
+}
+
+
+async function getCategoryByName(name){
+
+    let category = null;
+    await $.ajax({
+        url: `/api/category/names/${name}`,
+        method: 'GET',
+        success(data){
+            category = data.category;
+            console.log(`category của ${name} là:`, category);
+        }
+    });       
+
+    return category;
+
 }
 
 
