@@ -41,6 +41,12 @@ module.exports.getAccountInfo = async (req, res) => {
                 url: '/'
             })
         }
+        else {
+            accountInfo.isEdit = true;
+        }
+    }
+    else {
+        accountInfo.isEdit = false;
     }
 
     if (!accountInfo) {
@@ -49,7 +55,9 @@ module.exports.getAccountInfo = async (req, res) => {
             errMessage: "Error!!!",
         })
     }
+
     accountInfo.create_at = moment(accountInfo.create_at).utc().format('DD-MM-YYYY');
+
     return res.status(200).json({
         errCode: 0,
         errMessage: "Successful",
@@ -59,8 +67,8 @@ module.exports.getAccountInfo = async (req, res) => {
 
 module.exports.editAccountApi = async (req, res) => {
     const id = req.params.id;
-    if (!id || !req.body.first_name || !req.body.last_name || !req.body.gender
-        || !req.body.phone_number || !req.body.address || !req.body.role || !req.body.status) {
+    const {first_name, last_name, gender, phone_number, address, role, status} = req.body;
+    if (!id || !first_name || !last_name || !gender || !phone_number || !address || !role || !status) {
         return res.status(200).json({
             errCode: 2,
             errMessage: "Missing Parameter!",
@@ -68,17 +76,7 @@ module.exports.editAccountApi = async (req, res) => {
         })
     }
 
-    let account = {
-        id: id,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        gender: req.body.gender,
-        phone_number: req.body.phone_number,
-        address: req.body.address,
-        role: req.body.role,
-        status: req.body.status,
-    }
+    let account = {id, first_name, last_name, gender, phone_number, address, role, status}
 
     let data = await accountService.editAccountById(account);
 
@@ -86,17 +84,12 @@ module.exports.editAccountApi = async (req, res) => {
         return res.status(200).json({
             errCode: 0,
             errMessage: "Edit Successful!",
-            data: {
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-            }
         })
     }
 
     return res.status(200).json({
         errCode: 1,
         errMessage: "Error! Please try again!!",
-        data: {}
     })
 }
 

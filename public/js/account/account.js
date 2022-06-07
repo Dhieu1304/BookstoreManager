@@ -288,12 +288,12 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
             success: function (res) {
 
                 removeModalIsLoading();
+                //An modal
+                modalAddNew.style.display = "none";
 
                 if (res.errCode !== 0) {
                     notification(res.errMessage, NOTY_TYPE.FAIL);
                 } else {
-                    //An modal
-                    modalAddNew.style.display = "none";
 
                     //reset input
                     $('#inputFirstName').val('');

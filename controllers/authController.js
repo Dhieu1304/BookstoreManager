@@ -41,12 +41,13 @@ module.exports.apiAuthLogin = (req, res, next) => {
 }
 
 module.exports.checkAuthenticated = async (req, res, next) => {
-
+/*
     const nonSecurePaths = ['/auth/login', '/auth/api/login'];
 
     if (nonSecurePaths.includes(req.path)) {
         return next();
     }
+*/
 
     if (req.isAuthenticated()) {
         return next();
@@ -60,36 +61,6 @@ module.exports.logout = async (req, res) => {
     res.redirect('/auth/login');
 }
 
-module.exports.checkAdmin = async (req, res, next) => {
-    if (req.user) {
-        if (req.user.role === 'admin'){
-            return next();
-        }
-    }
-
-    res.redirect('/');
-}
-
-module.exports.checkAdminSuperAdmin = async (req, res, next) => {
-    if (req.user) {
-        if (req.user.role === 'admin' || req.user.role === 'superadmin'){
-            return next();
-        }
-    }
-
-    res.redirect('/');
-}
-
-module.exports.checkSuperAdmin = async (req, res, next) => {
-    if (req.user) {
-        if (req.user.role === 'superadmin'){
-            return next();
-        }
-    }
-
-    res.redirect('/');
-}
-
 module.exports.changePassword = async (req, res, next) => {
     if (!req.user || !req.user.id) {
         return res.redirect('/');
@@ -99,13 +70,13 @@ module.exports.changePassword = async (req, res, next) => {
 }
 
 module.exports.apiChangePassword = async (req, res, next) => {
-    if (!req.user || !req.user.id || !req.user.email) {
+    if (!req.user || !req.user.id) {
         return res.redirect('/');
     }
 
     const {currentPassword, newPassword} = req.body;
 
-    const user = await accountService.getAccountByEmail(req.user.email);
+    const user = await accountService.getAccountById(req.user.id);
     const checkPassword = await bcryptService.checkPassword(currentPassword, user.password);
     if (!checkPassword) {
         return res.status(200).json({

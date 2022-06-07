@@ -1,6 +1,6 @@
 function showModalIsLoading() {
     let modalStyle = `
-    .modal {
+    .modal-is-loading-custom {
         display: block;
         position: fixed;
         z-index: 10000;
@@ -11,7 +11,7 @@ function showModalIsLoading() {
         background-color: rgba(0,0,0,0.4);
     }
     
-    .modal-body {
+    .modal-body-is-loading-custom {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -19,9 +19,9 @@ function showModalIsLoading() {
     `
 
     let el = `
-    <div id="modal-is-loading-custom" class="modal">
+    <div id="modal-is-loading-custom" class="modal-is-loading-custom">
         <div class="modal-sm" style="margin: 0 auto; margin-top: 40vh !important">
-          <div class="modal-body">
+          <div class="modal-body-is-loading-custom">
         		<div class="spinner-border text-primary"  role="status">
 
         		</div>

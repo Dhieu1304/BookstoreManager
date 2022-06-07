@@ -10,6 +10,7 @@ const importRouter = require("./importRouter");
 const billRouter = require("./billRouter");
 const apiRouter = require("./api/initApiRouter");
 const customerRouter = require("./customerRouter");
+const authController = require("../controllers/authController");
 
 module.exports.initRouter = (app) => {
 
@@ -21,13 +22,13 @@ module.exports.initRouter = (app) => {
         next();
     })
 
-    app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
-    // app.use('/', authController.checkAuthenticated, homeRouter);
+    // app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
+    app.use('/auth', authRouter);
+    app.use('/', authController.checkAuthenticated, homeRouter);
     app.use('/layout', layoutRouter);
     app.use('/error', errorRouter);
     app.use('/chart', chartRouter);
     app.use('/table', tableRouter);
-    app.use('/auth', authRouter);
     app.use('/account', accountRouter);
   
     app.use('/sale', saleRouter);

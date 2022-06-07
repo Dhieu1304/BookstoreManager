@@ -1,7 +1,6 @@
 let UserId = '';
 
 function handleEditAccount() {
-
     const first_name = document.getElementsByTagName("tr")[0].getElementsByTagName("td")[1].innerHTML;
     const last_name = document.getElementsByTagName("tr")[1].getElementsByTagName("td")[1].innerHTML;
     const phone_number = document.getElementsByTagName("tr")[3].getElementsByTagName("td")[1].innerHTML;
@@ -154,7 +153,6 @@ function getAPIData() {
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
                 renderView(res.data);
-                // notification(res.errMessage, NOTY_TYPE.SUCCESS);
             }
         }
     });
@@ -190,6 +188,16 @@ function renderView(data) {
 
     document.getElementById('avatar-detail-account').innerHTML = renderAvatar;
 
+    let isEditRole = '';
+    let isEditStatus = '';
+    if (data.isEdit) {
+        isEditRole = `<td class="dd-edit-custom" onclick="handleEdit(6)"><i class="fas fa-edit"></i></td>`;
+        isEditStatus = `<td class="dd-edit-custom" onclick="handleEdit(7)"><i class="fas fa-edit"></i></td>`;
+    }
+    else {
+        isEditRole = `<td></td>`;
+        isEditStatus = `<td></td>`;
+    }
 
     const renderAccountInfo = `
     <tbody>
@@ -226,12 +234,12 @@ function renderView(data) {
         <tr>
             <td>Role:</td>
             <td>${data.role}</td>
-            <td class="dd-edit-custom" onclick="handleEdit(6)"><i class="fas fa-edit"></i></td>
+            ${isEditRole}
         </tr>
         <tr>
             <td>Status:</td>
             <td>${data.status}</td>
-            <td class="dd-edit-custom" onclick="handleEdit(7)"><i class="fas fa-edit"></i></td>
+            ${isEditStatus}
         </tr>
         <tr>
             <td>Created At:</td>
