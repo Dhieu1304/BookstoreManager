@@ -279,12 +279,16 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
         account.phone_number = $('#inputPhone').val();
         account.gender = $('#inputGender').val();
         account.address = $('#inputAddress').val();
+        showModalIsLoading();
 
         $.ajax({
             url: `/account/api/addNewAccount`,
             type: 'post',
             data: account,
             success: function (res) {
+
+                removeModalIsLoading();
+
                 if (res.errCode !== 0) {
                     notification(res.errMessage, NOTY_TYPE.FAIL);
                 } else {

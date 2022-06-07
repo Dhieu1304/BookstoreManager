@@ -46,7 +46,7 @@ function handleChangePassword(e) {
     }
     else {
         $.ajax({
-            url: `/api/auth/changePassword`,
+            url: `/auth/api/changePassword`,
             type: 'post',
             data: {
                 currentPassword: currentPassword,

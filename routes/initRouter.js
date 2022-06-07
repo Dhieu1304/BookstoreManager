@@ -9,9 +9,7 @@ const saleRouter = require("./saleRouter");
 const importRouter = require("./importRouter");
 const billRouter = require("./billRouter");
 const apiRouter = require("./api/initApiRouter");
-const emailRouter = require("./emailRouter");
 const customerRouter = require("./customerRouter");
-const authController = require('../controllers/authController');
 
 module.exports.initRouter = (app) => {
 
@@ -29,13 +27,12 @@ module.exports.initRouter = (app) => {
     app.use('/error', errorRouter);
     app.use('/chart', chartRouter);
     app.use('/table', tableRouter);
-    app.use('/', authRouter);
+    app.use('/auth', authRouter);
     app.use('/account', accountRouter);
   
     app.use('/sale', saleRouter);
     app.use('/import', importRouter);
     app.use('/bill', billRouter);
     app.use('/api', apiRouter);
-    app.use('/email', emailRouter);
     app.use('/customer', customerRouter);
 }
