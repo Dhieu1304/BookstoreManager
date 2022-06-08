@@ -12,13 +12,7 @@ exports.getImportPage = async (req, res) => {
 
     const bookStocks = await bookStockService.getAllBookStock(false);
 
-    const authors = await authorService.getAllAuthorInfor(true);
-
-    const publishers = await publisherService.getAllPublisherInfor(true);
-
-    const categorys = await categoryService.getAllCategoryInfor(true);
-
-    res.render('import/import', {title: 'Import', authors, bookStocks, publishers, categorys});
+    res.render('import/import', {title: 'Import', bookStocks});
 }
 
 exports.addImportReceipt = async (req, res) => {
