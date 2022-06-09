@@ -2,7 +2,8 @@ function handleResetPassword(event) {
     event.preventDefault();
 
     const email = $('#inputEmail').val();
-    showModalIsLoading();
+    showModalIsLoading('modal-loading');
+
     $.ajax({
         url: '/auth/api/resetPassword',
         type: 'post',

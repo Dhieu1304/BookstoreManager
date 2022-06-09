@@ -279,7 +279,7 @@ document.getElementById('SubmitAddNewBtn').onclick = function (e) {
         account.phone_number = $('#inputPhone').val();
         account.gender = $('#inputGender').val();
         account.address = $('#inputAddress').val();
-        showModalIsLoading();
+        showModalIsLoading('modal-loading');
 
         $.ajax({
             url: `/account/api/addNewAccount`,

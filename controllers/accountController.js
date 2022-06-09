@@ -23,7 +23,6 @@ module.exports.getAccounts = async (req, res) => {
     res.render('account');
 }
 
-
 module.exports.getAccountDetail = async (req, res) => {
     res.render('account/detail');
 }
