@@ -18,6 +18,7 @@ const sequelizeHeroku = new Sequelize(process.env.HDB_DATABASE, process.env.HDB_
     }
 });
 
-const sequelize = (process.env.DB_ENV === 'HDB') ? sequelizeHeroku : sequelizeLocal;
+// const sequelize = (process.env.DB_ENV === 'HDB') ? sequelizeHeroku : sequelizeLocal;
+const sequelize = sequelizeHeroku;
 
 module.exports = sequelize;
