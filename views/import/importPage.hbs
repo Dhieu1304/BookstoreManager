@@ -1,6 +1,7 @@
 
 {{#section 'css'}}
-    <link href="/stylesheets/statistics.css" rel="stylesheet"/>
+    <link href="/stylesheets/import/import.css" rel="stylesheet"/>
+    <link href="/stylesheets/import/importPage.css" rel="stylesheet"/>
 {{/section}}
 
 <main class="statistics-container">
@@ -16,27 +17,37 @@
     <div class="row mt-2">
         <div class="col-md-12 col-xs-12">
             <div class="content">             
-                <table id="statisticsByMoneyTable" class="statisticsByMoney-table">
+                <table id="importTable" class="import-table">
                     <thead>
                         <tr>
-                            <th>Năm</th>
-                            <th>Tháng</th>
-                            <th>Chi phí</th>
-                            <th>Doanh thu</th>
-                            <th>Lợi nhuận</th>
+                            <th>ID</th>
+                            <th>Thời gian</th>
+                            <th>Tổng chi phí</th>
+                            <th>Số sách</th>
+                            <th>Số lượng sách</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Năm</th>
-                            <th>Tháng</th>
-                            <th>Chi phí</th>
-                            <th>Doanh thu</th>
-                            <th>Lợi nhuận</th>
+                            <th>ID</th>
+                            <th>Thời gian</th>
+                            <th>Tổng chi phí</th>
+                            <th>Số sách</th>
+                            <th>Số lượng sách</th>
                         </tr>
                     </tfoot>
-                    <tbody id="statisticsByMoneyTableBody">
-                        <script type="text/x-handlebars-template" id="statisticsByMoneyTableRowTemplate">
+                    <tbody id="importTableBody">
+                        {{#each importReceipts}}
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{create_at}}</td>
+                                <td>{{price}}</td>
+                                <td>{{[import_receipt_details.count_details]}}</td>
+                                <td>{{[import_receipt_details.sum_quantity]}}</td>
+                            </tr>
+                        {{/each}}
+
+                        <script type="text/x-handlebars-template" id="importTableRowTemplate">
 
                         </script>
                     </tbody>
@@ -61,5 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
-    <script src="/js/statistics.js"></script>
+    <script src="/js/import/import.js"></script>
+    <script src="/js/import/importPage.js"></script>
+
 {{/section}}

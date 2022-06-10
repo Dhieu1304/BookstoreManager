@@ -1,10 +1,10 @@
 
 {{#section 'css'}}
-    <link href="/stylesheets/import.css" rel="stylesheet"/>
+    <link href="/stylesheets/import/import.css" rel="stylesheet"/>
+    <link href="/stylesheets/import/importAddPage.css" rel="stylesheet"/>
 {{/section}}
 
 <main class="import-container">
-    <form action="/import/add" method="post">
     <div class="row">
         <div class="row filter">  
             <div class="col-6">
@@ -38,7 +38,9 @@
                     <thead>
                         <tr>
                             <th>Ảnh</th>
-                            <th>ISBN</th>
+                            <th>ISBN
+                                {{!-- <input type="text" style="width: 100%"> --}}
+                            </th>
                             <th>Tiêu đề</th>
                             <th>Số trang</th>
                             <th>Ngày NB</th>
@@ -486,5 +488,6 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
     <script src="/js/modal/overlay-modal.js"></script>
-    <script src="/js/import.js"></script>
+    <script src="/js/import/import.js"></script>
+    <script src="/js/import/importAddPage.js"></script>
 {{/section}}
