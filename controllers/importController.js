@@ -6,13 +6,24 @@ const bookStockService = require("../services/bookStockService");
 
 exports.getImportPage = async (req, res) => {
 
+    const page = req.page || 1;
+    const limit = req.limit || 10;
 
-    const importReceipts = await importReceiptService.getAllImportReceipts(true);
+    const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, true);
+    const importReceipts = importReceiptsAndCount.rows;
+    const count = importReceiptsAndCount.count;
 
-    res.render('import/importPage', {title: 'Import', importReceipts});
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+    res.render('import/importPage', {title: 'Import', importReceipts, pagination});
 }
 
 exports.getImportAddPage = async (req, res) => {
+
 
 
     res.render('import/importAddPage', {title: 'importAddPage'});

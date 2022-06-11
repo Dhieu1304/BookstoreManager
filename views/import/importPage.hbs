@@ -6,58 +6,129 @@
 
 <main class="statistics-container">
     <div>
-    <div class="row">
-        <div class="row filter">  
-            <div class="col-6">
-            </div>    
-            <div class="col-3">
-            </div>          
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-md-12 col-xs-12">
-            <div class="content">             
-                <table id="importTable" class="import-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Thời gian</th>
-                            <th>Tổng chi phí</th>
-                            <th>Số sách</th>
-                            <th>Số lượng sách</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Thời gian</th>
-                            <th>Tổng chi phí</th>
-                            <th>Số sách</th>
-                            <th>Số lượng sách</th>
-                        </tr>
-                    </tfoot>
-                    <tbody id="importTableBody">
-                        {{#each importReceipts}}
-                            <tr>
-                                <td>{{id}}</td>
-                                <td>{{create_at}}</td>
-                                <td>{{price}}</td>
-                                <td>{{[import_receipt_details.count_details]}}</td>
-                                <td>{{[import_receipt_details.sum_quantity]}}</td>
-                            </tr>
-                        {{/each}}
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="filter">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                                    Theo ID                                    
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                    Theo ngày
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                    Theo thời gian
+                                </button>
 
-                        <script type="text/x-handlebars-template" id="importTableRowTemplate">
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-xxx" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                    Theo khoảng thời gian
+                                </button>
+                            </li>
 
-                        </script>
-                    </tbody>
-                </table>
-
-
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <input type="number" name="filterIdIp" id="filterIdIp">
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <input type="date" name="filterDate" id="filterDate">
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                            <select name="filterMonth" id="filterMonth">
+                                <option selected="selected" value="-1">Tất cả</option>
+                                <option value="0">1</option>
+                                <option value="1">2</option>
+                                <option value="2">3</option>
+                                <option value="3">4</option>
+                                <option value="4">5</option>
+                                <option value="5">6</option>
+                                <option value="6">7</option>
+                                <option value="7">8</option>
+                                <option value="8">9</option>
+                                <option value="9">10</option>
+                                <option value="10">11</option>
+                                <option value="11">12</option>
+                            </select>
+                            <select name="filterYear" id="filterYear" class="select-year">
+                            </select>
+                        </div>
+                        <div class="tab-pane fade" id="pills-xxx" role="tabpanel" aria-labelledby="pills-contact-tab">
+                            <input type="date" name="filterMinDate" id="filterMinDate">
+                            <input type="date" name="filterMaxDate" id="filterMaxDate">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row mt-2">
+            <div class="col-md-12 col-xs-12">
+                <div class="content">             
+                    <table id="importTable" class="import-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Thời gian</th>
+                                <th>Tổng chi phí</th>
+                                <th>Số sách</th>
+                                <th>Số lượng sách</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Thời gian</th>
+                                <th>Tổng chi phí</th>
+                                <th>Số sách</th>
+                                <th>Số lượng sách</th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="importTableBody">
+                            {{#each importReceipts}}
+                                <tr>
+                                    <td>{{id}}</td>
+                                    <td>{{create_at}}</td>
+                                    <td>{{price}}</td>
+                                    <td>{{import_receipt_details.count_details}}</td>
+                                    <td>{{import_receipt_details.sum_quantity}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
 
+                    
+                    <script type="text/x-handlebars-template" id="tableDataTemplate">
+                        \{{#each importReceipts}}
+                            <tr>
+                                <td>\{{id}}</td>
+                                <td>\{{create_at}}</td>
+                                <td>\{{price}}</td>
+                                <td>\{{import_receipt_details.count_details}}</td>
+                                <td>\{{import_receipt_details.sum_quantity}}</td>
+                            </tr>
+                        \{{/each}}
+                    </script>
+
+                    <footer class="row justify-content-center">
+                        <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">
+                            {{{createPagination pagination paginationClass="pagination"}}}
+
+                            <script type="text/x-handlebars-template" id="paginationTemplate">
+                                \{{{createPagination pagination paginationClass="pagination"}}}
+                            </script>
+                        </nav>
+                    </footer>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -72,6 +143,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
+    <script src="/js/helper/paginationHelper.js"></script>
+    <script src="/js/general/pagination/pagination.js"></script>
     <script src="/js/import/import.js"></script>
     <script src="/js/import/importPage.js"></script>
 

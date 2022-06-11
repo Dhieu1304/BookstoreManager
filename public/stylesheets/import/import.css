@@ -4,6 +4,11 @@
 }
 
 
+
+.filter{
+    padding: 24px;
+}
+
 .content{
     padding: 24px;
     background-color: #ffffff;
