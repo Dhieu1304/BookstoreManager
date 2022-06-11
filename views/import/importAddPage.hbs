@@ -5,7 +5,19 @@
 {{/section}}
 
 <main class="import-container">
+    
     <div class="row">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-4">Danh sách phiếu nhập</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/import">Danh sách phiếu nhập</a></li>
+                    <li class="breadcrumb-item active">Thêm phiếu nhập</li>
+                </ol>
+            </div>
+        </div>
+
         <div class="row filter">  
             <div class="col-6">
                 <div class="input-group">
@@ -25,7 +37,7 @@
                 </div>
             </div>    
             <div class="col-3">
-                <button type="submit" class="mx-2 btn btn-success custom-btn">
+                <button form="importForm" type="submit" class="mx-2 btn btn-success custom-btn">
                     Lưu <i class="fa-solid fa-pen custom-btn-icon"></i>
                 </button>
             </div>          
@@ -33,7 +45,7 @@
     </div>
     <div class="row mt-2">
         <div class="col-md-9 col-xs-12">
-            <div class="content">             
+            <form class="content" method="post" action="/import/add" id="importForm">             
                 <table id="importReceiptDetailTable" class="import-receip-detail-table">
                     <thead>
                         <tr>
@@ -101,7 +113,7 @@
                 </table>
 
 
-            </div>
+            </form>
         </div>
         <div class="mr-4 col-md-3 col-xs-12">
             <div class="import-form">
@@ -110,19 +122,19 @@
                         <div class="py-2 px-2 form-group row align-items-center">
                             <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
-                                <input class="form-control" type="date" readonly id="createAt" name="createAt">
+                                <input form="importForm" class="form-control" type="date" readonly id="createAt" name="createAt">
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
+                                <input form="importForm" type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
                             <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
+                                <input form="importForm" type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
                             </div>
                         </div>
                     </div>

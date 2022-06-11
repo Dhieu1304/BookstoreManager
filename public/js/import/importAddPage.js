@@ -675,7 +675,7 @@ async function getAllCategory(){
         method: 'GET',
         success(data){
             categorys = data.categorys;
-            categorys.push(category);
+            // categorys.push(category);
         }
     });       
 

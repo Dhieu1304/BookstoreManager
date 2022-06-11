@@ -4,10 +4,19 @@
     <link href="/stylesheets/import/importPage.css" rel="stylesheet"/>
 {{/section}}
 
-<main class="statistics-container">
+<main class="import-container">
     <div>
         <div class="row mt-2">
-            <div class="col-12">
+            <div class="col">
+                <h1 class="mt-4">Danh sách phiếu nhập</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Nhập sách</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-10">
                 <div class="filter">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -35,34 +44,92 @@
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                            <input type="number" name="filterIdIp" id="filterIdIp">
+                            <div class="form-group row col-xl-3 col-md-6 col-sm-12">
+                                <label for="filterIdIp" class="col-sm-2 col-form-label">ID</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" name="filterIdIp" id="filterIdIp">
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                            <input type="date" name="filterDate" id="filterDate">
+                            <div class="form-group row col-xl-4 col-md-6 col-sm-12">
+                                <label for="filterDate" class="col-sm-4 col-form-label">Ngày nhập</label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" name="filterDate" id="filterDate">
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                            <select name="filterMonth" id="filterMonth">
-                                <option selected="selected" value="-1">Tất cả</option>
-                                <option value="0">1</option>
-                                <option value="1">2</option>
-                                <option value="2">3</option>
-                                <option value="3">4</option>
-                                <option value="4">5</option>
-                                <option value="5">6</option>
-                                <option value="6">7</option>
-                                <option value="7">8</option>
-                                <option value="8">9</option>
-                                <option value="9">10</option>
-                                <option value="10">11</option>
-                                <option value="11">12</option>
-                            </select>
-                            <select name="filterYear" id="filterYear" class="select-year">
-                            </select>
+                            <div class="form-group d-flex col-xl-6 col-md-6 col-sm-12">
+                                <div class="d-flex mr-4" style="margin-right: 20px;">
+                                    <label for="filterMonth" class="col-form-label" style="margin-right: 10px;">Tháng</label>
+                                    <div class="d-flex align-items-center">
+                                        <select name="filterMonth" id="filterMonth" class="custom-select">
+                                            <option selected="selected" value="-1">Tất cả</option>
+                                            <option value="0">1</option>
+                                            <option value="1">2</option>
+                                            <option value="2">3</option>
+                                            <option value="3">4</option>
+                                            <option value="4">5</option>
+                                            <option value="5">6</option>
+                                            <option value="6">7</option>
+                                            <option value="7">8</option>
+                                            <option value="8">9</option>
+                                            <option value="9">10</option>
+                                            <option value="10">11</option>
+                                            <option value="11">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex mr-4" style="margin-right: 20px;">
+                                    <label for="filterYear" class="col-form-label" style="margin-right: 10px;">Năm</label>
+                                    <div class="d-flex align-items-center">
+                                        <select name="filterYear" id="filterYear" class="select-year custom-select">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="tab-pane fade" id="pills-xxx" role="tabpanel" aria-labelledby="pills-contact-tab">
-                            <input type="date" name="filterMinDate" id="filterMinDate">
-                            <input type="date" name="filterMaxDate" id="filterMaxDate">
+                            <div class="col-xl-8 row">
+                                <div class="form-group row col-xl-6 col-md-6 col-sm-12">
+                                    <label for="filterMinDate" class="col-sm-2 col-form-label">Từ</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" name="filterMinDate" id="filterMinDate">
+                                    </div>
+                                </div>
+                                <div class="form-group row col-xl-6 col-md-6 col-sm-12">
+                                    <label for="filterMaxDate" class="col-sm-2 col-form-label">Đến</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" name="filterMaxDate" id="filterMaxDate">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 d-flex align-items-center">
+                <a class="mx-2 btn btn-secondary rounded-2" href="/import/add">
+                    Thêm <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="filter">
+                    <div class="d-flex justify-content-end">
+                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Số dòng</label>
+                            <div class="d-flex align-items-center">
+                                <select name="limit" id="limit" class="custom-select">
+                                    <option selected="selected" value="-1">Tất cả</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
                     </div>
                 </div>
             </div>
