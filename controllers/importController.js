@@ -6,10 +6,30 @@ const bookStockService = require("../services/bookStockService");
 
 exports.getImportPage = async (req, res) => {
 
-    const page = req.page || 1;
-    const limit = req.limit || 10;
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
 
-    const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, true);
+    const filter = {
+        typeOfFilter : data.typeOfFilter,
+        filterId : data.filterId,
+        filterDate : data.filterDate,
+        filterMonth : data.filterMonth,
+        filterYear : data.filterYear,
+        filterMinDate : data.filterMinDate,
+        filterMaxDate : data.filterMaxDate
+    }
+
+
+
+
+
+    const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, filter, true);
+
+    if(!importReceiptsAndCount){
+        res.render('import/importPage', {title: 'Import'});
+    }
+
     const importReceipts = importReceiptsAndCount.rows;
     const count = importReceiptsAndCount.count;
 
@@ -19,7 +39,7 @@ exports.getImportPage = async (req, res) => {
         totalRows: count
     }
 
-    res.render('import/importPage', {title: 'Import', importReceipts, pagination});
+    res.render('import/importPage', {title: 'Import', importReceipts, pagination, filter});
 }
 
 exports.getImportAddPage = async (req, res) => {

@@ -78,14 +78,57 @@ function defautSelectYear(){
         const today = new Date();
         const curYear = today.getFullYear();
 
-        $(this).append(`<option selected="selected" value="-1">Tất cả</option>`);
-        for (let i = 2010; i <= curYear; i++){
+        // $(this).append(`<option selected="selected" value="-1">Tất cả</option>`);
+        for (let i = 2010; i < curYear; i++){
             let option = `<option value="${i}">${i}</option>`;
             // console.log("option: ", option);
             $(this).append($(option));
         }
+        $(this).append(`<option selected="selected" value="${curYear}">${curYear}</option>`);
 
     });
+
+}
+
+function defautSelectFilter(){
+
+
+    const filterMonthHiddenVal = $("#filterMonthHidden").val();
+
+    if (filterMonthHiddenVal){
+        $( "#filterMonth option" ).each(function() {
+            if ($(this).val() === filterMonthHiddenVal){
+                $(this).attr("selected","selected");
+            }    
+        });
+    }
+
+    const filterYearHiddenVal = $("#filterYearHidden").val();
+
+    if (filterYearHiddenVal){
+        $("#filterYear option").each(function() {
+            if ($(this).val() === filterYearHiddenVal){
+                $(this).attr("selected","selected");
+            }    
+        });
+    }
+
+    
+
+    const typeOfFilter = $("#typeOfFilter").val();
+
+    $(".filter-tab-btn .filter-tab-btn-input-hidden").each(function() {
+        if ($(this).val() === typeOfFilter){
+            // console.log("this: ", this);
+            $(this).closest(".filter-tab-btn").click();
+        }    
+    });
+
+
+    
+
+
+
 
 }
 
@@ -117,6 +160,7 @@ function initUI(){
     initPagination(urlParams, pathname);
 
     defautSelectYear();
+    defautSelectFilter();
 
 }
 
@@ -165,6 +209,25 @@ function initEvent(){
         }
         
     })
+
+
+
+    $( 'button[data-bs-toggle="pill"]' ).each(function( index ) {
+        $(this).on('shown.bs.tab', function (e) {
+            const typeOfFilterVal =  $(e.target).closest("button").find('input[type="hidden"]').val();
+            console.log("typeOfFilterVal: ", typeOfFilterVal);
+            $("#typeOfFilter").val(typeOfFilterVal);
+
+            console.log('$("#typeOfFilter").val(): ', $("#typeOfFilter").val());
+
+
+          })
+        });
+
+
+    // $("#searchBtn").click(function(){
+
+    // })
 }
 
 

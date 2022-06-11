@@ -11,61 +11,68 @@
                 <h1 class="mt-4">Danh sách phiếu nhập</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Nhập sách</li>
+                    <li class="breadcrumb-item active"><a href="/import">Nhập sách</a></li>
                 </ol>
             </div>
         </div>
-        <div class="row mt-2">
+        <form id="filterForm" class="row mt-2" method="get" action="/import">
             <div class="col-10">
                 <div class="filter">
+                    <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ID" {{/if}}>
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
-                                    Theo ID                                    
+                                {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
+                                <button class="nav-link filter-tab-btn" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true">
+                                    Theo ID
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="ID">                                    
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                <button class="nav-link filter-tab-btn" id="pills-filter-date-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-date" type="button" role="tab" aria-controls="pills-filter-date" aria-selected="false">
                                     Theo ngày
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="DATE">  
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                <button class="nav-link filter-tab-btn" id="pills-time-tab" data-bs-toggle="pill" data-bs-target="#pills-time" type="button" role="tab" aria-controls="pills-time" aria-selected="false">
                                     Theo thời gian
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME">  
                                 </button>
 
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-xxx" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                <button class="nav-link filter-tab-btn" id="pills-time-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-time-stage" type="button" role="tab" aria-controls="pills-time-stage" aria-selected="false">
                                     Theo khoảng thời gian
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME_STATE">
                                 </button>
                             </li>
 
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="tab-pane fade show active" id="pills-filter-id" role="tabpanel" aria-labelledby="pills-filter-id-tab">
                             <div class="form-group row col-xl-3 col-md-6 col-sm-12">
-                                <label for="filterIdIp" class="col-sm-2 col-form-label">ID</label>
+                                <label for="filterId" class="col-sm-2 col-form-label">ID</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="filterIdIp" id="filterIdIp">
+                                    <input type="number" class="form-control" name="filterId" id="filterId" {{#if filter.filterId}} value="{{filter.filterId}}" {{/if}}>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="tab-pane fade" id="pills-filter-date" role="tabpanel" aria-labelledby="pills-filter-date-tab">
                             <div class="form-group row col-xl-4 col-md-6 col-sm-12">
                                 <label for="filterDate" class="col-sm-4 col-form-label">Ngày nhập</label>
                                 <div class="col-sm-8">
-                                    <input type="date" class="form-control" name="filterDate" id="filterDate">
+                                    <input type="date" class="form-control" name="filterDate" id="filterDate" {{#if filter.filterDate}} value="{{filter.filterDate}}" {{/if}}>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="tab-pane fade" id="pills-time" role="tabpanel" aria-labelledby="pills-time-tab">
                             <div class="form-group d-flex col-xl-6 col-md-6 col-sm-12">
                                 <div class="d-flex mr-4" style="margin-right: 20px;">
                                     <label for="filterMonth" class="col-form-label" style="margin-right: 10px;">Tháng</label>
                                     <div class="d-flex align-items-center">
-                                        <select name="filterMonth" id="filterMonth" class="custom-select">
-                                            <option selected="selected" value="-1">Tất cả</option>
+                                        <input type="hidden" id="filterMonthHidden" {{#if filter.filterMonth}} value="{{filter.filterMonth}}" {{/if}}>
+                                        <select name="filterMonth" id="filterMonth" class="custom-select" value="2">
+                                            <option value="-1">Tất cả</option>
                                             <option value="0">1</option>
                                             <option value="1">2</option>
                                             <option value="2">3</option>
@@ -83,6 +90,7 @@
                                 </div>
                                 <div class="d-flex mr-4" style="margin-right: 20px;">
                                     <label for="filterYear" class="col-form-label" style="margin-right: 10px;">Năm</label>
+                                    <input type="hidden" id="filterYearHidden" {{#if filter.filterYear}} value="{{filter.filterYear}}" {{/if}}>
                                     <div class="d-flex align-items-center">
                                         <select name="filterYear" id="filterYear" class="select-year custom-select">
                                         </select>
@@ -91,7 +99,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="pills-xxx" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="tab-pane fade" id="pills-time-stage" role="tabpanel" aria-labelledby="pills-time-stage-tab">
                             <div class="col-xl-8 row">
                                 <div class="form-group row col-xl-6 col-md-6 col-sm-12">
                                     <label for="filterMinDate" class="col-sm-2 col-form-label">Từ</label>
@@ -110,22 +118,26 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-2 d-flex align-items-center">
                 <a class="mx-2 btn btn-secondary rounded-2" href="/import/add">
                     Thêm <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
                 </a>
+                <button type="submit" class="btn btn-outline-primary" id="searchBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
-        </div>
+        </form>
         <div class="row">
             <div class="col-12">
                 <div class="filter">
                     <div class="d-flex justify-content-end">
                             <label for="limit" class="col-form-label" style="margin-right: 10px;">Số dòng</label>
                             <div class="d-flex align-items-center">
-                                <select name="limit" id="limit" class="custom-select">
-                                    <option selected="selected" value="-1">Tất cả</option>
+                                <select name="limit" id="limit" class="custom-select" form="filterForm">
+                                    <option value="-1">Tất cả</option>
                                     <option value="5">5</option>
-                                    <option value="10">10</option>
+                                    <option selected="selected" value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="50">50</option>
                                 </select>
