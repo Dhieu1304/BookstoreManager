@@ -11,7 +11,7 @@
                 <h1 class="mt-4">Danh sách phiếu nhập</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="/import">Nhập sách</a></li>
+                    <li class="breadcrumb-item active"><a href="/import">Danh sách phiếu nhập</a></li>
                 </ol>
             </div>
         </div>
@@ -178,21 +178,22 @@
                                     <td>{{import_receipt_details.sum_quantity}}</td>
                                 </tr>
                             {{/each}}
+                            <script type="text/x-handlebars-template" id="tableDataTemplate">
+                                \{{#each importReceipts}}
+                                    <tr>
+                                        <td>\{{id}}</td>
+                                        <td>\{{create_at}}</td>
+                                        <td>\{{price}}</td>
+                                        <td>\{{import_receipt_details.count_details}}</td>
+                                        <td>\{{import_receipt_details.sum_quantity}}</td>
+                                    </tr>
+                                \{{/each}}
+                            </script>
                         </tbody>
                     </table>
 
                     
-                    <script type="text/x-handlebars-template" id="tableDataTemplate">
-                        \{{#each importReceipts}}
-                            <tr>
-                                <td>\{{id}}</td>
-                                <td>\{{create_at}}</td>
-                                <td>\{{price}}</td>
-                                <td>\{{import_receipt_details.count_details}}</td>
-                                <td>\{{import_receipt_details.sum_quantity}}</td>
-                            </tr>
-                        \{{/each}}
-                    </script>
+      
 
                     <footer class="row justify-content-center">
                         <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">

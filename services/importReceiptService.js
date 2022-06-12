@@ -136,3 +136,21 @@ exports.getAndCountAllImportReceipts = async (page, limit, filter, raw = false) 
         console.log(e);
     }
 }
+
+
+exports.getImportReceiptById = async (id, raw = false) => {
+    try{
+        const importReceipt = await models.import_receipt.findOne(
+            {
+                where: {
+                    id: id
+                },
+                raw: raw
+            }
+        );
+
+        return importReceipt;
+    }catch (e) {
+        console.log(e);
+    }
+}

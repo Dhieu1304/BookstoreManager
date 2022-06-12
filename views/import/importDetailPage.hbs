@@ -1,0 +1,167 @@
+
+{{#section 'css'}}
+    <link href="/stylesheets/import/import.css" rel="stylesheet"/>
+    <link href="/stylesheets/import/importDetailPage.css" rel="stylesheet"/>
+{{/section}}
+
+<main class="import-container">
+
+    <div class="row">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-4">Danh sách phiếu nhập</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/import">Danh sách phiếu nhập</a></li>
+                    <li class="breadcrumb-item active"><a href="/import">chi tiết phiếu nhập</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-9 col-xs-12">
+            <div class="content">
+                <table id="importReceiptDetailTable" class="import-receip-detail-table">
+                    <thead>
+                    <tr>
+                        {{!-- <th>Ảnh</th> --}}
+                        <th>ISBN
+                            {{!-- <input type="text" style="width: 100%"> --}}
+                        </th>
+                        <th>Tiêu đề</th>
+                        <th>Số trang</th>
+                        <th>Ngày NB</th>
+                        <th>NXB</th>
+                        <th>Tác giả</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        {{!-- <th>Ảnh</th> --}}
+                        <th>ISBN</th>
+                        <th>Tiêu đề</th>
+                        <th>Số trang</th>
+                        <th>Ngày NB</th>
+                        <th>NXB</th>
+                        <th>Tác giả</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                    </tr>
+                    </tfoot>
+                    <tbody id="importTableBody">
+
+                        {{#each importReceiptDetails}}
+                            <tr id="importReceiptDetailItem{{book_id}}">
+                                <input type="hidden" name="bookIds" value="{{book_id}}">
+                                {{!-- <td><img class="import-book-img" src="{{avatar}}"></td> --}}
+                                <td>{{book.isbn}}</td>
+                                <td>{{book.title}}</td>
+                                <td>{{book.num_page}}</td>
+                                <td>{{book.publication_date}}</td>
+                                <td>{{book.publisher.name}}</td>
+                                <td>
+                                    {{#each book.author_id_authors}}
+                                        -{{name}}<br>
+                                    {{/each}}
+                                </td>
+                                <td>
+                                    {{#each book.category_id_categories}}
+                                        -{{name}}<br>
+                                    {{/each}}
+                                </td>
+                                <td>{{price}}</td>
+                                <td>{{quantity}}</td>
+                            </tr>
+                        {{/each}}
+                    <script type="text/x-handlebars-template" id="tableDataTemplate">
+     
+                        \{{#each importReceiptDetails}}
+                            <tr id="importReceiptDetailItem\{{book_id}}">
+                                <input type="hidden" name="bookIds" value="\{{book_id}}">
+                                \{{!-- <td><img class="import-book-img" src="\{{avatar}}"></td> --}}
+                                <td>\{{book.isbn}}</td>
+                                <td>\{{book.title}}</td>
+                                <td>\{{book.num_page}}</td>
+                                <td>\{{book.publication_date}}</td>
+                                <td>\{{book.publisher.name}}</td>
+                                <td>
+                                    \{{#each book.author_id_authors}}
+                                        -\{{name}}<br>
+                                    \{{/each}}
+                                </td>
+                                <td>
+                                    \{{#each book.category_id_categories}}
+                                        -\{{name}}<br>
+                                    \{{/each}}
+                                </td>
+                                <td>\{{price}}</td>
+                                <td>\{{quantity}}</td>
+                            </tr>
+                        \{{/each}}
+
+                        </script>
+                    </tbody>
+                </table>
+
+                    <footer class="row justify-content-center">
+                        <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">
+                            {{{createPagination pagination paginationClass="pagination"}}}
+
+                            <script type="text/x-handlebars-template" id="paginationTemplate">
+                                \{{{createPagination pagination paginationClass="pagination"}}}
+                            </script>
+                        </nav>
+                    </footer>
+
+            </div>
+        </div>
+        <div class="mr-4 col-md-3 col-xs-12">
+            <div class="import-form">
+                <div class="row import-form-top">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="py-2 px-2 form-group row align-items-center">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
+                            <div class="col-md-8 col-sm-8 col-xs-6">
+                                <input form="importForm" class="form-control" type="date" readonly id="createAt" name="createAt" value="{{importReceipt.create_at}}" readonly>
+                            </div>
+                        </div>
+                        <div class="py-2 px-2 form-group row">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input form="importForm" type="number" id="totalPrice" name="totalPrice" class="form-control text-right" value="{{importReceipt.price}}" readonly>
+                            </div>
+                        </div>
+                        <div class="py-2 px-2 form-group row">
+                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input form="importForm" type="text" id="finalPrice" name="finalPrice" class="form-control text-right" value="{{importReceipt.price}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </form>
+
+
+</main>
+
+{{#section 'script'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="/js/helper/helper.js"></script>
+    <script src="/js/modal/overlay-modal.js"></script>
+    <script>
+        const importReceiptDetails2 = JSON.parse('{{{json importReceiptDetails}}}');
+        console.log(importReceiptDetails2);
+    </script>
+    <script src="/js/import/import.js"></script>
+    <script src="/js/import/importDetailPage.js"></script>
+{{/section}}

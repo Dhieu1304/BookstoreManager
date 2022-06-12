@@ -283,6 +283,7 @@ async function getTableDataAndPagination(urlApi){
 /*----------------------------------------------------------Main----------------------------------------------------------------- */
 /*------------------------------------------------------------------------------------------------------------------------------- */
 
+initDataTemplate();
 $(document).ready(async function() {
 
 
@@ -292,7 +293,7 @@ $(document).ready(async function() {
     // await initData();
 
     initUI();
-    initDataTemplate();
+    
 
     initEvent();
 
