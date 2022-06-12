@@ -54,6 +54,20 @@ exports.getSaleAddPage = async (req, res) => {
     res.render('sale/saleAddPage', {title: 'Add Sale', bookStocks, customers});
 }
 
+exports.getSaleDetailPage = async (req, res) => {
+
+
+    const saleId = req.params.id;
+
+    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, true);
+
+    const saleReceiptDetails = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, false);
+
+    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails});
+
+}
+
+
 exports.addSaleReceipt = async (req, res) => {
 
 

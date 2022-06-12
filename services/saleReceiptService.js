@@ -184,6 +184,15 @@ exports.getSaleReceiptById = async (id, raw = false) => {
     try{
         const saleReceipt = await models.sale_receipt.findOne(
             {
+
+                include:
+                [
+                    {
+                        model: models.customer,
+                        as: "customer",
+                    }
+                ],
+
                 where: {
                     id: id
                 },
