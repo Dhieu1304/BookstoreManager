@@ -6,6 +6,7 @@ const publisherApiRouter = require("../../routes/api/publisherApiRouter");
 const authorApiRouter = require("../../routes/api/authorApiRouter");
 const categoryApiRouter = require("../../routes/api/categoryApiRouter");
 const importApiRouter = require("./importApiRouter");
+const saleApiRouter = require("./saleApiRouter");
 const mockDataApiRouter = require("../../routes/api/mockDataApiRouter");
 
 
@@ -16,6 +17,7 @@ router.use('/publisher', publisherApiRouter);
 router.use('/author', authorApiRouter);
 router.use('/category', categoryApiRouter);
 router.use('/import', importApiRouter);
+router.use('/sale', saleApiRouter);
 router.use('/mock', mockDataApiRouter);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const importReceiptService = require("../../services/importReceiptService");
+const saleReceiptService = require("../../services/saleReceiptService");
 
 
-exports.getAllImportReceipts = async (req, res) => {
+exports.getAllSaleReceipts = async (req, res) => {
 
 
     const data = req.query;
@@ -11,6 +11,7 @@ exports.getAllImportReceipts = async (req, res) => {
     const filter = {
         typeOfFilter : data.typeOfFilter,
         filterId : data.filterId,
+        filterCustomer : data.filterCustomer,
         filterDate : data.filterDate,
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
@@ -19,9 +20,9 @@ exports.getAllImportReceipts = async (req, res) => {
     }
 
 
-    const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, filter, true);
-    const importReceipts = importReceiptsAndCount.rows;
-    const count = importReceiptsAndCount.count;
+    const saleReceiptsAndCount = await saleReceiptService.getAndCountAllSaleReceipts(page, limit, filter, true);
+    const saleReceipts = saleReceiptsAndCount.rows;
+    const count = saleReceiptsAndCount.count;
 
     const pagination = {
         page: page,
@@ -29,5 +30,5 @@ exports.getAllImportReceipts = async (req, res) => {
         totalRows: count
     }
 
-    res.json({importReceipts, pagination});
+    res.json({saleReceipts, pagination});
 }

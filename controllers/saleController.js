@@ -8,8 +8,41 @@ const customerService = require("../services/customerService");
 exports.getSalePage = async (req, res) => {
 
 
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
 
-    res.render('sale/salePage', {title: 'Sale', bookStocks, customers});
+    const filter = {
+        typeOfFilter : data.typeOfFilter,
+        filterId : data.filterId,
+        filterCustomer : data.filterCustomer,
+        filterDate : data.filterDate,
+        filterMonth : data.filterMonth,
+        filterYear : data.filterYear,
+        filterMinDate : data.filterMinDate,
+        filterMaxDate : data.filterMaxDate
+    }
+
+
+
+
+
+    const saleReceiptsAndCount = await saleReceiptService.getAndCountAllSaleReceipts(page, limit, filter, true);
+
+    if(!saleReceiptsAndCount){
+        res.render('sale/salePage', {title: 'Sale'});
+    }
+
+    const saleReceipts = saleReceiptsAndCount.rows;
+    const count = saleReceiptsAndCount.count;
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+    res.render('sale/salePage', {title: 'Sale', saleReceipts, pagination, filter});
 }
 
 exports.getSaleAddPage = async (req, res) => {
