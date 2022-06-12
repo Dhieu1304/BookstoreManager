@@ -18,8 +18,15 @@
         <form id="filterForm" class="row mt-2" method="get" action="/import">
             <div class="col-10">
                 <div class="filter">
-                    <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ID" {{/if}}>
+                    <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ALL" {{/if}}>
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
+                                <button class="nav-link filter-tab-btn" id="pills-filter-all-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-all" type="button" role="tab" aria-controls="pills-filter-all" aria-selected="true">
+                                    Tất cả
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="ALL">                                    
+                                </button>
+                            </li>
                             <li class="nav-item" role="presentation">
                                 {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
                                 <button class="nav-link filter-tab-btn" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true">
@@ -49,7 +56,10 @@
 
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-filter-id" role="tabpanel" aria-labelledby="pills-filter-id-tab">
+                        <div class="tab-pane fade" id="pills-filter-all" role="tabpanel" aria-labelledby="pills-filter-all-tab">
+
+                        </div>
+                        <div class="tab-pane fade" id="pills-filter-id" role="tabpanel" aria-labelledby="pills-filter-id-tab">
                             <div class="form-group row col-xl-3 col-md-6 col-sm-12">
                                 <label for="filterId" class="col-sm-2 col-form-label">ID</label>
                                 <div class="col-sm-10">
@@ -133,6 +143,7 @@
                 <div class="filter">
                     <div class="d-flex justify-content-end">
                             <label for="limit" class="col-form-label" style="margin-right: 10px;">Số dòng</label>
+                            <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
                             <div class="d-flex align-items-center">
                                 <select name="limit" id="limit" class="custom-select" form="filterForm">
                                     <option value="-1">Tất cả</option>
@@ -157,6 +168,7 @@
                                 <th>Tổng chi phí</th>
                                 <th>Số sách</th>
                                 <th>Số lượng sách</th>
+                                <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -166,6 +178,7 @@
                                 <th>Tổng chi phí</th>
                                 <th>Số sách</th>
                                 <th>Số lượng sách</th>
+                                <th>Chi tiết</th>
                             </tr>
                         </tfoot>
                         <tbody id="importTableBody">
@@ -176,6 +189,11 @@
                                     <td>{{price}}</td>
                                     <td>{{import_receipt_details.count_details}}</td>
                                     <td>{{import_receipt_details.sum_quantity}}</td>
+                                    <td>
+                                        <a class="btn btn-success rounded-2" href="/import/{{id}}">
+                                            <i class="fa-solid fa-arrow-right-to-line"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             {{/each}}
                             <script type="text/x-handlebars-template" id="tableDataTemplate">
@@ -186,6 +204,11 @@
                                         <td>\{{price}}</td>
                                         <td>\{{import_receipt_details.count_details}}</td>
                                         <td>\{{import_receipt_details.sum_quantity}}</td>
+                                        <td>
+                                            <a class="btn btn-success rounded-2" href="/import/{{id}}">
+                                                <i class="fa-solid fa-arrow-right-to-line"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 \{{/each}}
                             </script>

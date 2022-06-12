@@ -1,4 +1,7 @@
 const {models} = require("../models");
+const { Op } = require("sequelize")
+const  sequelize = require("sequelize")
+
 const bookImgService = require("../services/bookImgService");
 
 
@@ -74,7 +77,6 @@ exports.getAllImportReceiptDetailsByImportReceiptId = async (importId, raw = fal
     try{
         const importReceiptDetails = await models.import_receipt_detail.findAll({
             raw: raw,
-            nest : true,
             where: ({
                 report_receipt_id: importId
             }),

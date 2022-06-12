@@ -114,6 +114,17 @@ function defautSelectFilter(){
     }
 
     
+    const limitHiddenVal = $("#limitHidden").val();
+
+    if (limitHiddenVal){
+        $("#limit option").each(function() {
+            if ($(this).val() === limitHiddenVal){
+                $(this).attr("selected","selected");
+            }    
+        });
+    }
+
+
 
     const typeOfFilter = $("#typeOfFilter").val();
 

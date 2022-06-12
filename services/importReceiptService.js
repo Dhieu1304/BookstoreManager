@@ -101,6 +101,8 @@ exports.getAndCountAllImportReceipts = async (page, limit, filter, raw = false) 
                     };
                 }
                     break;
+                case "ALL":
+                    break;
                 default:
                     break;
                     
