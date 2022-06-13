@@ -146,6 +146,14 @@ module.exports.apiEditCustomer = async (req, res) => {
         })
     }
 
+    const existCustomer = await customerService.getCustomerInforByPhoneNumber(customer.phone, true);
+    if (existCustomer && existCustomer.id.toString() !== customer.id) {
+        return res.status(200).json({
+            errCode: 3,
+            errMessage: "This phone number has been used"
+        })
+    }
+
     const isEdit = await customerService.editCustomer(customer);
 
     if (isEdit) {

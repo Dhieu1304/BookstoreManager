@@ -218,11 +218,11 @@ const handleEditCustomer = (event) => {
                 dept: customer.dept
             },
             success: function (res) {
-                modalEdit.style.display = 'none';
 
                 if (res.errCode !== 0) {
                     notification(res.errMessage, NOTY_TYPE.FAIL);
                 } else {
+                    modalEdit.style.display = 'none';
                     notification(res.errMessage, NOTY_TYPE.SUCCESS);
                     getAPIData();
                 }
