@@ -109,3 +109,21 @@ module.exports.getBookStockByBookId = async (req, res) => {
 
     res.status(200).json({bookStock});
 }
+
+
+
+module.exports.getBookStockByIsbn = async (req, res) => {
+    const isbn = req.params.isbn;
+
+
+    /**
+     * A book can have many author
+     * if raw = true, with each author will have bookStock with the same bookId
+     * if raw = false, all authors in bookStock are a array
+     */    
+
+    const bookStock = await bookStockService.getBookStockByIsbn(isbn, false);
+
+    res.status(200).json({bookStock});
+}
+

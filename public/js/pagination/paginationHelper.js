@@ -1,18 +1,19 @@
+
 Handlebars.registerHelper('createPagination', function (pagination, options){
 
     if (!pagination) {
         return '';
     }
 
-    let limit = 7;
-    let n = 1;
-    let queryParams = '';
-    let page = parseInt(pagination.page || 0);
-    let leftText = '<i class="fas fa-angle-left"></i>';
-    let rightText = '<i class="fas fa-angle-right"></i>';
-    let firstText = '<i class="fas fa-angle-double-left"></i>';
-    let lastText = '<i class="fas fa-angle-double-right"></i>';
-    let paginationClass = 'pagination pagination-sm';
+    var limit = 7;
+    var n = 1;
+    var queryParams = '';
+    var page = parseInt(pagination.page || 0);
+    var leftText = '<i class="fas fa-angle-left"></i>';
+    var rightText = '<i class="fas fa-angle-right"></i>';
+    var firstText = '<i class="fas fa-angle-double-left"></i>';
+    var lastText = '<i class="fas fa-angle-double-right"></i>';
+    var paginationClass = 'pagination pagination-sm';
 
     if (options.hash.limit) limit = +options.hash.limit;
     if (options.hash.leftText) leftText = options.hash.leftText;
@@ -21,17 +22,17 @@ Handlebars.registerHelper('createPagination', function (pagination, options){
     if (options.hash.lastText) lastText = options.hash.lastText;
     if (options.hash.paginationClass) paginationClass = options.hash.paginationClass;
 
-    let pageCount = Math.ceil(pagination.totalRows / pagination.limit);
+    var pageCount = Math.ceil(pagination.totalRows / pagination.limit);
 
     //query params
     if (pagination.queryParams) {
         queryParams = '&';
-        for (let key in pagination.queryParams) {
+        for (var key in pagination.queryParams) {
             if (pagination.queryParams.hasOwnProperty(key) && key !== 'page') {
                 queryParams += key + "=" + pagination.queryParams[key] + "&";
             }
         }
-        let lastCharacterOfQueryParams = queryParams.substring(queryParams.length, -1);
+        var lastCharacterOfQueryParams = queryParams.substring(queryParams.length, -1);
 
         if (lastCharacterOfQueryParams === "&") {
             //trim off last & character
@@ -39,7 +40,7 @@ Handlebars.registerHelper('createPagination', function (pagination, options){
         }
     }
 
-    let template = '<ul class="' + paginationClass + '">';
+    var template = '<ul class="' + paginationClass + '">';
 
     // ========= First Button ===============
     if (page === 1) {
@@ -62,16 +63,16 @@ Handlebars.registerHelper('createPagination', function (pagination, options){
     }
 
     // ========= Page Numbers Middle ======
-    let i = 0;
-    let leftCount = Math.ceil(limit / 2) - 1;
-    let rightCount = limit - leftCount - 1;
+    var i = 0;
+    var leftCount = Math.ceil(limit / 2) - 1;
+    var rightCount = limit - leftCount - 1;
     if (page + rightCount > pageCount) {
         leftCount = limit - (pageCount - page) - 1;
     }
     if (page - leftCount < 1) {
         leftCount = page - 1;
     }
-    let start = page - leftCount;
+    var start = page - leftCount;
 
     while (i < limit && i < pageCount) {
         n = start;

@@ -1,24 +1,67 @@
 
 const importReceiptService = require('../services/importReceiptService');
 const importReceiptDetailService = require("../services/importReceiptDetailService");
-const authorService = require("../services/authorService");
-const publisherService = require("../services/publisherService");
-const categoryService = require("../services/categoryService");
 const bookStockService = require("../services/bookStockService");
 
 
 exports.getImportPage = async (req, res) => {
 
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
 
-    const bookStocks = await bookStockService.getAllBookStock(false);
+    const filter = {
+        typeOfFilter : data.typeOfFilter,
+        filterId : data.filterId,
+        filterDate : data.filterDate,
+        filterMonth : data.filterMonth,
+        filterYear : data.filterYear,
+        filterMinDate : data.filterMinDate,
+        filterMaxDate : data.filterMaxDate
+    }
 
-    const authors = await authorService.getAllAuthorInfor(true);
 
-    const publishers = await publisherService.getAllPublisherInfor(true);
 
-    const categorys = await categoryService.getAllCategoryInfor(true);
 
-    res.render('import/import', {title: 'Import', authors, bookStocks, publishers, categorys});
+
+    const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, filter, true);
+
+    if(!importReceiptsAndCount){
+        res.render('import/importPage', {title: 'Import'});
+    }
+
+    const importReceipts = importReceiptsAndCount.rows;
+    const count = importReceiptsAndCount.count;
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+    res.render('import/importPage', {title: 'Import', importReceipts, pagination, filter});
+}
+
+exports.getImportAddPage = async (req, res) => {
+
+    res.render('import/importAddPage', {title: 'importAddPage'});
+}
+
+
+exports.getImportDetailPage = async (req, res) => {
+
+
+    const importId = req.params.id;
+
+    const importReceipt = await importReceiptService.getImportReceiptById(importId, true);
+
+    // const bookIds = await importReceiptDetailService.getBookIdsByImportReceiptId(importId, true)
+
+    // const bookStocks = await bookStockService.getAllBookStocksByBookIds(bookIds, false);
+
+    const importReceiptDetails = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, false);
+
+    res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails});
 }
 
 exports.addImportReceipt = async (req, res) => {

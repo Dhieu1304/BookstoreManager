@@ -3,16 +3,10 @@
     padding: 24px;
 }
 
-.import-form{
-    
-}
 
-.import-form-top,
-.import-form-bottom{
-    margin-bottom: 20px;
-    padding: 24px 12px;
-    background-color: #ffffff;
-    border: 1px solid #E6E9ED;
+
+.filter{
+    padding: 12px 24px;
 }
 
 .content{
@@ -29,9 +23,6 @@
     font-size: 14px;
 }
 
-.import-book-img{
-    width: 50px;
-}
 
 .select-modal-content{
     width: fit-content;

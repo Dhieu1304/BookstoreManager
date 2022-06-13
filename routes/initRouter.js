@@ -10,8 +10,13 @@ const importRouter = require("./importRouter");
 const billRouter = require("./billRouter");
 const apiRouter = require("./api/initApiRouter");
 const customerRouter = require("./customerRouter");
+<<<<<<< HEAD
+const statisticsRouter = require("./statisticsRouter");
+const authController = require('../controllers/authController');
+=======
 const regulationRouter = require("./regulationRouter");
 const authController = require("../controllers/authController");
+>>>>>>> a64cf1a4db71166b0284db04476c2417e3205dc8
 
 module.exports.initRouter = (app) => {
 
@@ -37,5 +42,10 @@ module.exports.initRouter = (app) => {
     app.use('/bill', billRouter);
     app.use('/api', apiRouter);
     app.use('/customer', customerRouter);
+<<<<<<< HEAD
+    app.use('/statistics', statisticsRouter);
+    
+=======
     app.use('/regulation', regulationRouter);
+>>>>>>> a64cf1a4db71166b0284db04476c2417e3205dc8
 }

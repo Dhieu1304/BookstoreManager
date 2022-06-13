@@ -32,3 +32,22 @@ exports.addCategory = async (name) => {
         console.log(e);
     }
 }
+
+
+exports.getCategoryByName = async (name, raw = false) => {
+    try{
+        const category = await models.category.findOne({
+            raw: raw,
+            where: {
+                name: name
+            }
+        });
+
+        return category;
+    }catch (e){
+        console.log(e);
+    }
+
+}
+
+

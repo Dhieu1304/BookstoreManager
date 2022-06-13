@@ -38,18 +38,63 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-                <a class="nav-link" href="/sale">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSale"
+                   aria-expanded="false" aria-controls="collapseSale">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Bán sách
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <a class="nav-link" href="/import">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+
+                
+                <div class="collapse" id="collapseSale" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/sale">Danh sách</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/sale/add">Thêm</a>
+                    </nav>
+                </div>
+
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseImport"
+                   aria-expanded="false" aria-controls="collapseImport">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Nhập sách
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
+
+                
+                <div class="collapse" id="collapseImport" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/import">Danh sách</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/import/add">Thêm</a>
+                    </nav>
+                </div>
+
+
                 <a class="nav-link" href="/bill">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Phiếu thu tiền
                 </a>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseStatistics"
+                   aria-expanded="false" aria-controls="collapseStatistics">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Thống kê
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseStatistics" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        {{!-- <a class="nav-link" href="/statistics/day">Theo ngày</a> --}}
+                        <a class="nav-link" href="/statistics/month">Theo tháng</a>
+                        {{!-- <a class="nav-link" href="/statistics/year">Theo năm</a> --}}
+                    </nav>
+                </div>
                 <div class="sb-sidenav-menu-heading">Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                    aria-expanded="false" aria-controls="collapseLayouts">

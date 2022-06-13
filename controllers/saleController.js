@@ -4,14 +4,69 @@ const saleReceiptDetailService = require("../services/saleReceiptDetailService")
 const bookStockService = require("../services/bookStockService");
 const customerService = require("../services/customerService");
 
+
 exports.getSalePage = async (req, res) => {
+
+
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
+
+    const filter = {
+        typeOfFilter : data.typeOfFilter,
+        filterId : data.filterId,
+        filterCustomer : data.filterCustomer,
+        filterDate : data.filterDate,
+        filterMonth : data.filterMonth,
+        filterYear : data.filterYear,
+        filterMinDate : data.filterMinDate,
+        filterMaxDate : data.filterMaxDate
+    }
+
+
+
+
+
+    const saleReceiptsAndCount = await saleReceiptService.getAndCountAllSaleReceipts(page, limit, filter, true);
+
+    if(!saleReceiptsAndCount){
+        res.render('sale/salePage', {title: 'Sale'});
+    }
+
+    const saleReceipts = saleReceiptsAndCount.rows;
+    const count = saleReceiptsAndCount.count;
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+    res.render('sale/salePage', {title: 'Sale', saleReceipts, pagination, filter});
+}
+
+exports.getSaleAddPage = async (req, res) => {
 
     const bookStocks = await bookStockService.getAllBookStock(false);
 
     const customers = await customerService.getAllCustomerInfor(true);
 
-    res.render('sale/sale', {title: 'Sale', bookStocks, customers});
+    res.render('sale/saleAddPage', {title: 'Add Sale', bookStocks, customers});
 }
+
+exports.getSaleDetailPage = async (req, res) => {
+
+
+    const saleId = req.params.id;
+
+    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, true);
+
+    const saleReceiptDetails = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, false);
+
+    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails});
+
+}
+
 
 exports.addSaleReceipt = async (req, res) => {
 

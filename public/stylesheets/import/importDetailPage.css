@@ -1,0 +1,19 @@
+.import-form{
+    
+}
+
+
+
+.import-form-top,
+.import-form-bottom{
+    margin-bottom: 20px;
+    padding: 24px 12px;
+    background-color: #ffffff;
+    border: 1px solid #E6E9ED;
+}
+
+
+.import-book-img{
+    width: 50px;
+}
+
