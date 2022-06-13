@@ -20,6 +20,14 @@
 - Có thêm multer (upload file), muốn dùng thì lấy ở utils/multer.js
 - Có thêm notification (thông báo giống toast), muốn dùng thì gọi hàm: notification("message", NOTY_TYPE.FAIL); (FAIL/SUCCESS/INFO) >>Đã thêm ở layout, chỉ dùng thôi
 
+- Sử dụng DB onl bằng cách sửa NODE_ENV=/PRODUCTION thành NODE_ENV=PRODUCTION
+- Hoặc thêm data cho bảng regulation:
+```
+  insert into regulation (id, name, value, is_used) values (default, 'Minimum import', 150, true);
+  insert into regulation (id, name, value, is_used) values (default, 'Minimun stock (import)', 300, true);
+  insert into regulation (id, name, value, is_used) values (default, 'Maximum debt', 20000, true);
+  insert into regulation (id, name, value, is_used) values (default, 'Minimun stock (sale)', 20, true);
+```
 
 ## Tham khảo (Sang)
 https://stackoverflow.com/questions/18796221/creating-a-select-box-with-a-search-option
