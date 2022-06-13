@@ -9,8 +9,6 @@ let params = {
     search: '',
 };
 
-let resData = {}
-
 for (let key in params) {
     if (!urlParams.has(key)) {
         urlParams.append(key, params[key]);
@@ -49,7 +47,6 @@ const getAPIData = () => {
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
                 handleRenderView(res.data);
-                resData = res.data;
             }
         }
     });

@@ -1,0 +1,33 @@
+{{#section 'css'}}
+    <link href="/stylesheets/regulation.css" rel="stylesheet"/>
+{{/section}}
+
+<main>
+    <div class="container px-4">
+        <h3 class="mt-4" id="title-h3" style="margin-bottom: 25px">Regulation</h3>
+        <div class="regulation-body">
+            <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Is used</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-table-regulation">
+
+                    </tbody>
+                </table>
+
+                <button id="btn-change" class="btn-change" onclick="handleChangeRegulationView()">Change</button>
+                <button id="btn-save" class="btn-change" onclick="handleSaveRegulation()" hidden>Save</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+{{#section 'script'}}
+    <script src="/js/regulation.js"></script>
+{{/section}}

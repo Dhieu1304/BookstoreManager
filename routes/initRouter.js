@@ -10,6 +10,7 @@ const importRouter = require("./importRouter");
 const billRouter = require("./billRouter");
 const apiRouter = require("./api/initApiRouter");
 const customerRouter = require("./customerRouter");
+const regulationRouter = require("./regulationRouter");
 const authController = require("../controllers/authController");
 
 module.exports.initRouter = (app) => {
@@ -22,9 +23,9 @@ module.exports.initRouter = (app) => {
         next();
     })
 
-    // app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
     app.use('/auth', authRouter);
-    app.use('/', authController.checkAuthenticated, homeRouter);
+    // app.use('/', authController.checkAuthenticated, homeRouter);
+    app.use('/', /*authController.checkAuthenticated,*/ homeRouter);
     app.use('/layout', layoutRouter);
     app.use('/error', errorRouter);
     app.use('/chart', chartRouter);
@@ -36,4 +37,5 @@ module.exports.initRouter = (app) => {
     app.use('/bill', billRouter);
     app.use('/api', apiRouter);
     app.use('/customer', customerRouter);
+    app.use('/regulation', regulationRouter);
 }
