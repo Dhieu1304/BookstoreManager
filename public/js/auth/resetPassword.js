@@ -2,13 +2,16 @@ function handleResetPassword(event) {
     event.preventDefault();
 
     const email = $('#inputEmail').val();
+    showModalIsLoading('modal-loading');
+
     $.ajax({
-        url: '/email/api/resetPassword',
+        url: '/auth/api/resetPassword',
         type: 'post',
         data: {
             email: email
         },
         success: function (res) {
+            removeModalIsLoading();
             if (res.errCode !== 0) {
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
@@ -35,7 +38,7 @@ function handleCreateNewPassword(event) {
         notification("Please check Confirm Password!", NOTY_TYPE.FAIL);
     } else {
         $.ajax({
-            url: '/email/api/resetNewPassword',
+            url: '/auth/api/resetNewPassword',
             type: 'post',
             data: {
                 id: id,

@@ -7,7 +7,7 @@ handleClickLogin = () => {
         notification('Parameter is required!!', NOTY_TYPE.FAIL);
     } else {
         $.ajax({
-            url: '/api/auth/login',
+            url: '/auth/api/login',
             type: 'post',
             data: {
                 email: email,
