@@ -105,3 +105,41 @@ module.exports.getCustomersFilter = (filter) => {
         }
     })
 }
+
+module.exports.getCustomerById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const customer = await models.customer.findOne({where: {id}, raw: true});
+
+            if (customer) {
+                resolve(customer);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+module.exports.editCustomer = (customerInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const customer = await models.customer.findOne({where: {id: customerInput.id}});
+
+            if (customer) {
+                customer.name = customerInput.name;
+                customer.phone = customerInput.phone;
+                customer.email = customerInput.email;
+                customer.address = customerInput.address;
+                customer.dept = customerInput.dept;
+                await customer.save();
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
