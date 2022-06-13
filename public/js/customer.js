@@ -82,6 +82,13 @@ const handleRenderView = (resData) => {
                     <td>
                         ${item.dept}
                     </td>
+                    <td>
+                        <div onclick="handleShowModalEdit(${item.id})">
+                            <span href="#" class="edit-account" title="Edit" data-toggle="tooltip">
+                                <i class="fas fa-user-edit"></i>
+                            </span>
+                        </div>
+                    </td>
                 </tr>
                 `;
         })
@@ -112,7 +119,7 @@ const handleHideShowFilter = () => {
     }
 }
 
-function handleFilterCustomer() {
+const handleFilterCustomer = () => {
 
     params['page'] = 1;
     params['limit'] = document.getElementById('limit').value;
@@ -122,11 +129,104 @@ function handleFilterCustomer() {
     getAPIData();
 }
 
-function handleExportCustomer() {
+const handleExportCustomer = () => {
     const hrefExportData = '/customer/exportExcel?' + urlParams.toString();
     console.log('hrefExportData:', hrefExportData);
     let a = document.createElement("a");
     a.setAttribute('href', hrefExportData);
     a.click();
     a.remove();
+}
+
+const modalEdit = document.getElementById("modalEditCustomer");
+
+const handleShowModalEdit = (id) => {
+    console.log(id);
+
+    $.ajax({
+        url: `/customer/api/customerDetail`,
+        type: 'post',
+        data: {id},
+        success: function (res) {
+            console.log('Data:', res.data);
+
+            if (res.errCode !== 0) {
+                notification(res.errMessage, NOTY_TYPE.FAIL);
+            } else {
+                handleRenderViewEditModal(res.data);
+            }
+        }
+    });
+
+
+    modalEdit.style.display = "block";
+
+    let spanEl = document.getElementById("close-modal");
+    let closeBtn = document.getElementById("close-modal-btn");
+
+    spanEl.onclick = function () {
+        modalEdit.style.display = "none";
+    }
+
+    closeBtn.onclick = function (event) {
+        event.preventDefault();
+        modalEdit.style.display = "none";
+    }
+}
+
+const handleRenderViewEditModal = (customer) => {
+    $('#inputId').val(customer.id),
+        $('#inputFullName').val(customer.name);
+    $('#inputPhone').val(customer.phone);
+    $('#inputEmail').val(customer.email);
+    $('#inputAddress').val(customer.address);
+    $('#inputDept').val(customer.dept);
+}
+
+const handleEditCustomer = (event) => {
+
+    let isFormValid = document.getElementById('form-edit-customer').checkValidity();
+
+    if (!isFormValid) {
+        document.getElementById('form-edit-customer').reportValidity();
+    } else {
+        event.preventDefault();
+        let customer = {
+            id: $('#inputId').val(),
+            name: $('#inputFullName').val(),
+            phone: $('#inputPhone').val(),
+            email: $('#inputEmail').val(),
+            address: $('#inputAddress').val(),
+            dept: $('#inputDept').val()
+        };
+        // regex
+        const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const numRegex = /^\d+$/;
+        if (!emailRegex.test(customer.email) || !numRegex.test(customer.phone) || !numRegex.test(customer.dept)) {
+            return notification("Error Input");
+        }
+
+        $.ajax({
+            url: `/customer/api/apiEditCustomer`,
+            type: 'post',
+            data: {
+                id: customer.id,
+                name: customer.name,
+                phone: customer.phone,
+                email: customer.email,
+                address: customer.address,
+                dept: customer.dept
+            },
+            success: function (res) {
+                modalEdit.style.display = 'none';
+
+                if (res.errCode !== 0) {
+                    notification(res.errMessage, NOTY_TYPE.FAIL);
+                } else {
+                    notification(res.errMessage, NOTY_TYPE.SUCCESS);
+                    getAPIData();
+                }
+            }
+        })
+    }
 }

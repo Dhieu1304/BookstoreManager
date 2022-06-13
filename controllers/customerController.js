@@ -1,6 +1,6 @@
 const customerService = require("../services/customerService");
 const excelJS = require("exceljs");
-
+const regex = require('../utils/regex');
 
 module.exports.customerPage = (req, res) => {
     res.render('customer', {title: 'Customer'});
@@ -109,3 +109,54 @@ module.exports.exportCustomer = async (req, res) => {
         });
     }
 };
+
+module.exports.apiCustomeDetail = async (req, res) => {
+    const id = req.body.id;
+    if (!id) {
+        return res.status(200).json({
+            errCode: 3,
+            errMessage: "Error Customer!",
+        })
+    }
+
+    const customer = await customerService.getCustomerById(id);
+
+    if (customer) {
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "Successful!",
+            data: customer
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error!",
+    })
+}
+
+module.exports.apiEditCustomer = async (req, res) => {
+    const {id, name, phone, email, address, dept} = req.body;
+    const customer = {id, name, phone, email, address, dept}
+
+    if (!regex.numberRegex(customer.phone) || !regex.numberRegex(customer.dept) || !regex.emailRegex(customer.email)) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Error Input"
+        })
+    }
+
+    const isEdit = await customerService.editCustomer(customer);
+
+    if (isEdit) {
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "Edit Successful!"
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error!",
+    })
+}

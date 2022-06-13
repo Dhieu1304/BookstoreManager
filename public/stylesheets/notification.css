@@ -1,6 +1,6 @@
 .notification-container {
   position: fixed;
-  z-index: 100;
+  z-index: 11000;
   display: flex;
   flex-direction: column;
   gap: 16px;
