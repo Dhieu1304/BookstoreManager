@@ -26,6 +26,13 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                     Customer
                 </a>
+                {{#ifTwoCondCustom user.role "admin" "superadmin"}}
+
+                {{/ifTwoCondCustom}}
+                <a class="nav-link" href="/regulation">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                    Regulation
+                </a>
                 <div class="sb-sidenav-menu-heading">Core</div>
                 <a class="nav-link" href="/">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -146,12 +153,14 @@
                     Chart
                 </a>
 
-                <a class="nav-link collapsed" href="/table" data-bs-toggle="collapse" data-bs-target="#collapseTable" aria-expanded="false" aria-controls="collapseTable">
+                <a class="nav-link collapsed" href="/table" data-bs-toggle="collapse" data-bs-target="#collapseTable"
+                   aria-expanded="false" aria-controls="collapseTable">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Table
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapseTable" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <div class="collapse" id="collapseTable" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="/table/user">User</a>
                         <a class="nav-link" href="/table/book">Book</a>
