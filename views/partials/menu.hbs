@@ -77,10 +77,24 @@
                 </div>
 
 
-                <a class="nav-link" href="/bill">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseBill"
+                   aria-expanded="false" aria-controls="collapseBill">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Phiếu thu tiền
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
+
+                
+                <div class="collapse" id="collapseBill" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/bill">Danh sách</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/bill/add">Thêm</a>
+                    </nav>
+                </div>
+
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseStatistics"
                    aria-expanded="false" aria-controls="collapseStatistics">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
