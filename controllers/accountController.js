@@ -5,6 +5,7 @@ const excelJS = require("exceljs");
 const moment = require("moment");
 const emailContent = require("../utils/emailContent");
 const emailServices = require("../services/emailService");
+const regex = require('../utils/regex');
 
 const checkRole = (userRole, accountRole) => {
 
@@ -18,6 +19,8 @@ const checkRole = (userRole, accountRole) => {
 
     return false;
 }
+
+module.exports = {checkRole}
 
 module.exports.getAccounts = async (req, res) => {
     res.render('account');
@@ -37,7 +40,7 @@ module.exports.getAccountInfo = async (req, res) => {
                 errCode: 2,
                 errMessage: "Error!!!",
                 result: 'redirect',
-                url: '/'
+                url: '/error/401'
             })
         }
         else {
@@ -70,8 +73,14 @@ module.exports.editAccountApi = async (req, res) => {
     if (!id || !first_name || !last_name || !gender || !phone_number || !address || !role || !status) {
         return res.status(200).json({
             errCode: 2,
-            errMessage: "Missing Parameter!",
-            data: {}
+            errMessage: "Missing Parameter!"
+        })
+    }
+
+    if (!regex.numberRegex(phone_number) || ['admin', 'staff', 'superadmin'].includes(status) || !['Male', 'Female'].includes(gender)) {
+        return res.status(200).json({
+            errCode: 4,
+            errMessage: "Error Input!"
         })
     }
 
@@ -82,7 +91,7 @@ module.exports.editAccountApi = async (req, res) => {
     if (data) {
         return res.status(200).json({
             errCode: 0,
-            errMessage: "Edit Successful!",
+            errMessage: "Edit Successful!"
         })
     }
 
@@ -126,7 +135,7 @@ module.exports.apiListAccount = async (req, res) => {
             errCode: 2,
             errMessage: "Error!!!",
             result: 'redirect',
-            url: '/'
+            url: '/error/401'
         })
     }
 
@@ -227,7 +236,8 @@ module.exports.addNewAccount = async (req, res) => {
 
     if (data) {
         const fullName = first_name + " " + last_name;
-        const link = `http://localhost:${process.env.PORT}/auth/login`;
+        const urlApp = (process.env.NODE_ENV === 'PRODUCTION') ? process.env.HURL_APP : `${process.env.URL_APP}:${process.env.PORT}`;
+        const link = `${urlApp}/auth/login`;
         const content = emailContent.sendEmailAddNew(fullName, role, password, link);
         let dataEmail = {
             receiverEmail: email,

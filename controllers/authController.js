@@ -14,22 +14,22 @@ module.exports.forgotPassword = (req, res) => {
 }
 
 module.exports.apiAuthLogin = (req, res, next) => {
-    passport.authenticate('local', function(error, user, info) {
-        if(error) {
+    passport.authenticate('local', function (error, user, info) {
+        if (error) {
             console.log('error', error);
             return res.status(200).json({
                 errCode: 1,
                 errMessage: 'Error has occurred',
             });
         }
-        if(!user) {
+        if (!user) {
             console.log('message', info.message);
             return res.status(200).json({
                 errCode: 2,
                 errMessage: info.message
             });
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
             if (err) {
                 return next(err);
             }
@@ -41,13 +41,13 @@ module.exports.apiAuthLogin = (req, res, next) => {
 }
 
 module.exports.checkAuthenticated = async (req, res, next) => {
-/*
-    const nonSecurePaths = ['/auth/login', '/auth/api/login'];
+    /*
+        const nonSecurePaths = ['/auth/login', '/auth/api/login'];
 
-    if (nonSecurePaths.includes(req.path)) {
-        return next();
-    }
-*/
+        if (nonSecurePaths.includes(req.path)) {
+            return next();
+        }
+    */
 
     if (req.isAuthenticated()) {
         return next();
@@ -71,7 +71,10 @@ module.exports.changePassword = async (req, res, next) => {
 
 module.exports.apiChangePassword = async (req, res, next) => {
     if (!req.user || !req.user.id) {
-        return res.redirect('/');
+        return res.status(200).json({
+            errCode: 4,
+            errMessage: "401 Unauthoried!!"
+        })
     }
 
     const {currentPassword, newPassword} = req.body;
@@ -83,18 +86,16 @@ module.exports.apiChangePassword = async (req, res, next) => {
             errCode: 1,
             errMessage: "Incorrect Current Password!",
         })
-    }
-    else {
+    } else {
         const hashPassword = await bcryptService.hashPassword(newPassword)
-        const changePass = await authService.changeAccountPassword(req.user.email, hashPassword);
+        const changePass = await authService.changeAccountPasswordById(req.user.id, hashPassword);
 
         if (!changePass) {
             return res.status(200).json({
                 errCode: 2,
                 errMessage: "Error, Please try again later!",
             })
-        }
-        else {
+        } else {
             return res.status(200).json({
                 errCode: 0,
                 errMessage: "Change Password Successful!",
@@ -105,24 +106,41 @@ module.exports.apiChangePassword = async (req, res, next) => {
 }
 
 module.exports.resetPassword = async (req, res) => {
-    res.render('auth/resetPassword', {layout: false});
+    const token = atob(req.query.token);
+    //id=17&uid=2d7beea6-ccac-11ec-9d64-0242ac120002
+    const indexAnd = token.indexOf('&');
+    const id = token.substring(3, indexAnd);
+    const uid = token.substring(indexAnd + 5, token.length);
+    const account = await accountService.getAccountById(id);
+    if (!account || account.uid !== uid || account.status !== 'forgotPassword') {
+        return res.render('errors/404', {layout: false});
+    }
+    res.render('auth/resetPassword', {layout: false, id});
 }
 
 module.exports.sendEmailResetPassword = async (req, res) => {
 
     const email = req.body.email;
-
     const account = await accountService.getAccountByEmail(email);
-
     if (!account) {
         return res.status(200).json({
             errCode: 1,
             errMessage: "Email incorrect!!"
         })
+    } else {
+        const isChangeStatus = await accountService.EditAccountStatusById(account.id, 'forgotPassword');
+        if (!isChangeStatus) {
+            return res.status(200).json({
+                errCode: 2,
+                errMessage: "Error, Please try again later",
+            });
+        }
     }
 
     const fullName = account.first_name + " " + account.last_name;
-    const link = `http://localhost:${process.env.PORT}/auth/reset-password/?code=${account.id}&token=${account.uid}`;
+    const urlApp = (process.env.NODE_ENV === 'PRODUCTION') ? process.env.HURL_APP : `${process.env.URL_APP}:${process.env.PORT}`;
+    const token = btoa(`id=${account.id}&uid=${account.uid}`);
+    const link = `${urlApp}/auth/reset-password/?token=${token}`;
     const content = emailContent.content(fullName, link);
     let data = {
         receiverEmail: email,
@@ -134,7 +152,7 @@ module.exports.sendEmailResetPassword = async (req, res) => {
         return res.status(200).json({
             errCode: 2,
             errMessage: "Error, Please try again later",
-        })
+        });
     }
 
     return res.status(200).json({
@@ -146,7 +164,21 @@ module.exports.sendEmailResetPassword = async (req, res) => {
 
 module.exports.resetNewPassword = async (req, res) => {
 
-    const {id, uid, newPassword} = req.body;
+    const {id, newPassword, confirmPassword} = req.body;
+
+    if (newPassword !== confirmPassword) {
+        return res.status(200).json({
+            errCode: 3,
+            errMessage: "Please check Confirm Password!!"
+        })
+    }
+
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Error!! Something Wrong!!"
+        })
+    }
 
     const account = await accountService.getAccountById(id);
 
@@ -157,15 +189,8 @@ module.exports.resetNewPassword = async (req, res) => {
         })
     }
 
-    if (account.uid !== uid) {
-        return res.status(200).json({
-            errCode: 1,
-            errMessage: "Error!! Something Wrong!!"
-        })
-    }
-
     const hashPassword = await bcryptService.hashPassword(newPassword);
-    const changePassword = await authService.changeAccountPassword(account.email, hashPassword);
+    const changePassword = await authService.changeAccountPasswordById(id, hashPassword);
 
     if (!changePassword) {
         return res.status(200).json({

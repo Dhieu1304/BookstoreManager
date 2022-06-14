@@ -1,10 +1,26 @@
 const regulationService = require("../services/regulationService");
 
+const checkAdminSuperadmin = (req) => {
+    return req.user && ['admin', 'superadmin'].includes(req.user.role);
+}
+
 module.exports.getRegulationPage = async (req, res) => {
-    res.render('regulation', {title: 'Regulation'});
+    if (checkAdminSuperadmin(req)) {
+        return res.render('regulation', {title: 'Regulation'});
+    }
+    res.redirect('/error/401');
 }
 
 module.exports.getRegulations = async (req, res) => {
+    if (!checkAdminSuperadmin(req)) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Error!!!",
+            result: 'redirect',
+            url: '/error/401'
+        })
+    }
+
     const regulations = await regulationService.getAllRegulations();
     if (regulations) {
         return res.status(200).json({
@@ -22,6 +38,15 @@ module.exports.getRegulations = async (req, res) => {
 }
 
 module.exports.editRegulations = async (req, res) => {
+    if (!checkAdminSuperadmin(req)) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Error!!!",
+            result: 'redirect',
+            url: '/error/401'
+        })
+    }
+
     let dataInput = req.body;
     const temp = dataInput[2];
     dataInput[2] = dataInput[0];

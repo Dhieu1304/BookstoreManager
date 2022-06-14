@@ -6,6 +6,9 @@ const getAPIData = () => {
             console.log('Data:', res);
 
             if (res.errCode !== 0) {
+                if (res.result === 'redirect') {
+                    return window.location.replace(res.url);
+                }
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
                 handleRenderView(res.data);
@@ -91,6 +94,9 @@ const handleSaveRegulation = () => {
             console.log('Data:', res);
 
             if (res.errCode !== 0) {
+                if (res.result === 'redirect') {
+                    return window.location.replace(res.url);
+                }
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
                 notification(res.errMessage, NOTY_TYPE.SUCCESS);
