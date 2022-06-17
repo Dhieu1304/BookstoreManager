@@ -42,15 +42,8 @@ module.exports.configHbs = (dir) => {
         return options.inverse(this);
     });
 
-    hbs.registerHelper('concat', function() {
-        var outStr = '';
-        for(var arg in arguments){
-            console.log("arg: ", arg);
-            if(typeof arguments[arg]!='object'){
-                outStr += arguments[arg];
-            }
-        }
-        return outStr;
-    });
+    hbs.registerHelper('sumInt', function (a, b) {
+        return parseInt(a) + parseInt(b);
+      })
 }
 

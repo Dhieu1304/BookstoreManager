@@ -16,7 +16,7 @@
             </div>
         </div>
         <form id="filterForm" class="row mt-2" method="get" action="/import">
-            <div class="col-10">
+            <div class="col-xl-8 col-md-12">
                 <div class="filter">
                     <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ALL" {{/if}}>
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -129,11 +129,14 @@
                 </div>
             </div>
 
-            <div class="col-2 d-flex align-items-center">
+            <div class="col-xl-4 col-md-12 d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </button>
                 <a class="mx-2 btn btn-secondary rounded-2" href="/import/add">
                     Add <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
                 </a>
-                <button type="submit" class="btn btn-outline-primary" id="searchBtn">
+                <button type="submit" class="btn btn-outline-primary" style="margin-right: 20px;" id="addBtn">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
@@ -141,21 +144,46 @@
         <div class="row">
             <div class="col-12">
                 <div class="filter">
-                    <div class="d-flex justify-content-end">
-                            <div>
-                                <label class="col-form-label" style="margin-right: 20px;">Page: <span>{{pagination.page}}</span></label>
-                                <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                    <div class="row d-flex justify-content-between">
+
+                            <div class="col-xl-4 col-md-12 d-flex justify-content-start">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label for="orderBy" class="col-form-label" style="margin-right: 10px;">Order by</label>
+                                    <input type="hidden" id="orderByHidden" {{#if filter.orderBy}} value="{{filter.orderBy}}" {{/if}}>
+                                    <select name="orderBy" id="orderBy" class="custom-select" style="margin-right: 20px;" form="filterForm">
+                                        <option value="ID" selected="selected">ID</option>
+                                        <option value="CREATE_AT">Time</option>
+                                        <option value="PRICE">Total Cost</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <input type="hidden" id="orderHidden" {{#if filter.order}} value="{{filter.order}}" {{/if}}>                                    
+                                    <select name="order" id="order" class="custom-select" style="margin-right: 20px;" form="filterForm">
+                                        <option value="ASC" selected="selected">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+                                </div>
                             </div>
-                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
-                            <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
-                            <div class="d-flex align-items-center">
-                                <select name="limit" id="limit" class="custom-select" form="filterForm">
-                                    <option value="-1">Tất cả</option>
-                                    <option value="5">5</option>
-                                    <option selected="selected" value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="50">50</option>
-                                </select>
+
+
+                            <div class="col-xl-4 col-md-12 d-flex justify-content-xl-end">
+                                <div>
+                                    <input type="hidden" id="pageHidden" {{#if pagination.page}} value="{{pagination.page}}" {{/if}}>
+                                    <label class="col-form-label" style="margin-right: 20px;">Page: <span id="pageSpan">{{pagination.page}}</span></label>
+                                    <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                                </div>
+                                <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
+                                <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
+                                <div class="d-flex align-items-center">
+                                    <select name="limit" id="limit" class="custom-select" form="filterForm">
+                                        <option value="-1">Tất cả</option>
+                                        <option value="5">5</option>
+                                        <option selected="selected" value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
                             </div>
                     </div>
                 </div>
@@ -167,6 +195,7 @@
                     <table id="importTable" class="import-table">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>ID</th>
                                 <th>Time</th>
                                 <th>Total Cost</th>
@@ -177,6 +206,7 @@
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>No</th>
                                 <th>ID</th>
                                 <th>Time</th>
                                 <th>Total Cost</th>
@@ -188,6 +218,7 @@
                         <tbody id="importTableBody">
                             {{#each importReceipts}}
                                 <tr>
+                                    <td>{{sumInt @index 1}}</td>
                                     <td>{{id}}</td>
                                     <td>{{create_at}}</td>
                                     <td>{{price}}</td>
@@ -203,6 +234,7 @@
                             <script type="text/x-handlebars-template" id="tableDataTemplate">
                                 \{{#each importReceipts}}
                                     <tr>
+                                        <td>\{{sumInt @index 1}}</td>
                                         <td>\{{id}}</td>
                                         <td>\{{create_at}}</td>
                                         <td>\{{price}}</td>

@@ -113,6 +113,26 @@ function defautSelectFilter(){
         });
     }
 
+    const orderByHiddenVal = $("#orderByHidden").val();
+
+    if (orderByHiddenVal){
+        $("#orderBy option").each(function() {
+            if ($(this).val() === orderByHiddenVal){
+                $(this).attr("selected","selected");
+            }    
+        });
+    }
+
+
+    const orderHiddenVal = $("#orderHidden").val();
+
+    if (orderHiddenVal){
+        $("#order option").each(function() {
+            if ($(this).val() === orderHiddenVal){
+                $(this).attr("selected","selected");
+            }    
+        });
+    }
     
     const limitHiddenVal = $("#limitHidden").val();
 
@@ -162,8 +182,17 @@ function updateTablePagination(item, clickPageNum){
 
     //Sau khi hiển thị dữ liệu mới, ta load lai page-link
     loadPageLink(urlParams, pathname);
+
+
+    updatePageIp(pagination.page);
 }
 
+
+function updatePageIp(page){
+    $("#pageHidden").val(page);
+    $("#pageSpan").html(page);
+    
+}
 
 function initUI(){
 
@@ -239,6 +268,75 @@ function initEvent(){
     // $("#searchBtn").click(function(){
 
     // })
+
+    $("#exportBtn").click(async function(){
+
+
+        const page = $("#pageHidden").val();
+        const limit = $("#limit").val();
+        const typeOfFilter = $("#typeOfFilter").val();
+        const filterId = $("#filterId").val();
+        const filterDate = $("#filterDate").val();
+        const filterMonth = $("#filterMonth").val();
+        const filterYear = $("#filterYear").val();
+        const filterMinDate = $("#filterMinDate").val();
+        const filterMaxDate = $("#filterMaxDate").val();
+        const orderBy = $("#orderBy").val();
+        const order = $("#order").val();
+
+
+    
+        const filter = {
+            typeOfFilter : typeOfFilter,
+            filterId : filterId,
+            filterDate : filterDate,
+            filterMonth : filterMonth,
+            filterYear : filterYear,
+            filterMinDate : filterMinDate,
+            filterMaxDate : filterMaxDate,
+            orderBy : orderBy,
+            order : order,
+        }
+    
+
+        console.log("1: page: ", page);
+        console.log("1: limit: ", limit);
+        console.log("1: filter: ", filter);
+
+
+
+        let exportUrlParams = new URLSearchParams(location.search);
+
+        console.log("limit: ", limit);
+
+        if(!exportUrlParams.has("limit")){
+            exportUrlParams.append("limit", limit);
+        }
+
+        if(!exportUrlParams.has("page")){
+            exportUrlParams.append("page", page);
+        }
+
+
+
+        for (let key in filter) {
+            if (!exportUrlParams.has(key)) {
+                exportUrlParams.append(key, filter[key]);
+            } else {
+                filter[key] = exportUrlParams.get(key);
+            }
+        }
+
+
+
+        const hrefExportData = '/api/import/export?' + exportUrlParams.toString();
+        console.log('hrefExportData:', hrefExportData);
+        let a = document.createElement("a");
+        a.setAttribute('href', hrefExportData);
+        a.click();
+        a.remove();
+
+    })
 }
 
 
@@ -289,6 +387,7 @@ async function getTableDataAndPagination(urlApi){
     return null;
 
 }
+
 
 /*------------------------------------------------------------------------------------------------------------------------------- */
 /*----------------------------------------------------------Main----------------------------------------------------------------- */
