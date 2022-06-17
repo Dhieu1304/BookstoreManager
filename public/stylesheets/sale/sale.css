@@ -3,9 +3,14 @@
     padding: 24px;
 }
 
+.sale-container-main{
+    border: 1px solid rgba(197, 199, 201, 0.7);
+}
+
 .sale-form{
     
 }
+
 
 .sale-form-top,
 .sale-form-bottom{

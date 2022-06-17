@@ -10,3 +10,7 @@
     border: 1px solid rgba(171, 163, 163, 0.7);
     border-radius: 10px;
 }
+
+.row-top input{
+    width: 100%;
+}

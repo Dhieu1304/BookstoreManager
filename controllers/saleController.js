@@ -59,7 +59,7 @@ exports.getSaleDetailPage = async (req, res) => {
 
     const saleId = req.params.id;
 
-    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, true);
+    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, false);
 
     const saleReceiptDetails = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, false);
 

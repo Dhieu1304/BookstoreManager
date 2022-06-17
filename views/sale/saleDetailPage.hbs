@@ -9,16 +9,16 @@
     <div class="row">
         <div class="row">
             <div class="col">
-                <h1 class="mt-4">Danh sách phiếu bán</h1>
+                <h1 class="mt-4">Sale Detail</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="/sale">Danh sách phiếu bán</a></li>
-                    <li class="breadcrumb-item active"><a href="/sale">chi tiết phiếu bán</a></li>
+                    <li class="breadcrumb-item"><a href="/sale">Sale list</a></li>
+                    <li class="breadcrumb-item active"><a href="/sale/{{saleReceipt.id}}">Sale detail</a></li>
                 </ol>
             </div>
         </div>
     </div>
-    <div class="row mt-2">
+    <div class="row mt-2 sale-container-main">
         <div class="col-md-9 col-xs-12">
             <div class="content">             
                 <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
@@ -137,6 +137,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="form-control" id="customerName" type="text" value="{{saleReceipt.customer.name}}" readonly>
                             </div>
+                            {{!-- {{#if saleReceipt}} {{thZ}} sang{{/if}} --}}
                         </div>
                         <div class="py-2 px-2 form-group row align-items-center">
                             <label class="col-md-3 col-sm-3 col-xs-12">Nợ</label>

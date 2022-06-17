@@ -25,65 +25,69 @@
             <div class="row">
                 <div class="col-xl-12 col-md-12 bill-add-form-container">
                     <div class="row py-4">
-                        <div class="col-5">
+                        <div class="col-xl-3 col-md-6 py-2">
                             <div class="form-group row">
                                 <label for="phoneIp" class="col-sm-3 col-form-label">Phone</label>
-                                <div class="col-sm-6">
-                                 <input type="tel" id="phoneIp" name="phoneIp" class="form-control">
+                                <div class="col-sm-9">
+                                    <input type="tel" id="phoneIp" name="phoneIp" class="form-control">
                                 </div>
                             </div>                    
                         </div>
 
-                        <div class="col-5">
+
+
+                        <div class="col-xl-3 col-md-6 py-2">
                             <div class="form-group row">
-                                <label for="moneyIp" class="col-sm-3 col-form-label">Tiền</label>
-                                <div class="col-sm-6">
+                                <label for="dept" class="col-sm-3 col-form-label">Dept</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="dept" class="form-control" readonly>
+                                </div>
+                            </div>    
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 py-2">
+                            <div class="form-group row">
+                                <label for="moneyIp" class="col-4 col-form-label">Money pay</label>
+                                <div class="col-8">
                                     <input type="number" id="moneyIp" name="moneyIp" class="form-control">
                                 </div>
                             </div>                    
                         </div>
-
                         
-                        <div class="col-2 d-flex justify-content-end">
-                            <button class="btn btn-success" type="submit">Thêm</button>
+                        <div class="col-xl-2 col-md-6 py-2 d-flex justify-content-end">
+                            <button class="btn btn-success" type="submit">Add bill</button>
                         </div>
                     </div>
                     <div class="bill-add-form my-4">
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Họ tên</label>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Name</label>
                                 <input type="text" id="name" name="name" class="form-control" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Địa chỉ</label>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Address</label>
                                 <input type="text" id="address" name="address" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-xl-6 col-md-12 py-2">
                                 <label>Email</label>
                                 <input type="email" id="email" name="email" class="form-control" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Số điện thọai</label>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Phone</label>
                                 <input type="tel" id="phone" name="phone" class="form-control" readonly>
                                 <input type="hidden" id="id" name="id" class="form-control">
                             </div>
                         </div>
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Tiền đang nợ</label>
-                                <input type="text" id="dept" class="form-control" readonly>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Số tiền thu</label>
-                                <input type="number" id="money" name="money" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Ngày thu tiền</label>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Create At</label>
                                 <input type="text" id="createdAt" class="form-control" readonly>
+                            </div>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Money pay</label>
+                                <input type="number" id="money" name="money" class="form-control" readonly>
                             </div>
                         </div>
                     </div>

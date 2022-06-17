@@ -8,10 +8,10 @@
     <div>
         <div class="row mt-2">
             <div class="col">
-                <h1 class="mt-4">Danh sách phiếu nhập</h1>
+                <h1 class="mt-4">Import list</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="/import">Danh sách phiếu nhập</a></li>
+                    <li class="breadcrumb-item active"><a href="/import">Import list</a></li>
                 </ol>
             </div>
         </div>
@@ -23,33 +23,33 @@
                             <li class="nav-item" role="presentation">
                                 {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
                                 <button class="nav-link filter-tab-btn" id="pills-filter-all-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-all" type="button" role="tab" aria-controls="pills-filter-all" aria-selected="true">
-                                    Tất cả
+                                    All
                                     <input type="hidden" class="filter-tab-btn-input-hidden" value="ALL">                                    
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
                                 <button class="nav-link filter-tab-btn" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true">
-                                    Theo ID
+                                    ID
                                     <input type="hidden" class="filter-tab-btn-input-hidden" value="ID">                                    
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link filter-tab-btn" id="pills-filter-date-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-date" type="button" role="tab" aria-controls="pills-filter-date" aria-selected="false">
-                                    Theo ngày
+                                    Date
                                     <input type="hidden" class="filter-tab-btn-input-hidden" value="DATE">  
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link filter-tab-btn" id="pills-time-tab" data-bs-toggle="pill" data-bs-target="#pills-time" type="button" role="tab" aria-controls="pills-time" aria-selected="false">
-                                    Theo thời gian
+                                    Time
                                     <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME">  
                                 </button>
 
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link filter-tab-btn" id="pills-time-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-time-stage" type="button" role="tab" aria-controls="pills-time-stage" aria-selected="false">
-                                    Theo khoảng thời gian
+                                    Time State
                                     <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME_STATE">
                                 </button>
                             </li>
@@ -131,7 +131,7 @@
 
             <div class="col-2 d-flex align-items-center">
                 <a class="mx-2 btn btn-secondary rounded-2" href="/import/add">
-                    Thêm <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
+                    Add <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
                 </a>
                 <button type="submit" class="btn btn-outline-primary" id="searchBtn">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -142,7 +142,11 @@
             <div class="col-12">
                 <div class="filter">
                     <div class="d-flex justify-content-end">
-                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Số dòng</label>
+                            <div>
+                                <label class="col-form-label" style="margin-right: 20px;">Page: <span>{{pagination.page}}</span></label>
+                                <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                            </div>
+                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
                             <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
                             <div class="d-flex align-items-center">
                                 <select name="limit" id="limit" class="custom-select" form="filterForm">
@@ -164,20 +168,20 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Thời gian</th>
-                                <th>Tổng chi phí</th>
-                                <th>Số sách</th>
-                                <th>Số lượng sách</th>
+                                <th>Time</th>
+                                <th>Total Cost</th>
+                                <th>Number of books</th>
+                                <th>Count of books</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Thời gian</th>
-                                <th>Tổng chi phí</th>
-                                <th>Số sách</th>
-                                <th>Số lượng sách</th>
+                                <th>Time</th>
+                                <th>Total Cost</th>
+                                <th>Number of books</th>
+                                <th>Count of books</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </tfoot>
