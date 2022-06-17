@@ -5,156 +5,167 @@
 {{/section}}
 
 <main class="sale-container">
-    <form action="/sale/add" method="post">
+    <div>
     <div class="row">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-4">Add Sale Receipt</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/sale">Sale list</a></li>
+                    <li class="breadcrumb-item active"><a href="/sale/add">Add Sale Receipt</a></li>
+                </ol>
+            </div>
+        </div>
+
         <div class="row filter">  
-            <div class="col-3">
+            <div class="col-6">
                 <div class="input-group">
                     <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
                         <button id="addSaleDetailTbRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
-                            Thêm <i class="fa-solid fa-plus"></i>
+                            Add <i class="fa-solid fa-plus"></i>
                         </button>
-                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-primary rounded-circle" data-toggle="modal" data-target="#showBookModal">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                    <div class="invalid-feedback">
-                        Vui lòng chọn số điện thoại
+        
+                        <button id="addNewBookModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewBookModal">                        </button>
                     </div>
                 </div>
             </div>    
             <div class="col-3">
-                <button type="submit" class="mx-2 btn btn-success custom-btn">
-                    Lưu <i class="fa-solid fa-pen custom-btn-icon"></i>
+                <button form="saleForm" id="saveSaleFormBtn" type="button" class="mx-2 btn btn-success custom-btn">
+                    Save <i class="fa-solid fa-pen custom-btn-icon"></i>
                 </button>
             </div>          
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-md-9 col-xs-12">
-            <div class="content">             
-                <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
-                    <thead>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Danh mục</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Xóa</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Danh mục</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Xóa</th>
-                        </tr>
-                    </tfoot>
-                    <tbody id="saleDetailTableBody">
-                        <script type="text/x-handlebars-template" id="saleDetailTableRowTemplate">
-                        
-                            <tr id="saleReceiptDetailItem\{{book_id}}">
-                                <input type="hidden" name="bookIds" value="\{{book_id}}">
-                                <td><img class="sale-book-img"  src="\{{avatar}}"></td>
-                                <td>\{{book.isbn}}</td>
-                                <td>\{{book.title}}</td>
-                                <td>\{{book.num_page}}</td>
-                                <td>\{{book.publication_date}}</td>
-                                <td>\{{book.publisher.name}}</td>
-                                <td> 
-                                    \{{#each book.author_id_authors}}
-                                        -\{{name}}<br>
-                                    \{{/each}}    
-                                </td>
-                                <td> 
-                                    \{{#each book.category_id_categories}}
-                                        -\{{name}}<br>
-                                    \{{/each}}    
-                                </td>
-                                <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}" ></td>
-                                <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
-                                <td>
-                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailRow(\{{book_id}})">
-                                        <i class="fa-solid fa-trash custom-btn-icon"></i>
-                                    </button>
-                                </td>
-                            </tr> 
-                        
-                        </script>
-                    </tbody>
-                </table>
-
-
-            </div>
-        </div>
-        <div class="mr-4 col-md-3 col-xs-12">
-            <div class="sale-form">
-                <div class="row sale-form-top">
-                    <div class="col-md-12 col-xs-12">
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
-                            <div class="col-md-9 col-sm-9 col-xs-6">
-                                <input class="form-control" type="date">
-                            </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <div class="input-group">
-                                    <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="tel" required>
-                                    <input id="customerId" name="customerId" type="hidden">
-                                    <div class="input-group-append">
-                                        <button id="addNewCustomerModalBtn" type="button" class="mx-2 btn btn-success rounded-circle" data-toggle="modal" data-target="#addNewCustomerModal">
-                                            <i class="fa-solid fa-plus"></i>
+        <div class="row mt-2">
+            <div class="col-md-9 col-xs-12">
+                <form class="content" method="post" action="/sale/add" id="saleForm">  
+                    <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>ISBN</th>
+                                <th>Tiêu đề</th>
+                                <th>Số trang</th>
+                                <th>Ngày NB</th>
+                                <th>NXB</th>
+                                <th>Tác giả</th>
+                                <th>Danh mục</th>
+                                <th>Giá</th>
+                                <th>Số lượng tồn</th>
+                                <th>Số lượng</th>
+                                <th>Xóa</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>ISBN</th>
+                                <th>Tiêu đề</th>
+                                <th>Số trang</th>
+                                <th>Ngày NB</th>
+                                <th>NXB</th>
+                                <th>Tác giả</th>
+                                <th>Danh mục</th>
+                                <th>Giá</th>
+                                <th>Số lượng tồn</th>
+                                <th>Số lượng</th>
+                                <th>Xóa</th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="saleDetailTableBody">
+                            <script type="text/x-handlebars-template" id="saleDetailTableRowTemplate">
+                            
+                                <tr id="saleReceiptDetailItem\{{book_id}}" class="saleReceiptDetailItemRow">
+                                    <input type="hidden" name="bookIds" value="\{{book_id}}">
+                                    <td><img class="sale-book-img"  src="\{{avatar}}"></td>
+                                    <td>\{{book.isbn}}</td>
+                                    <td>\{{book.title}}</td>
+                                    <td>\{{book.num_page}}</td>
+                                    <td>\{{book.publication_date}}</td>
+                                    <td>\{{book.publisher.name}}</td>
+                                    <td> 
+                                        \{{#each book.author_id_authors}}
+                                            -\{{name}}<br>
+                                        \{{/each}}    
+                                    </td>
+                                    <td> 
+                                        \{{#each book.category_id_categories}}
+                                            -\{{name}}<br>
+                                        \{{/each}}    
+                                    </td>
+                                    <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}" ></td>
+                                    <td>\{{quantity}} <input type="hidden" name="oldQuantitys" value="\{{quantity}}" ></td>
+                                    <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
+                                    <td>
+                                        <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeSaleReceiptDetailRow(\{{book_id}})">
+                                            <i class="fa-solid fa-trash custom-btn-icon"></i>
                                         </button>
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Vui lòng chọn số điện thoại
+                                    </td>
+                                </tr> 
+                            
+                            </script>
+                        </tbody>
+                    </table>
+
+
+                </form>
+            </div>
+            <div class="mr-4 col-md-3 col-xs-12">
+                <div class="sale-form">
+                    <div class="row sale-form-top">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="py-2 px-2 form-group row align-items-center">
+                                <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
+                                <div class="col-md-9 col-sm-9 col-xs-6">
+                                    <input class="form-control" type="date">
+                                </div>
+                            </div>
+                            <div class="py-2 px-2 form-group row align-items-center">
+                                <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <div class="input-group">
+                                        <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="tel" required>
+                                        <input id="customerId" name="customerId" type="hidden"  form="saleForm">
+                                        <div class="input-group-append">
+                                            <button id="addNewCustomerModalBtn" type="button" class="mx-2 btn btn-success rounded-circle" data-toggle="modal" data-target="#addNewCustomerModal">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Vui lòng chọn số điện thoại
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="form-control" id="customerName" type="text" readonly>
+                            <div class="py-2 px-2 form-group row align-items-center">
+                                <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <input class="form-control" id="customerName" type="text" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Nợ cũ</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="form-control" id="customerDept" type="text" readonly>
+                            <div class="py-2 px-2 form-group row align-items-center">
+                                <label class="col-md-3 col-sm-3 col-xs-12">Nợ cũ</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <input class="form-control" id="customerDept" type="text" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row sale-form-bottom">
-                    <div class="col-md-12 col-xs-12">
-                        <div class="py-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
+                    <div class="row sale-form-bottom">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="py-2 form-group row">
+                                <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="py-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
+                            <div class="py-2 form-group row">
+                                <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -162,7 +173,6 @@
             </div>
         </div>
     </div>
-    </form>
 
 
 

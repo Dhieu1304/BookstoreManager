@@ -154,6 +154,73 @@ function initEvent(){
     })
 
 
+
+
+    $("#saveSaleFormBtn").click(async function(e){
+        
+        console.log("Save click");
+
+
+        let success = true;
+
+        if(minStockToSaleRegulation.is_used){
+
+            console.log("Use");
+            
+
+
+            await $('input[name^="quantitys"]').each(function( index ) {
+                // console.log("quantity click")
+                // console.log( index + ": " + $( this ).val() );
+
+                const quantity = $( this ).val();
+
+                console.log("quantity: ", quantity, " min: ", minStockToSaleRegulation.value);
+
+
+                const oldQuantity = $( this ).closest("tr").find('input[name="oldQuantitys"]').val();
+
+                console.log("oldQuantity: ", $( this ).closest("tr").find('input[name="oldQuantitys"]').val());
+
+
+                const remainingBook = oldQuantity - quantity;
+
+                if(remainingBook < minStockToSaleRegulation.value){
+                    const message = "The number of books in stock after selling must be more than " + minStockToSaleRegulation.value;
+                    
+                    $( this ).focus();
+                    // alert(message)
+                    success = false;
+                    return;
+                }
+
+            });
+        }
+
+
+        const customerId = $("#customerId").val();
+
+
+        const saleDetailTableBody = $("#saleDetailTableBody");
+
+        if(!saleDetailTableBody.hasClass("saleReceiptDetailItemRow")){
+            alert("Please enter book");
+            return;
+        }
+        
+
+        if(!customerId){
+            alert("Please enter customer");
+            return;
+        }
+
+
+        // if(success){
+        //     $("#saleForm").submit();
+        // }
+        
+    })
+
 }
 
 
@@ -166,6 +233,19 @@ function initEvent(){
 const saleDetailRowDataSource = $("#saleDetailTableRowTemplate").html();
 
 let currentBookStockIdArr = [];
+
+
+const MAXIMUM_DEPT_REGULATION_ROUTER = "max-dept";
+const MININUM_STOCK_TO_SALE_REGULATION_ROUTER= "min-stock-sale";
+
+let maxDeptRegulation;
+let minStockToSaleRegulation;
+
+
+async function initData(){
+    maxDeptRegulation = await getRegulationById(MAXIMUM_DEPT_REGULATION_ROUTER);
+    minStockToSaleRegulation = await getRegulationById(MININUM_STOCK_TO_SALE_REGULATION_ROUTER);
+}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------- */
@@ -197,6 +277,29 @@ async function addSaleDetailTbRow(isbn){
 
         return;
     }
+
+
+    
+    if(bookStock.status !== "active"){
+        const message = "This Book stop selling"
+        alert(message);
+        return;
+    }
+
+
+
+    // if(minStockToSaleRegulation.is_used){
+    //     if (bookStock.quantity >= minStockToSaleRegulation.value){
+    //         const message = "Only sale books with inventory less than " + minStockToSaleRegulation.value;
+    //         alert(message);
+
+    //         return;
+    //     }
+    // }
+
+
+
+
 
     const id = bookStock.id;
 
@@ -259,6 +362,26 @@ async function checkCustomerByPhoneNumber(phoneNumber){
     console.log("customer: ", customer);
 
     if(customer){
+
+
+        if(maxDeptRegulation.is_used){
+            console.log("use luật")
+            if (customer.dept > maxDeptRegulation.value){
+                const message = `The customer's debt is ${customer.dept}, exceeding  ${maxDeptRegulation.value}`;
+                $("#customerId").val("");
+
+                $("#customerDept").val("");
+            
+                $("#customerName").val("");
+
+                alert(message);
+    
+
+                return;
+            }
+        }
+    
+
 
         updateCustomerForm(customer);
 
@@ -339,14 +462,39 @@ async function addNewCustomer(newCustormerName, newCustormerPhone, newCustormerE
 }
 
 
+async function getRegulationById(pathRouter){
+
+
+    let regulation = null;
+    const urlApi = "/regulation/api/" + pathRouter;
+
+    await $.ajax({
+        url: urlApi,
+        success: function (data){
+            regulation = data.value;
+            console.log("regulation: ", regulation);
+        }
+    })
+
+
+
+
+    return regulation;
+
+}
+
+
+
+
 /*------------------------------------------------------------------------------------------------------------------------------- */
 /*-----------------------------------------------Main--------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------------------------- */
 
 
-$(document).ready(function() {
+$(document).ready(async function() {
 
 
+    await initData();
     initUI();
     initEvent();
 })

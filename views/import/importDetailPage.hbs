@@ -21,37 +21,42 @@
     </div>
 
 
-        <div class="row">
-            <div class="col-12">
-                <div class="filter">
-                    <div class="row d-flex justify-content-end">
-                            <div class="col-xl-6 col-md-12 d-flex justify-content-xl-end">
-                                <div class="">
-                                    <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
-                                        <i class="fa-solid fa-cloud-arrow-down"></i>
-                                    </button>   
-                                </div>
-                                <div>
-                                    <input type="hidden" id="pageHidden" {{#if pagination.page}} value="{{pagination.page}}" {{/if}}>
-                                    <label class="col-form-label" style="margin-right: 20px;">Page: <span id="pageSpan">{{pagination.page}}</span></label>
-                                    <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
-                                </div>
-                                <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
-                                <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
-                                <div class="d-flex align-items-center">
-                                    <select name="limit" id="limit" class="custom-select" form="filterForm">
-                                        <option value="-1">Tất cả</option>
-                                        <option value="5">5</option>
-                                        <option selected="selected" value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </div>
+    <form id="filterForm" class="row mt-2" method="get" action="/import/{{importReceipt.id}}">
+        <div class="col-12">
+            <div class="filter">
+                <div class="row d-flex justify-content-end">
+                        <div class="col-xl-6 col-md-12 d-flex justify-content-xl-end">
+                            <div class="">
+                                <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                                </button>   
                             </div>
-                    </div>
+                            <div>
+                                <input type="hidden" id="pageHidden" {{#if pagination.page}} value="{{pagination.page}}" {{/if}}>
+                                <label class="col-form-label" style="margin-right: 20px;">Page: <span id="pageSpan">{{pagination.page}}</span></label>
+                                <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                            </div>
+                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
+                            <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
+                            <div class="d-flex align-items-center">
+                                <select name="limit" id="limit" class="custom-select" form="filterForm">
+                                    <option value="-1">Tất cả</option>
+                                    <option value="5">5</option>
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div class="">
+                                <button type="submit" class="btn btn-outline-primary" style="margin-left: 20px;" id="searchBtn">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
+    </form>
 
     <div class="row mt-2">
         <div class="col-md-9 col-xs-12">

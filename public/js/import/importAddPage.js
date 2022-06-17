@@ -338,7 +338,7 @@ function initEvent(){
 
                 const quantity = $( this ).val();
 
-                console.log("quantity: ", quantity, " min: ", minImportRegulation.value.value);
+                console.log("quantity: ", quantity, " min: ", minImportRegulation.value);
 
                 if(quantity < minImportRegulation.value){
                     const message = "Minimum quantity of imported books is " + minImportRegulation.value;
@@ -350,6 +350,14 @@ function initEvent(){
                 }
 
             });
+        }
+
+
+        const importDetailTableBody = $("#importDetailTableBody");
+
+        if(!importDetailTableBody.hasClass("importReceiptDetailItemRow")){
+            alert("Please enter book");
+            return;
         }
 
         if(success){

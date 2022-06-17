@@ -123,7 +123,7 @@ exports.addSaleReceipt = async (req, res) => {
 
     // const saleReceiptDetail = addSaleReceiptDatail(bookId, saleReceiptId, quantity, priceD);
 
-    res.redirect('/sale');
+    res.redirect('/sale/' + saleReceiptId);
 
 }
 
