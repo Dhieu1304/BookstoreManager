@@ -9,11 +9,11 @@
     <div class="row">
         <div class="row">
             <div class="col">
-                <h1 class="mt-4">Danh sách phiếu nhập</h1>
+                <h1 class="mt-4">Add Import Receipt</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="/import">Danh sách phiếu nhập</a></li>
-                    <li class="breadcrumb-item active"><a href="/import/add">Thêm phiếu nhập</a></li>
+                    <li class="breadcrumb-item"><a href="/import">Import list</a></li>
+                    <li class="breadcrumb-item active"><a href="/import/add">Add Import Receipt</a></li>
                 </ol>
             </div>
         </div>
@@ -24,21 +24,16 @@
                     <input type="text" id="isbnIp" class="form-control" placeholder="ISBN">
                     <div class="input-group-append">
                         <button id="addImportDetailTbRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
-                            Thêm <i class="fa-solid fa-plus"></i>
+                            Add <i class="fa-solid fa-plus"></i>
                         </button>
-                        <button id="showBookModalBtn" type="button" class="mx-2 btn btn-info rounded-2" data-toggle="modal" data-target="#showBookModal">
-                            Danh sách <i class="fa-solid fa-list"></i>
-                        </button>
+        
                         <button id="addNewBookModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewBookModal">                        </button>
-                    </div>
-                    <div class="invalid-feedback">
-                        Vui lòng chọn số điện thoại
                     </div>
                 </div>
             </div>    
             <div class="col-3">
                 <button form="importForm" id="saveInportFormBtn" type="button" class="mx-2 btn btn-success custom-btn">
-                    Lưu <i class="fa-solid fa-pen custom-btn-icon"></i>
+                    Save <i class="fa-solid fa-pen custom-btn-icon"></i>
                 </button>
             </div>          
         </div>
@@ -49,14 +44,14 @@
                 <table id="importReceiptDetailTable" class="import-receip-detail-table">
                     <thead>
                         <tr>
-                            <th>Ảnh</th>
+                            <th>Img</th>
                             <th>ISBN
                                 {{!-- <input type="text" style="width: 100%"> --}}
                             </th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
+                            <th>Title</th>
+                            <th>Num page</th>
+                            <th>Publication date</th>
+                            <th>Publisher</th>
                             <th>Tác giả</th>
                             <th>Danh mục</th>
                             <th>Giá</th>
@@ -194,64 +189,11 @@
         </div>
     </div>
 
-    </form>
+    
 
 
 
     <!-- Modal -->
-
-    <div id="showBookModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">Chọn sách</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <table id="showBookTable">
-                    <thead>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Chọn</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Chọn</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-        </div>
-    
-    </div>
 
     <div id="addNewBookModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-xl" role="document">

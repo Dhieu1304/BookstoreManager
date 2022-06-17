@@ -1,5 +1,6 @@
 const importReceiptService = require("../../services/importReceiptService");
 const excelJS = require("exceljs");
+const importReceiptDetailService = require("../../services/importReceiptDetailService");
 
 
 exports.getAllImportReceipts = async (req, res) => {
@@ -120,3 +121,101 @@ exports.exportImportReceipts = async (req, res) => {
     }
 };
 
+
+
+exports.getImportDetailById = async (req, res) => {
+
+
+    const importId = req.params.id;
+
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
+
+    // const importReceipt = await importReceiptService.getImportReceiptById(importId, true);
+
+
+    const importReceiptDetailsAndCount = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, page, limit, false);
+
+    const importReceiptDetails = importReceiptDetailsAndCount.rows;
+    const count = importReceiptDetailsAndCount.count;
+
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+
+    res.json({importReceiptDetails, pagination});
+    // res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails, pagination});
+}
+
+
+exports.exportImportReceiptDetails = async (req, res) => {
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Imports");
+
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
+
+
+    const importId = req.params.id;
+
+    const importReceiptDetailsAndCount = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, page, limit, false);
+
+    const importReceiptDetails = importReceiptDetailsAndCount.rows;
+    const count = importReceiptDetailsAndCount.count;
+
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+    // res.render('import/importPage', {title: 'Import', importReceipts, pagination, filter});
+
+    worksheet.columns = [
+        {header: "No.", key: "s_no", width: 7},
+        {header: "ISBN", key: "isbn", width: 20},
+        {header: "Title", key: "title", width: 20},
+        {header: "Price", key: "price", width: 20},
+        {header: "Quantity", key: "quantity", width: 30},
+    ];
+
+
+    let counter = 1;
+
+
+    importReceiptDetails.forEach((importReceipDetail) => {
+        importReceipDetail.s_no = counter;
+        importReceipDetail.isbn = importReceipDetail.book.isbn;
+        importReceipDetail.title = importReceipDetail.book.title;
+        worksheet.addRow(importReceipDetail);
+        counter++;
+    });
+
+    worksheet.getRow(1).eachCell((cell) => {
+        cell.font = {bold: true};
+    });
+
+    try {
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader("Content-Disposition", `attachment; filename=export-importReceipts.xlsx`);
+
+        return workbook.xlsx.write(res).then(() => {
+            res.status(200);
+        });
+    } catch (err) {
+        res.send({
+            status: "error",
+            message: "Something went wrong",
+        });
+    }
+};

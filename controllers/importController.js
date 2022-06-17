@@ -55,15 +55,27 @@ exports.getImportDetailPage = async (req, res) => {
 
     const importId = req.params.id;
 
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
+
     const importReceipt = await importReceiptService.getImportReceiptById(importId, true);
 
-    // const bookIds = await importReceiptDetailService.getBookIdsByImportReceiptId(importId, true)
 
-    // const bookStocks = await bookStockService.getAllBookStocksByBookIds(bookIds, false);
+    const importReceiptDetailsAndCount = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, page, limit, false);
 
-    const importReceiptDetails = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, false);
+    const importReceiptDetails = importReceiptDetailsAndCount.rows;
+    const count = importReceiptDetailsAndCount.count;
 
-    res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails});
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+
+    res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails, pagination});
 }
 
 exports.addImportReceipt = async (req, res) => {
