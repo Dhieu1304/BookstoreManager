@@ -35,6 +35,12 @@ let paginationSource; // = $("#paginationTemplate").html();
 let paginationTemplate; // = Handlebars.compile(paginationSource);
 
 
+const MININUM_IMPORT_REGULATION_ROUTER = "min-import";
+const MININUM_STOCK_TO_IMPORT_REGULATION_ROUTER= "min-stock-import";
+
+let minImportRegulation;
+let minStockToImportRegulation;
+
 
 // init data
 
@@ -56,9 +62,11 @@ function initDataTemplate(){
 
 
 
-async function initData(){
+// async function initData(){
+//     minImportRegulation = getRegulationById(MININUM_IMPORT_REGULATION_ROUTER);
+//     minStockToImportRegulation = getRegulationById(MININUM_STOCK_TO_IMPORT_REGULATION_ROUTER);
 
-}
+// }
 
 
 
@@ -387,6 +395,7 @@ async function getTableDataAndPagination(urlApi){
     return null;
 
 }
+
 
 
 /*------------------------------------------------------------------------------------------------------------------------------- */

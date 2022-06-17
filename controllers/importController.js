@@ -135,7 +135,7 @@ exports.addImportReceipt = async (req, res) => {
     //
     // const importReceiptDetail = addImportReceiptDatail(bookId, importReceiptId, quantity, priceD);
 
-    res.redirect('/import');
+    res.redirect('/import/' + importReceiptId);
 
 }
 
