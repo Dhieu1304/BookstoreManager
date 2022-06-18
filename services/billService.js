@@ -204,3 +204,32 @@ exports.getAndCountAllBills = async (page, limit, filter, raw = false) => {
         console.log(e);
     }
 }
+
+
+
+
+exports.getBillById = async (id, raw = false) => {
+    try{
+        const bill = await models.bill.findOne(
+            {
+
+                include:
+                [
+                    {
+                        model: models.customer,
+                        as: "customer",
+                    }
+                ],
+
+                where: {
+                    id: id
+                },
+                raw: raw
+            }
+        );
+
+        return bill;
+    }catch (e) {
+        console.log(e);
+    }
+}

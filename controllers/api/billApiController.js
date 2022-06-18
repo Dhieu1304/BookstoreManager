@@ -133,3 +133,57 @@ exports.exportBills = async (req, res) => {
     }
 };
 
+
+
+exports.exportBillDetails = async (req, res) => {
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Bills");
+
+
+
+    const billId = req.params.id;
+
+    const bill = await billService.getBillById(billId, true);
+
+    // res.render('bill/billPage', {title: 'Bill', bills, pagination, filter});
+
+    worksheet.columns = [
+        {header: "Phone", key: "customer_phone", width: 20},
+        {header: "Name", key: "customer_name", width: 20},
+        {header: "Email", key: "customer_email", width: 20},
+        {header: "Address", key: "customer_address", width: 30},
+        {header: "Money received", key: "money_received", width: 30},
+    ];
+
+
+// 
+    bill.customer_phone = bill["customer.phone"];
+    bill.customer_name = bill["customer.name"];
+    bill.customer_email = bill["customer.email"];
+    bill.customer_address = bill["customer.address"];
+
+
+    worksheet.addRow(bill);
+
+
+    worksheet.getRow(1).eachCell((cell) => {
+        cell.font = {bold: true};
+    });
+
+    try {
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader("Content-Disposition", `attachment; filename=export-bills.xlsx`);
+
+        return workbook.xlsx.write(res).then(() => {
+            res.status(200);
+        });
+    } catch (err) {
+        res.send({
+            status: "error",
+            message: "Something went wrong",
+        });
+    }
+};

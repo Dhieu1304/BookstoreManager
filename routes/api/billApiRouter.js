@@ -7,6 +7,6 @@ router.get('/', billApiController.getAllBills);
 router.get('/export', billApiController.exportBills);
 
 // router.get('/:id', billApiController.getBillDetailById);
-// router.get('/:id/export', billApiController.exportBillDetails);
+router.get('/:id/export', billApiController.exportBillDetails);
 
 module.exports = router;

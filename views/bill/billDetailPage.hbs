@@ -12,50 +12,66 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/bill">List bills</a></li>
-                <li class="breadcrumb-item active"><a href="/bill">Add bill</a></li>
+                <li class="breadcrumb-item active"><a href="/bill/{{bill.id}}">Bill detail</a></li>
+                <input type="hidden" name="hiddenId" id="hiddenId" value="{{bill.id}}">
             </ol>
         </div>
     </div>
 
-    <form action="/bill/add" method="post" class="py-4 px-2">
+
+    
+    <div id="filterForm" class="row mt-2">
+        <div class="col-12">
+            <div class="filter">
+                <div class="row d-flex justify-content-end">
+                        <div class="col-xl-6 col-md-12 d-flex justify-content-end">
+                            <div class="">
+                                <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                                </button>   
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="py-4 px-2">
         <div class="bill-content">
-
-
-
             <div class="row">
                 <div class="col-xl-12 col-md-12 bill-add-form-container">
+
                     <div class="bill-add-form my-4">
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Họ tên</label>
-                                <input type="text" id="name" name="name" value="{{bill.customer.name}}" class="form-control" readonly>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Name</label>
+                                <input type="text" id="name" name="name" class="form-control" value="{{bill.customer.name}}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Địa chỉ</label>
-                                <input type="text" id="address" name="address" value="{{bill.customer.address}}"  class="form-control" readonly>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Address</label>
+                                <input type="text" id="address" name="address" class="form-control" value="{{bill.customer.address}}" readonly>
                             </div>
                         </div>
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-xl-6 col-md-12 py-2">
                                 <label>Email</label>
-                                <input type="email" id="email" name="email" value="{{bill.customer.email}}"  class="form-control" readonly>
+                                <input type="email" id="email" name="email" class="form-control" value="{{bill.customer.email}}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>Số điện thọai</label>
-                                <input type="tel" id="phone" name="phone" value="{{bill.customer.phone}}"  class="form-control" readonly>
-                                <input type="hidden" id="id" name="id" value="{{bill.customer.id}}"  class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Số tiền thu</label>
-                                <input type="number" id="money" name="money" value="{{bill.money}}" class="form-control">
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Phone</label>
+                                <input type="tel" id="phone" name="phone" class="form-control" value="{{bill.customer.phone}}" readonly>
+                                <input type="hidden" id="id" name="id" class="form-control">
                             </div>
                         </div>
                         <div class="form-row row">
-                            <div class="form-group col-md-6">
-                                <label>Ngày thu tiền</label>
-                                <input type="text" id="createdAt"  value="{{bill.create_at}}" class="form-control"  readonly>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Create At</label>
+                                <input type="text" id="createdAt" class="form-control" value="{{bill.create_at}}" readonly>
+                            </div>
+                            <div class="form-group col-xl-6 col-md-12 py-2">
+                                <label>Money pay</label>
+                                <input type="number" id="money" name="money" class="form-control" value="{{bill.money_received}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -64,7 +80,7 @@
         </div>
 
 
-    </form>
+    </div>
 
 
 

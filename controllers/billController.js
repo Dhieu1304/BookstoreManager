@@ -50,18 +50,12 @@ exports.getBillAddPage = (req, res) => {
 exports.getBillDetailPage = async (req, res) => {
 
 
-    // const billId = req.params.id;
+    const billId = req.params.id;
 
-    // const bill = await billService.getBillById(billId, true);
+    const bill = await billService.getBillById(billId, false);
 
-    // // const bookIds = await billDetailService.getBookIdsByBillId(billId, true)
 
-    // // const bookStocks = await bookStockService.getAllBookStocksByBookIds(bookIds, false);
-
-    // const billDetails = await billDetailService.getAllBillDetailsByBillId(billId, false);
-
-    // res.render('bill/billDetailPage', {title: 'billDetailPage', bill, billDetails});
-    res.render('bill/billDetailPage', {title: 'billDetailPage'});
+    res.render('bill/billDetailPage', {title: 'billDetailPage', bill});
 }
 
 exports.addBill = async (req, res) => {
