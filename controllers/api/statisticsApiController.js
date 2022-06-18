@@ -1,2 +1,2 @@
-const statisticService = require("../../services/statisticService");
+const statisticsService = require("../../services/statisticsService");
 const excelJS = require("exceljs");
