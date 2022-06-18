@@ -18,7 +18,9 @@ exports.getAllSaleReceipts = async (req, res) => {
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
         filterMinDate : data.filterMinDate,
-        filterMaxDate : data.filterMaxDate
+        filterMaxDate : data.filterMaxDate,
+        orderBy : data.orderBy,
+        order : data.order,
     }
 
 
@@ -80,6 +82,8 @@ exports.exportSaleReceipts = async (req, res) => {
     worksheet.columns = [
         {header: "No.", key: "s_no", width: 7},
         {header: "ID.", key: "id", width: 7},
+        {header: "Customer's phone", key: "customer_phone", width: 20},
+        {header: "Customer's name", key: "customer_name", width: 20},
         {header: "Time", key: "create_at", width: 20},
         {header: "Total Cost", key: "price", width: 20},
         {header: "Number of books", key: "count_details", width: 30},
@@ -95,6 +99,10 @@ exports.exportSaleReceipts = async (req, res) => {
         saleReceipt.s_no = counter;
         saleReceipt.count_details = saleReceipt.sale_receipt_details.count_details;
         saleReceipt.sum_quantity = saleReceipt.sale_receipt_details.sum_quantity;
+
+        saleReceipt.customer_phone = saleReceipt["customer.phone"];
+        saleReceipt.customer_name = saleReceipt["customer.name"];
+
         worksheet.addRow(saleReceipt);
         counter++;
     });

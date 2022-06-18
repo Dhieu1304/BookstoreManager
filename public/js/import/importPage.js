@@ -339,7 +339,7 @@ function initEvent(){
         a.click();
         a.remove();
 
-    })
+    });
 }
 
 

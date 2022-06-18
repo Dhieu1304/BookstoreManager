@@ -20,7 +20,9 @@ exports.getSalePage = async (req, res) => {
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
         filterMinDate : data.filterMinDate,
-        filterMaxDate : data.filterMaxDate
+        filterMaxDate : data.filterMaxDate,
+        orderBy : data.orderBy,
+        order : data.order,
     }
 
 
