@@ -71,3 +71,8 @@ module.exports.getMaxDept = async (req, res) => {
 module.exports.getMinStockSale = async (req, res) => {
     await handleGetRegulationValue(req, res, 4);
 }
+
+
+module.exports.getMaxBillMoney = async (req, res) => {
+    await handleGetRegulationValue(req, res, 5);
+}

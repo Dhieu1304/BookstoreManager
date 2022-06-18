@@ -1,6 +1,23 @@
 
 
 
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-----------------------------------------------Global Variable--------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------------------- */
+
+
+const MAX_BILL_REGULATION_ROUTER = "max-bill-money";
+
+let maxBillMoneyRegulation;
+
+
+
+async function initData(){
+    maxBillMoneyRegulation = await getRegulationByPathRouter(MAX_BILL_REGULATION_ROUTER);
+}
+
+
+
 function initUI(){
     const totay = new Date();
     $("#createdAt").val(totay.toDateString());
@@ -43,16 +60,45 @@ function initEvent(){
         
     })
 
+
+    $("#saveBillFormBtn").click(async function(e){
+        
+        console.log("Save click");
+
+
+        let success = true;
+
+        if(maxBillMoneyRegulation.is_used){
+
+            console.log("Use");
+            
+            const money = $("#money").val();
+            const oldDept = $("#dept").val();
+
+            console.log("money: ", money);
+            console.log("oldDept: ", oldDept);
+
+
+            if(money > oldDept){
+                const message = "The amount of the payment cannot exceed the amount owed";
+                $("#moneyIp").focus();
+                alert(message);
+                success = false;
+                return;
+            }
+        }
+
+        // if(success){
+        //     $("#billForm").submit();
+        // }
+        
+    })
 }
 
 
 
-$(document).ready(function() {
 
-    initUI();
-    initEvent();
-    
-});
+
 
 
 /*------------------------------------------------------------------------------------------------------------------------------- */
@@ -72,3 +118,39 @@ async function getCustomerByPhoneNumber(number){
 
     return customer;
 }
+
+
+
+async function getRegulationByPathRouter(pathRouter){
+
+
+    let regulation = null;
+    const urlApi = "/regulation/api/" + pathRouter;
+
+    await $.ajax({
+        url: urlApi,
+        success: function (data){
+            regulation = data.value;
+            console.log("regulation: ", regulation);
+        }
+    })
+
+
+
+
+    return regulation;
+
+}
+
+
+/*------------------------------------------------------------------------------------------------------------------------------- */
+/*-----------------------------------------------Main--------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------------------- */
+
+$(document).ready(async function() {
+
+    await initData();
+    initUI();
+    initEvent();
+    
+});

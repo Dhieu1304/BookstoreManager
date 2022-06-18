@@ -22,23 +22,22 @@ exports.getBillPage = async (req, res) => {
 
 
 
-    // const billsAndCount = await billReceiptService.getAndCountAllBills(page, limit, filter, true);
+    const billsAndCount = await billService.getAndCountAllBills(page, limit, filter, true);
 
-    // if(!billsAndCount){
-    //     res.render('bill/billPage', {title: 'Bill'});
-    // }
+    if(!billsAndCount){
+        res.render('bill/billPage', {title: 'Bill'});
+    }
 
-    // const bills = billsAndCount.rows;
-    // const count = billsAndCount.count;
+    const bills = billsAndCount.rows;
+    const count = billsAndCount.count;
 
-    // const pagination = {
-    //     page: page,
-    //     limit: limit,
-    //     totalRows: count
-    // }
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
 
-    // res.render('bill/billPage', {title: 'Bill', bills, pagination, filter});
-    res.render('bill/billPage', {title: 'Bill'});
+    res.render('bill/billPage', {title: 'Bill', bills, pagination, filter});
 }
 
 
@@ -53,15 +52,15 @@ exports.getBillDetailPage = async (req, res) => {
 
     // const billId = req.params.id;
 
-    // const billReceipt = await billReceiptService.getBillReceiptById(billId, true);
+    // const bill = await billService.getBillById(billId, true);
 
-    // // const bookIds = await billReceiptDetailService.getBookIdsByBillReceiptId(billId, true)
+    // // const bookIds = await billDetailService.getBookIdsByBillId(billId, true)
 
     // // const bookStocks = await bookStockService.getAllBookStocksByBookIds(bookIds, false);
 
-    // const billReceiptDetails = await billReceiptDetailService.getAllBillReceiptDetailsByBillReceiptId(billId, false);
+    // const billDetails = await billDetailService.getAllBillDetailsByBillId(billId, false);
 
-    // res.render('bill/billDetailPage', {title: 'billDetailPage', billReceipt, billReceiptDetails});
+    // res.render('bill/billDetailPage', {title: 'billDetailPage', bill, billDetails});
     res.render('bill/billDetailPage', {title: 'billDetailPage'});
 }
 

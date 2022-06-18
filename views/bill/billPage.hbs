@@ -1,0 +1,302 @@
+
+{{#section 'css'}}
+    <link href="/stylesheets/bill/bill.css" rel="stylesheet"/>
+    <link href="/stylesheets/bill/billPage.css" rel="stylesheet"/>
+{{/section}}
+
+<main class="bill-container">
+    <div>
+        <div class="row mt-2">
+            <div class="col">
+                <h1 class="mt-4">Danh sách phiếu bán</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="/bill">Danh sách phiếu bán</a></li>
+                </ol>
+            </div>
+        </div>
+        <form id="filterForm" class="row mt-2" method="get" action="/bill">
+            <div class="col-xl-8 col-md-12">
+                <div class="filter">
+                    <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ALL" {{/if}}>
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
+                                <button class="nav-link filter-tab-btn" id="pills-filter-all-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-all" type="button" role="tab" aria-controls="pills-filter-all" aria-selected="true">
+                                    Tất cả
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="ALL">                                    
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                {{!-- <button class="nav-link filter-tab-btn active" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true"> --}}
+                                <button class="nav-link filter-tab-btn" id="pills-filter-id-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-id" type="button" role="tab" aria-controls="pills-filter-id" aria-selected="true">
+                                    Theo ID
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="ID">                                    
+                                </button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link filter-tab-btn" id="pills-filter-customer-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-customer" type="button" role="tab" aria-controls="pills-filter-customer" aria-selected="false">
+                                    Theo khách hàng
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="CUSTOMER">  
+                                </button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link filter-tab-btn" id="pills-filter-date-tab" data-bs-toggle="pill" data-bs-target="#pills-filter-date" type="button" role="tab" aria-controls="pills-filter-date" aria-selected="false">
+                                    Theo ngày
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="DATE">  
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link filter-tab-btn" id="pills-time-tab" data-bs-toggle="pill" data-bs-target="#pills-time" type="button" role="tab" aria-controls="pills-time" aria-selected="false">
+                                    Theo thời gian
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME">  
+                                </button>
+
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link filter-tab-btn" id="pills-time-stage-tab" data-bs-toggle="pill" data-bs-target="#pills-time-stage" type="button" role="tab" aria-controls="pills-time-stage" aria-selected="false">
+                                    Theo khoảng thời gian
+                                    <input type="hidden" class="filter-tab-btn-input-hidden" value="TIME_STATE">
+                                </button>
+                            </li>
+
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade" id="pills-filter-all" role="tabpanel" aria-labelledby="pills-filter-all-tab">
+
+                        </div>
+                        <div class="tab-pane fade" id="pills-filter-id" role="tabpanel" aria-labelledby="pills-filter-id-tab">
+                            <div class="form-group row col-xl-3 col-md-6 col-sm-12">
+                                <label for="filterId" class="col-sm-2 col-form-label">ID</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" name="filterId" id="filterId" {{#if filter.filterId}} value="{{filter.filterId}}" {{/if}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-filter-customer" role="tabpanel" aria-labelledby="pills-filter-customer-tab">
+                            <div class="form-group row col-xl-4 col-md-6 col-sm-12">
+                                <label for="filterCustomer" class="col-sm-6 col-form-label">Số điện thoại</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="filterCustomer" id="filterCustomer" {{#if filter.filterCustomer}} value="{{filter.filterCustomer}}" {{/if}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-filter-date" role="tabpanel" aria-labelledby="pills-filter-date-tab">
+                            <div class="form-group row col-xl-4 col-md-6 col-sm-12">
+                                <label for="filterDate" class="col-sm-4 col-form-label">Ngày bán</label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" name="filterDate" id="filterDate" {{#if filter.filterDate}} value="{{filter.filterDate}}" {{/if}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-time" role="tabpanel" aria-labelledby="pills-time-tab">
+                            <div class="form-group d-flex col-xl-6 col-md-6 col-sm-12">
+                                <div class="d-flex mr-4" style="margin-right: 20px;">
+                                    <label for="filterMonth" class="col-form-label" style="margin-right: 10px;">Tháng</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="hidden" id="filterMonthHidden" {{#if filter.filterMonth}} value="{{filter.filterMonth}}" {{/if}}>
+                                        <select name="filterMonth" id="filterMonth" class="custom-select" value="2">
+                                            <option value="-1">Tất cả</option>
+                                            <option value="0">1</option>
+                                            <option value="1">2</option>
+                                            <option value="2">3</option>
+                                            <option value="3">4</option>
+                                            <option value="4">5</option>
+                                            <option value="5">6</option>
+                                            <option value="6">7</option>
+                                            <option value="7">8</option>
+                                            <option value="8">9</option>
+                                            <option value="9">10</option>
+                                            <option value="10">11</option>
+                                            <option value="11">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex mr-4" style="margin-right: 20px;">
+                                    <label for="filterYear" class="col-form-label" style="margin-right: 10px;">Năm</label>
+                                    <input type="hidden" id="filterYearHidden" {{#if filter.filterYear}} value="{{filter.filterYear}}" {{/if}}>
+                                    <div class="d-flex align-items-center">
+                                        <select name="filterYear" id="filterYear" class="select-year custom-select">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-time-stage" role="tabpanel" aria-labelledby="pills-time-stage-tab">
+                            <div class="col-xl-8 row">
+                                <div class="form-group row col-xl-6 col-md-6 col-sm-12">
+                                    <label for="filterMinDate" class="col-sm-2 col-form-label">Từ</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" name="filterMinDate" id="filterMinDate">
+                                    </div>
+                                </div>
+                                <div class="form-group row col-xl-6 col-md-6 col-sm-12">
+                                    <label for="filterMaxDate" class="col-sm-2 col-form-label">Đến</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" name="filterMaxDate" id="filterMaxDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-12 d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </button>
+                <a class="mx-2 btn btn-secondary rounded-2" href="/bill/add">
+                    Add <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
+                </a>
+                <button type="submit" class="btn btn-outline-primary" style="margin-right: 20px;" id="searchBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-12">
+                <div class="filter">
+                    <div class="row d-flex justify-content-between">
+
+                            <div class="col-xl-4 col-md-12 d-flex justify-content-start">
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <label for="orderBy" class="col-form-label" style="margin-right: 10px;">Order by</label>
+                                    <input type="hidden" id="orderByHidden" {{#if filter.orderBy}} value="{{filter.orderBy}}" {{/if}}>
+                                    <select name="orderBy" id="orderBy" class="custom-select" style="margin-right: 20px;" form="filterForm">
+                                        <option value="ID" selected="selected">ID</option>
+                                        <option value="CREATE_AT">Time</option>
+                                        <option value="PRICE">Total Cost</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-start">
+                                    <input type="hidden" id="orderHidden" {{#if filter.order}} value="{{filter.order}}" {{/if}}>                                    
+                                    <select name="order" id="order" class="custom-select" style="margin-right: 20px;" form="filterForm">
+                                        <option value="ASC" selected="selected">ASC</option>
+                                        <option value="DESC">DESC</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-xl-4 col-md-12 d-flex justify-content-xl-end">
+                                <div>
+                                    <input type="hidden" id="pageHidden" {{#if pagination.page}} value="{{pagination.page}}" {{/if}}>
+                                    <label class="col-form-label" style="margin-right: 20px;">Page: <span id="pageSpan">{{pagination.page}}</span></label>
+                                    <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                                </div>
+                                <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
+                                <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
+                                <div class="d-flex align-items-center">
+                                    <select name="limit" id="limit" class="custom-select" form="filterForm">
+                                        <option value="-1">Tất cả</option>
+                                        <option value="5">5</option>
+                                        <option selected="selected" value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 col-xs-12">
+                <div class="content">             
+                    <table id="billTable" class="bill-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Số điện thoại</th>
+                                <th>Tên khách</th>
+                                <th>Thời gian</th>
+                                <th>Số tiền trả</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Số điện thoại</th>
+                                <th>Tên khách</th>
+                                <th>Thời gian</th>
+                                <th>Số tiền trả</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="billTableBody">
+                            {{#each bills}}
+                                <tr>
+                                    <td>{{id}}</td>
+                                    <td>{{[customer.phone]}}</td>
+                                    <td>{{[customer.name]}}</td>
+                                    <td>{{create_at}}</td>
+                                    <td>{{money_received}}</td>
+                                    <td>
+                                        <a class="btn btn-success rounded-2" href="/bill/{{id}}">
+                                            <i class="fa-solid fa-arrow-right-to-line"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                            <script type="text/x-handlebars-template" id="tableDataTemplate">
+                                \{{#each bills}}
+                                    <tr>
+                                        <td>\{{id}}</td>
+                                        <td>\{{[customer.phone]}}</td>
+                                        <td>\{{[customer.name]}}</td>
+                                        <td>\{{create_at}}</td>
+                                        <td>\{{money_received}}</td>
+                                        <td>
+                                            <a class="btn btn-success rounded-2" href="/bill/\{{id}}">
+                                                <i class="fa-solid fa-arrow-right-to-line"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                \{{/each}}
+                            </script>
+                        </tbody>
+                    </table>
+
+                    
+      
+
+                    <footer class="row justify-content-center">
+                        <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">
+                            {{{createPagination pagination paginationClass="pagination"}}}
+
+                            <script type="text/x-handlebars-template" id="paginationTemplate">
+                                \{{{createPagination pagination paginationClass="pagination"}}}
+                            </script>
+                        </nav>
+                    </footer>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+
+
+</main>
+
+{{#section 'script'}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="/js/helper/helper.js"></script>
+    <script src="/js/helper/paginationHelper.js"></script>
+    <script src="/js/general/pagination/pagination.js"></script>
+    <script src="/js/bill/bill.js"></script>
+    <script src="/js/bill/billPage.js"></script>
+
+{{/section}}
