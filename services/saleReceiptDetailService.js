@@ -46,9 +46,11 @@ exports.addSaleReceiptDetail = async (book_id, sale_receipt_id, quantityStr, pri
 
 
 
-exports.getAllSaleReceiptDetailsBySaleReceiptId = async (saleId, raw = false) => {
+
+exports.getAllSaleReceiptDetailsBySaleReceiptId = async (saleId, page, limit, raw = false) => {
     try{
-        const saleReceiptDetails = await models.sale_receipt_detail.findAll({
+
+        let options = {
             raw: raw,
             where: ({
                 sale_receipt_id: saleId
@@ -81,12 +83,32 @@ exports.getAllSaleReceiptDetailsBySaleReceiptId = async (saleId, raw = false) =>
                             ],
                     },
                 ],
-        });
+        }
+
+
+
+        
+        page = parseInt(page) || 1;
+        limit = parseInt(limit) || 10;
+
+        if(limit !== -1){
+            options.offset = (page - 1) * limit;
+            options.limit = limit;
+        }
+
+
+
+
+        const saleReceiptDetailsAndCount = await models.sale_receipt_detail.findAndCountAll(options);
+
+        const saleReceiptDetails = saleReceiptDetailsAndCount.rows;
+        const count = saleReceiptDetailsAndCount.count;
+
 
 
         if(saleReceiptDetails && saleReceiptDetails.length > 0){
 
-            const saleReceiptDetailsResult = [];
+            const rows = [];
             for (let saleReceiptDetail of saleReceiptDetails){
 
                 const bookId = saleReceiptDetail.book_id;
@@ -101,14 +123,14 @@ exports.getAllSaleReceiptDetailsBySaleReceiptId = async (saleId, raw = false) =>
                     saleReceiptDetail._previousDataValues.avatar = 1// avatar.src;
                 }
 
-                saleReceiptDetailsResult.push(saleReceiptDetail);
+                rows.push(saleReceiptDetail);
 
 
             }
 
-            return saleReceiptDetailsResult;
+            return {rows, count};
         }
-        return [];
+        return null;
 
 
     }

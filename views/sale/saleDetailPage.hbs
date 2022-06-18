@@ -5,19 +5,58 @@
 {{/section}}
 
 <main class="sale-container">
-    <div>
+
     <div class="row">
         <div class="row">
             <div class="col">
-                <h1 class="mt-4">Sale Detail</h1>
+                <h1 class="mt-4">Sale receipt detail</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="/sale">Sale list</a></li>
-                    <li class="breadcrumb-item active"><a href="/sale/{{saleReceipt.id}}">Sale detail</a></li>
+                    <li class="breadcrumb-item active"><a href="/sale/{{saleReceipt.id}}">Sale receipt detail</a></li>
+                    <input type="hidden" id="hiddenId" value="{{saleReceipt.id}}">
                 </ol>
             </div>
         </div>
     </div>
+
+
+    <form id="filterForm" class="row mt-2" method="get" action="/sale/{{saleReceipt.id}}">
+        <div class="col-12">
+            <div class="filter">
+                <div class="row d-flex justify-content-end">
+                        <div class="col-xl-6 col-md-12 d-flex justify-content-xl-end">
+                            <div class="">
+                                <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                                </button>   
+                            </div>
+                            <div>
+                                <input type="hidden" id="pageHidden" {{#if pagination.page}} value="{{pagination.page}}" {{/if}}>
+                                <label class="col-form-label" style="margin-right: 20px;">Page: <span id="pageSpan">{{pagination.page}}</span></label>
+                                <label class="col-form-label" style="margin-right: 20px;">Total Rows: <span>{{pagination.totalRows}}</span></label>
+                            </div>
+                            <label for="limit" class="col-form-label" style="margin-right: 10px;">Entries</label>
+                            <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
+                            <div class="d-flex align-items-center">
+                                <select name="limit" id="limit" class="custom-select" form="filterForm">
+                                    <option value="-1">Tất cả</option>
+                                    <option value="5">5</option>
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div class="">
+                                <button type="submit" class="btn btn-outline-primary" style="margin-left: 20px;" id="searchBtn">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </form>
     <div class="row mt-2 sale-container-main">
         <div class="col-md-9 col-xs-12">
             <div class="content">             
@@ -78,7 +117,7 @@
                             </tr>
                         {{/each}}
                     <script type="text/x-handlebars-template" id="tableDataTemplate">
-     
+    
                         \{{#each saleReceiptDetails}}
                             <tr id="saleReceiptDetailItem\{{book_id}}">
                                 <input type="hidden" name="bookIds" value="\{{book_id}}">
@@ -106,6 +145,16 @@
                         </script>
                     </tbody>
                 </table>
+
+                 <footer class="row justify-content-center">
+                        <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">
+                            {{{createPagination pagination paginationClass="pagination"}}}
+
+                            <script type="text/x-handlebars-template" id="paginationTemplate">
+                                \{{{createPagination pagination paginationClass="pagination"}}}
+                            </script>
+                        </nav>
+                    </footer>
 
 
             </div>
@@ -137,7 +186,6 @@
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="form-control" id="customerName" type="text" value="{{saleReceipt.customer.name}}" readonly>
                             </div>
-                            {{!-- {{#if saleReceipt}} {{thZ}} sang{{/if}} --}}
                         </div>
                         <div class="py-2 px-2 form-group row align-items-center">
                             <label class="col-md-3 col-sm-3 col-xs-12">Nợ</label>
@@ -166,7 +214,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 
 </main>
 
@@ -175,7 +223,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="/js/helper/helper.js"></script>
-
+    <script src="/js/helper/paginationHelper.js"></script>
+    <script src="/js/general/pagination/pagination.js"></script>
     <script src="/js/sale/sale.js"></script>
     <script src="/js/sale/saleDetailPage.js"></script>
 {{/section}}

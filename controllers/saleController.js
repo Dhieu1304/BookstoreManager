@@ -56,14 +56,29 @@ exports.getSaleAddPage = async (req, res) => {
 
 exports.getSaleDetailPage = async (req, res) => {
 
-
     const saleId = req.params.id;
+
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
 
     const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, false);
 
-    const saleReceiptDetails = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, false);
 
-    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails});
+    const saleReceiptDetailsAndCount = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, page, limit, false);
+
+    const saleReceiptDetails = saleReceiptDetailsAndCount.rows;
+    const count = saleReceiptDetailsAndCount.count;
+
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+
+    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails, pagination});
 
 }
 
