@@ -13,7 +13,7 @@ exports.getAvatarImgByBookId = (bookId) => models.book_image.findOne({
 
 exports.getImgIdByBookId = async (bookId) => {
     const imgIds = await models.book_image.findAll({
-            where: ({mobile_id: bookId}),
+            where: ({book_id: bookId}),
             attributes: ['id'],
         }
     )
@@ -25,11 +25,11 @@ exports.getImgIdByBookId = async (bookId) => {
 }
 
 
-exports.addImg = async (bookId, link) => {
+exports.addImg = async (bookId, src) => {
 
     const maxId = await models.book_image.max('id');
     const nextId = maxId + 1;
-    const img = await models.book_image.create({id: nextId, book_id: bookId, link: link});
+    const img = await models.book_image.create({id: nextId, book_id: bookId, src: src});
     return img;
 }
 

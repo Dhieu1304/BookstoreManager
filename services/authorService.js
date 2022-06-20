@@ -51,3 +51,35 @@ exports.getAuthorsByName = async (name, raw = false) => {
 }
 
 
+exports.getAuthorByBookId=async (book_id, raw=false)=>{
+    try{
+        const author = await models.book_author.findOne({
+            raw: raw,
+            where: {
+                book_id: book_id
+            }
+        });
+
+        return author;
+    }catch (e){
+        console.log(e);
+    }
+}
+
+
+exports.getAuthorById=async (id, raw=false)=>{
+    try{
+        const author = await models.author.findOne({
+            raw: raw,
+            where: {
+                id: id
+            }
+        });
+
+        return author;
+    }catch (e){
+        console.log(e);
+    }
+}
+
+
