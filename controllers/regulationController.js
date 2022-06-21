@@ -71,7 +71,7 @@ const handleGetRegulationValue = async (req, res, id) => {
         return res.status(200).json({
             errCode: 0,
             errMessage: "Successful",
-            value: regulation.value
+            value: regulation
         })
     }
 
@@ -95,4 +95,9 @@ module.exports.getMaxDept = async (req, res) => {
 
 module.exports.getMinStockSale = async (req, res) => {
     await handleGetRegulationValue(req, res, 4);
+}
+
+
+module.exports.getMaxBillMoney = async (req, res) => {
+    await handleGetRegulationValue(req, res, 5);
 }

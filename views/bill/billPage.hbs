@@ -1,21 +1,21 @@
 
 {{#section 'css'}}
-    <link href="/stylesheets/sale/sale.css" rel="stylesheet"/>
-    <link href="/stylesheets/sale/salePage.css" rel="stylesheet"/>
+    <link href="/stylesheets/bill/bill.css" rel="stylesheet"/>
+    <link href="/stylesheets/bill/billPage.css" rel="stylesheet"/>
 {{/section}}
 
-<main class="sale-container">
+<main class="bill-container">
     <div>
         <div class="row mt-2">
             <div class="col">
                 <h1 class="mt-4">Danh sách phiếu bán</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="/sale">Danh sách phiếu bán</a></li>
+                    <li class="breadcrumb-item active"><a href="/bill">Danh sách phiếu bán</a></li>
                 </ol>
             </div>
         </div>
-        <form id="filterForm" class="row mt-2" method="get" action="/sale">
+        <form id="filterForm" class="row mt-2" method="get" action="/bill">
             <div class="col-xl-8 col-md-12">
                 <div class="filter">
                     <input type="hidden" id="typeOfFilter" name="typeOfFilter" {{#if filter.typeOfFilter}} value="{{filter.typeOfFilter}}" {{else}} value="ALL" {{/if}}>
@@ -149,7 +149,7 @@
                 <button type="button" class="btn btn-outline-primary" style="margin-right: 20px;" id="exportBtn">
                     <i class="fa-solid fa-cloud-arrow-down"></i>
                 </button>
-                <a class="mx-2 btn btn-secondary rounded-2" href="/sale/add">
+                <a class="mx-2 btn btn-secondary rounded-2" href="/bill/add">
                     Add <svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
                 </a>
                 <button type="submit" class="btn btn-outline-primary" style="margin-right: 20px;" id="searchBtn">
@@ -208,60 +208,52 @@
         <div class="row mt-2">
             <div class="col-md-12 col-xs-12">
                 <div class="content">             
-                    <table id="saleTable" class="sale-table">
+                    <table id="billTable" class="bill-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Số điện thoại</th>
                                 <th>Tên khách</th>
                                 <th>Thời gian</th>
-                                <th>Tổng chi phí</th>
-                                <th>Số sách</th>
-                                <th>Số lượng sách</th>
+                                <th>Số tiền trả</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                            <th>ID</th>
+                                <th>ID</th>
                                 <th>Số điện thoại</th>
                                 <th>Tên khách</th>
                                 <th>Thời gian</th>
-                                <th>Tổng chi phí</th>
-                                <th>Số sách</th>
-                                <th>Số lượng sách</th>
+                                <th>Số tiền trả</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </tfoot>
-                        <tbody id="saleTableBody">
-                            {{#each saleReceipts}}
+                        <tbody id="billTableBody">
+                            {{#each bills}}
                                 <tr>
                                     <td>{{id}}</td>
                                     <td>{{[customer.phone]}}</td>
                                     <td>{{[customer.name]}}</td>
                                     <td>{{create_at}}</td>
-                                    <td>{{price}}</td>
-                                    <td>{{sale_receipt_details.count_details}}</td>
-                                    <td>{{sale_receipt_details.sum_quantity}}</td>
+                                    <td>{{money_received}}</td>
                                     <td>
-                                        <a class="btn btn-success rounded-2" href="/sale/{{id}}">
+                                        <a class="btn btn-success rounded-2" href="/bill/{{id}}">
                                             <i class="fa-solid fa-arrow-right-to-line"></i>
                                         </a>
                                     </td>
                                 </tr>
                             {{/each}}
                             <script type="text/x-handlebars-template" id="tableDataTemplate">
-                                \{{#each saleReceipts}}
+                                \{{#each bills}}
                                     <tr>
                                         <td>\{{id}}</td>
                                         <td>\{{[customer.phone]}}</td>
                                         <td>\{{[customer.name]}}</td>
                                         <td>\{{create_at}}</td>
-                                        <td>\{{price}}</td>
-                                        <td>\{{sale_receipt_details.count_details}}</td>
-                                        <td>\{{sale_receipt_details.sum_quantity}}</td>
+                                        <td>\{{money_received}}</td>
                                         <td>
-                                            <a class="btn btn-success rounded-2" href="/sale/\{{id}}">
+                                            <a class="btn btn-success rounded-2" href="/bill/\{{id}}">
                                                 <i class="fa-solid fa-arrow-right-to-line"></i>
                                             </a>
                                         </td>
@@ -304,7 +296,7 @@
     <script src="/js/helper/helper.js"></script>
     <script src="/js/helper/paginationHelper.js"></script>
     <script src="/js/general/pagination/pagination.js"></script>
-    <script src="/js/sale/sale.js"></script>
-    <script src="/js/sale/salePage.js"></script>
+    <script src="/js/bill/bill.js"></script>
+    <script src="/js/bill/billPage.js"></script>
 
 {{/section}}

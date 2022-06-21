@@ -73,9 +73,10 @@ exports.getBookIdsByImportReceiptId = async (importId, raw = false) => {
 }
 
 
-exports.getAllImportReceiptDetailsByImportReceiptId = async (importId, raw = false) => {
+exports.getAllImportReceiptDetailsByImportReceiptId = async (importId, page, limit, raw = false) => {
     try{
-        const importReceiptDetails = await models.import_receipt_detail.findAll({
+
+        let options = {
             raw: raw,
             where: ({
                 report_receipt_id: importId
@@ -108,12 +109,35 @@ exports.getAllImportReceiptDetailsByImportReceiptId = async (importId, raw = fal
                             ],
                     },
                 ],
-        });
+        }
+
+
+        page = parseInt(page) || 1;
+        limit = parseInt(limit) || 10;
+
+        if(limit !== -1){
+            options.offset = (page - 1) * limit;
+            options.limit = limit;
+        }
+
+
+
+        // const importReceiptsAndCount = await models.import_receipt.findAndCountAll(options);
+
+
+
+        const importReceiptDetailsAndCount = await models.import_receipt_detail.findAndCountAll(options);
+
+        const importReceiptDetails = importReceiptDetailsAndCount.rows;
+        const count = importReceiptDetailsAndCount.count;
+
+
+        // const importReceiptDetails = await models.import_receipt_detail.findAll(options);
 
 
         if(importReceiptDetails && importReceiptDetails.length > 0){
 
-            const importReceiptDetailsResult = [];
+            const rows = [];
             for (let importReceiptDetail of importReceiptDetails){
 
                 const bookId = importReceiptDetail.book_id;
@@ -128,14 +152,14 @@ exports.getAllImportReceiptDetailsByImportReceiptId = async (importId, raw = fal
                     importReceiptDetail._previousDataValues.avatar = 1// avatar.src;
                 }
 
-                importReceiptDetailsResult.push(importReceiptDetail);
+                rows.push(importReceiptDetail);
 
 
             }
 
-            return importReceiptDetailsResult;
+            return {rows, count};
         }
-        return [];
+        return null;
 
 
     }

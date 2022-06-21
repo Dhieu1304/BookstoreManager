@@ -17,7 +17,9 @@ exports.getImportPage = async (req, res) => {
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
         filterMinDate : data.filterMinDate,
-        filterMaxDate : data.filterMaxDate
+        filterMaxDate : data.filterMaxDate,
+        orderBy : data.orderBy,
+        order : data.order,
     }
 
 
@@ -53,15 +55,27 @@ exports.getImportDetailPage = async (req, res) => {
 
     const importId = req.params.id;
 
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
+
     const importReceipt = await importReceiptService.getImportReceiptById(importId, true);
 
-    // const bookIds = await importReceiptDetailService.getBookIdsByImportReceiptId(importId, true)
 
-    // const bookStocks = await bookStockService.getAllBookStocksByBookIds(bookIds, false);
+    const importReceiptDetailsAndCount = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, page, limit, false);
 
-    const importReceiptDetails = await importReceiptDetailService.getAllImportReceiptDetailsByImportReceiptId(importId, false);
+    const importReceiptDetails = importReceiptDetailsAndCount.rows;
+    const count = importReceiptDetailsAndCount.count;
 
-    res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails});
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+
+    res.render('import/importDetailPage', {title: 'importDetailPage', importReceipt, importReceiptDetails, pagination});
 }
 
 exports.addImportReceipt = async (req, res) => {
@@ -133,7 +147,7 @@ exports.addImportReceipt = async (req, res) => {
     //
     // const importReceiptDetail = addImportReceiptDatail(bookId, importReceiptId, quantity, priceD);
 
-    res.redirect('/import');
+    res.redirect('/import/' + importReceiptId);
 
 }
 
@@ -144,5 +158,4 @@ addImportReceiptDatail = async (bookId, importReceiptId, quantity, price) => {
     console.log(importReceiptDetail);
     return importReceiptDetail;
 }
-
 

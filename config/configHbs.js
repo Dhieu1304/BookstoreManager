@@ -41,4 +41,9 @@ module.exports.configHbs = (dir) => {
         }
         return options.inverse(this);
     });
+
+    hbs.registerHelper('sumInt', function (a, b) {
+        return parseInt(a) + parseInt(b);
+      })
 }
+

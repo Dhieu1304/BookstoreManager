@@ -309,6 +309,62 @@ function initEvent(){
         // changePublisherId();
     })
 
+
+
+    $("#saveInportFormBtn").click(async function(e){
+        
+        console.log("Save click");
+
+
+        let success = true;
+
+        if(minImportRegulation.is_used){
+
+            console.log("Use");
+            
+
+            // input[name^="authorIds"]')
+            
+            // $('input[name^="authorIds"]')
+            // $('input[name^="quantitys"]').each(function() {
+            //     console.log("quantity click")
+            //   });
+
+
+
+            await $('input[name^="quantitys"]').each(function( index ) {
+                // console.log("quantity click")
+                // console.log( index + ": " + $( this ).val() );
+
+                const quantity = $( this ).val();
+
+                console.log("quantity: ", quantity, " min: ", minImportRegulation.value);
+
+                if(quantity < minImportRegulation.value){
+                    const message = "Minimum quantity of imported books is " + minImportRegulation.value;
+                    
+                    $( this ).focus();
+                    // alert(message)
+                    success = false;
+                    return;
+                }
+
+            });
+        }
+
+
+        const importDetailTableBody = $("#importDetailTableBody");
+
+        if(!importDetailTableBody.hasClass("importReceiptDetailItemRow")){
+            alert("Please enter book");
+            return;
+        }
+
+        if(success){
+            $("#importForm").submit();
+        }
+        
+    })
 }
 
 
@@ -338,6 +394,13 @@ let publishers = [];
 let categorys = [];
 
 
+const MININUM_IMPORT_REGULATION_ROUTER = "min-import";
+const MININUM_STOCK_TO_IMPORT_REGULATION_ROUTER= "min-stock-import";
+
+let minImportRegulation;
+let minStockToImportRegulation;
+
+
 
 
 // init data
@@ -346,6 +409,9 @@ async function initData(){
     authors = await getAllAuthor();
     categorys = await getAllCategory();
     publishers = await getAllPulisher();
+
+    minImportRegulation = await getRegulationById(MININUM_IMPORT_REGULATION_ROUTER);
+    minStockToImportRegulation = await getRegulationById(MININUM_STOCK_TO_IMPORT_REGULATION_ROUTER);
 }
 
 
@@ -365,8 +431,11 @@ async function addImportDetailTbRow(isbn){
         bookStock = await getBookStockByIsbn(isbn);
     }
 
+
     console.log(`bookStock của ${isbn} là:`, bookStock);
     const importDetailTableBodyEle = $("#importDetailTableBody");
+
+
 
 
     if(!bookStock){       
@@ -380,6 +449,17 @@ async function addImportDetailTbRow(isbn){
 
         return;
     }
+
+
+    if(minStockToImportRegulation.is_used){
+        if (bookStock.quantity >= minStockToImportRegulation.value){
+            const message = "Only import books with inventory less than " + minStockToImportRegulation.value;
+            alert(message);
+
+            return;
+        }
+    }
+
 
     const id = bookStock.id;
 
@@ -761,6 +841,29 @@ async function addNewPublisher(publisherName){
     });
     console.log("new publisher:", publisher);
     return publisher;
+}
+
+
+
+async function getRegulationById(pathRouter){
+
+
+    let regulation = null;
+    const urlApi = "/regulation/api/" + pathRouter;
+
+    await $.ajax({
+        url: urlApi,
+        success: function (data){
+            regulation = data.value;
+            console.log("regulation: ", regulation);
+        }
+    })
+
+
+
+
+    return regulation;
+
 }
 
 

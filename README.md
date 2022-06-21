@@ -27,6 +27,7 @@
   insert into regulation (id, name, value, is_used) values (default, 'Minimun stock (import)', 300, true);
   insert into regulation (id, name, value, is_used) values (default, 'Maximum debt', 20000, true);
   insert into regulation (id, name, value, is_used) values (default, 'Minimun stock (sale)', 20, true);
+  insert into regulation (id, name, value, is_used) values (default, 'Maximum bill', -1, true);
 ```
 
 ## Tham khảo (Sang)

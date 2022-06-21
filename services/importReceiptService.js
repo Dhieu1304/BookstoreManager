@@ -26,7 +26,7 @@ exports.getAndCountAllImportReceipts = async (page, limit, filter, raw = false) 
 
         let options = {
             order: [
-                ['id', 'ASC'],
+                // ['id', 'ASC'],
             ],
             where: {
     
@@ -34,7 +34,6 @@ exports.getAndCountAllImportReceipts = async (page, limit, filter, raw = false) 
 
             raw: raw,
         }
-
         
         if(limit !== -1){
             options.offset = (page - 1) * limit;
@@ -43,6 +42,33 @@ exports.getAndCountAllImportReceipts = async (page, limit, filter, raw = false) 
 
 
         if(filter){
+            const orderBy = filter.orderBy || "ID";
+            const order = filter.order || "ASC";
+
+            let orderOption;
+
+            switch (orderBy){
+                case "ID":
+                    orderOption = ["id", order];
+                    break;
+                case "PRICE":
+                    orderOption = ["price", order];
+                    break;
+                case "CREATE_AT":
+                    orderOption = ["create_at", order];
+                    break;
+                default:
+                    orderOption = ["id", order];
+                    break;
+            }
+
+
+
+
+            options.order = [
+                orderOption
+            ];
+
             switch (filter.typeOfFilter){
                 case "ID":
                     options.where.id = parseInt(filter.filterId) || 1;

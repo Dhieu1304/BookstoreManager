@@ -20,7 +20,9 @@ exports.getSalePage = async (req, res) => {
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
         filterMinDate : data.filterMinDate,
-        filterMaxDate : data.filterMaxDate
+        filterMaxDate : data.filterMaxDate,
+        orderBy : data.orderBy,
+        order : data.order,
     }
 
 
@@ -56,14 +58,29 @@ exports.getSaleAddPage = async (req, res) => {
 
 exports.getSaleDetailPage = async (req, res) => {
 
-
     const saleId = req.params.id;
 
-    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, true);
+    const data = req.query;
+    const page = data.page || 1;
+    const limit = data.limit || 10;
 
-    const saleReceiptDetails = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, false);
+    const saleReceipt = await saleReceiptService.getSaleReceiptById(saleId, false);
 
-    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails});
+
+    const saleReceiptDetailsAndCount = await saleReceiptDetailService.getAllSaleReceiptDetailsBySaleReceiptId(saleId, page, limit, false);
+
+    const saleReceiptDetails = saleReceiptDetailsAndCount.rows;
+    const count = saleReceiptDetailsAndCount.count;
+
+
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count
+    }
+
+
+    res.render('sale/saleDetailPage', {title: 'saleDetailPage', saleReceipt, saleReceiptDetails, pagination});
 
 }
 
@@ -123,7 +140,7 @@ exports.addSaleReceipt = async (req, res) => {
 
     // const saleReceiptDetail = addSaleReceiptDatail(bookId, saleReceiptId, quantity, priceD);
 
-    res.redirect('/sale');
+    res.redirect('/sale/' + saleReceiptId);
 
 }
 

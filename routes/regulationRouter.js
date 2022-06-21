@@ -10,5 +10,6 @@ router.get('/api/min-import', regulationController.getMinImport);
 router.get('/api/min-stock-import', regulationController.getMinStockImport);
 router.get('/api/max-dept', regulationController.getMaxDept);
 router.get('/api/min-stock-sale', regulationController.getMinStockSale);
+router.get('/api/max-bill-money', regulationController.getMaxBillMoney);
 
 module.exports = router;
