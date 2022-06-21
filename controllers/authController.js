@@ -144,7 +144,8 @@ module.exports.sendEmailResetPassword = async (req, res) => {
     const content = emailContent.content(fullName, link);
     let data = {
         receiverEmail: email,
-        content: content
+        content: content,
+        subject: "BookStore password reset confirmation"
     }
 
     const sendEmail = await emailServices.sendEmail(data);
