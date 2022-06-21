@@ -77,7 +77,7 @@ module.exports.editAccountApi = async (req, res) => {
         })
     }
 
-    if (!regex.numberRegex(phone_number) || ['admin', 'staff', 'superadmin'].includes(status) || !['Male', 'Female'].includes(gender)) {
+    if (!regex.numberRegex(phone_number) || !['active', 'locked'].includes(status) || !['Male', 'Female'].includes(gender)) {
         return res.status(200).json({
             errCode: 4,
             errMessage: "Error Input!"
@@ -129,6 +129,15 @@ module.exports.apiListAccount = async (req, res) => {
     const page = parseInt(req.body.page) || 1;
     const limit = parseInt(req.body.limit) || 5;
     const {role, search, gender, status} = req.body;
+
+    if (!['admin', 'staff'].includes(role)) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Error!!!",
+            result: 'redirect',
+            url: '/error/404'
+        })
+    }
 
     if (!req.user || !checkRole(req.user.role, role)) {
         return res.status(200).json({
@@ -241,7 +250,8 @@ module.exports.addNewAccount = async (req, res) => {
         const content = emailContent.sendEmailAddNew(fullName, role, password, link);
         let dataEmail = {
             receiverEmail: email,
-            content: content
+            content: content,
+            subject: "Welcome to BookStore"
         }
         const sendEmail = await emailServices.sendEmail(dataEmail);
 

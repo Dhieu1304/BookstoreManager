@@ -16,7 +16,7 @@ module.exports.sendEmail = (data) => {
             let send = await transporter.sendMail({
                 from: '"BookStore" <none@example.com>',
                 to: data.receiverEmail,
-                subject: "BookStore password reset confirmation",
+                subject: data.subject,
                 html: data.content,
             });
 

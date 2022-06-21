@@ -65,7 +65,6 @@ const handleChangeRegulationView = () => {
 
 const handleSaveRegulation = () => {
     let regulations = [];
-    const regex = /^\d+$/;
     let isBreak = false;
     $("table > tbody > tr").each(function () {
         let regulation = {
@@ -73,7 +72,7 @@ const handleSaveRegulation = () => {
             'value': $(this).find('td').eq(2).text().trim(),
             'is_used': $(this).find("td:eq(3) input[type='checkbox']").prop('checked')
         }
-        if (!regex.test(regulation['value'])) {
+        if (isNaN(regulation['value'])) {
             isBreak = true;
         }
         regulations.push(regulation);
