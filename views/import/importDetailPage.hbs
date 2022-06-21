@@ -40,7 +40,7 @@
                             <input type="hidden" id="limitHidden" {{#if pagination.limit}} value="{{pagination.limit}}" {{/if}}>
                             <div class="d-flex align-items-center">
                                 <select name="limit" id="limit" class="custom-select" form="filterForm">
-                                    <option value="-1">Tất cả</option>
+                                    <option value="-1">All</option>
                                     <option value="5">5</option>
                                     <option selected="selected" value="10">10</option>
                                     <option value="20">20</option>
@@ -164,19 +164,19 @@
                 <div class="row import-form-top">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Date</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input form="importForm" class="form-control" type="text" readonly id="createAt" name="createAt" value="{{importReceipt.create_at}}" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Total price</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input form="importForm" type="number" id="totalPrice" name="totalPrice" class="form-control text-right" value="{{importReceipt.price}}" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Amount pay</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input form="importForm" type="text" id="finalPrice" name="finalPrice" class="form-control text-right" value="{{importReceipt.price}}" readonly>
                             </div>

@@ -72,8 +72,8 @@ function initEvent(){
 
             console.log("Use");
             
-            const money = $("#money").val();
-            const oldDept = $("#dept").val();
+            const money = parseFloat($("#money").val()) || 0;
+            const oldDept =  parseFloat($("#dept").val()) || 0;
 
             console.log("money: ", money);
             console.log("oldDept: ", oldDept);
@@ -88,9 +88,9 @@ function initEvent(){
             }
         }
 
-        // if(success){
-        //     $("#billForm").submit();
-        // }
+        if(success){
+            $("#billForm").submit();
+        }
         
     })
 }

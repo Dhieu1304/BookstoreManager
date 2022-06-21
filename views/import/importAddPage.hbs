@@ -52,11 +52,11 @@
                             <th>Num page</th>
                             <th>Publication date</th>
                             <th>Publisher</th>
-                            <th>Tác giả</th>
-                            <th>Danh mục</th>
+                            <th>Author</th>
+                            <th>Category</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
-                            <th>Xóa</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -67,11 +67,11 @@
                             <th>Số trang</th>
                             <th>Ngày NB</th>
                             <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Danh mục</th>
+                            <th>Author</th>
+                            <th>Category</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
-                            <th>Xóa</th>
+                            <th>Delete</th>
                         </tr>
                     </tfoot>
                     <tbody id="importDetailTableBody">
@@ -115,19 +115,19 @@
                 <div class="row import-form-top">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Ngày</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Date</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input form="importForm" class="form-control" type="date" readonly id="createAt" name="createAt">
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Total price</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input form="importForm" type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Amount pay</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input form="importForm" type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
                             </div>
@@ -137,7 +137,7 @@
                 <div class="row import-form-middle">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Tác giả</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Author</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input class="form-control" type="text" id="newAuthor" name="newAuthor">
                             </div>
@@ -154,7 +154,7 @@
                 <div class="row import-form-middle">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Danh mục</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Category</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input class="form-control" type="text" id="newCategory" name="newCategory">
                             </div>
@@ -171,7 +171,7 @@
                 <div class="row import-form-middle">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Nhà xuất bản</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Publisher</label>
                             <div class="col-md-8 col-sm-8 col-xs-6">
                                 <input class="form-control" type="text" id="newPublisher" name="newPublisher">
                             </div>
@@ -199,7 +199,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm sách mới</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add new book</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -212,16 +212,16 @@
                             <input id="newBookIsbn" type="text" class="form-control">
                         </div>
                         <div class="form-group col">
-                            <label class="col-form-label">Số trang:</label>
+                            <label class="col-form-label">Page number:</label>
                             <input id="newBookPageNumber" type="number" class="form-control">
                         </div>
                         <div class="form-group col">
-                            <label class="col-form-label">Ngày xuất bản:</label>
+                            <label class="col-form-label">Publication date</label>
                             <input id="newBookPublisherDate" type="Date" class="form-control">
                       </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Tiêu đề:</label>
+                        <label class="col-form-label">Title</label>
                         <input id="newBookTitle" type="text" class="form-control">
                     </div>
 
@@ -231,7 +231,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="form-group col">
-                                            <label class="col-form-label">Tác giả</label>
+                                            <label class="col-form-label">Author</label>
                                             <div class="input-group">
                                                 <input list="authorList" id="authorIp"  name="author" type="text" class="form-control">
                                                 <datalist id="authorList">
@@ -241,7 +241,7 @@
                                                 </datalist> 
                                                 <div class="input-group-append">
                                                     <button id="addAuthorTbRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
-                                                        Thêm <i class="fa-solid fa-plus"></i>
+                                                        Add <i class="fa-solid fa-plus"></i>
                                                     </button>
                                                     <button id="addNewAuthorModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewAuthorModal"></button>
                                                 </div>
@@ -255,13 +255,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Author</th>
-                                                    <th>Xóa</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>Author</th>
-                                                    <th>Xóa</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody id="authorTableBody">
@@ -294,7 +294,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="form-group col">
-                                            <label class="col-form-label">Danh mục</label>
+                                            <label class="col-form-label">Category</label>
                                             <div class="input-group">
                                                 <input list="categoryList" id="categoryIp"  name="category" type="text" class="form-control">
                                                 <datalist id="categoryList">
@@ -304,7 +304,7 @@
                                                 </datalist> 
                                                 <div class="input-group-append">
                                                     <button id="addCategoryTbRowBtn" type="button" class="mx-2 btn btn-secondary rounded-2">
-                                                        Thêm <i class="fa-solid fa-plus"></i>
+                                                        Add <i class="fa-solid fa-plus"></i>
                                                     </button>
                                                     <button id="addNewCategoryModalBtn" type="button" class="d-none" data-toggle="modal" data-target="#addNewCategoryModal"></button>
                                                 </div>
@@ -318,13 +318,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Category</th>
-                                                    <th>Xóa</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>Category</th>
-                                                    <th>Xóa</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody id="categoryTableBody">
@@ -357,7 +357,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="form-group col">
-                                            <label class="col-form-label">Nhà xuất bản</label>
+                                            <label class="col-form-label">Publisher</label>
                                             <div class="input-group">
                                                 <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">
                                                 <datalist id="publisherList">
@@ -387,7 +387,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm sách mới</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add new book</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -395,7 +395,7 @@
             <div class="modal-body">
                 <form id="addNewAuthorModalForm">
                     <div class="form-group">
-                        <label class="col-form-label">Tác giả:</label>
+                        <label class="col-form-label">Author:</label>
                         <input id="newAuthorInModal" type="text" class="form-control">
                     </div>
                 </form>
@@ -413,7 +413,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục mới</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add new category</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -421,7 +421,7 @@
             <div class="modal-body">
                 <form id="addNewCategoryModalForm">
                     <div class="form-group">
-                        <label class="col-form-label">Danh mục:</label>
+                        <label class="col-form-label">Category:</label>
                         <input id="newCategoryInModal" type="text" class="form-control">
                     </div>
                 </form>
