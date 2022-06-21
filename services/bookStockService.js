@@ -1,11 +1,10 @@
-const { models } = require('../models');
+const {models} = require('../models');
 
 const bookImgService = require('../services/bookImgService')
 
 
-
 exports.addBookStock = async (book_id, quantity, price, status = 'active') => {
-    try{
+    try {
 
         const bookStock = await models.book_stock.create(
             {
@@ -17,17 +16,16 @@ exports.addBookStock = async (book_id, quantity, price, status = 'active') => {
         );
 
         return bookStock;
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 }
 
 
-
 exports.getBookStockById = async (book_id, raw = false) => {
     book_id = parseInt(book_id);
 
-    try{
+    try {
         const bookStocks = await models.book_stock.findAll({
             raw: raw,
             include:
@@ -58,7 +56,7 @@ exports.getBookStockById = async (book_id, raw = false) => {
                             ],
                     },
                 ],
-            where: ({ book_id: book_id })
+            where: ({book_id: book_id})
         });
 
         // if(bookStocks.length == 0){
@@ -69,15 +67,14 @@ exports.getBookStockById = async (book_id, raw = false) => {
 
         return bookStocks[0];
 
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e);
     }
 }
 
 
 exports.getBookStockByIsbn = async (isbn, raw = false) => {
-    try{
+    try {
         const bookStock = await models.book_stock.findOne({
             raw: raw,
             include:
@@ -85,7 +82,7 @@ exports.getBookStockByIsbn = async (isbn, raw = false) => {
                     {
                         model: models.book,
                         as: "book",
-                        where: ({ isbn: isbn }),
+                        where: ({isbn: isbn}),
                         include:
                             [
                                 {
@@ -111,14 +108,13 @@ exports.getBookStockByIsbn = async (isbn, raw = false) => {
         });
 
 
-        if(bookStock){
+        if (bookStock) {
             const bookId = bookStock.book_id;
             const avatar = await bookImgService.getAvatarImgByBookId(bookId);
 
-            if(raw){
+            if (raw) {
                 bookStock.avatar = avatar.src;
-            }
-            else{
+            } else {
                 // bookStock.da
                 bookStock.dataValues.avatar = avatar.src;
             }
@@ -128,17 +124,16 @@ exports.getBookStockByIsbn = async (isbn, raw = false) => {
         return bookStock;
 
 
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e);
     }
 }
 
 exports.getAllBookStocksByBookIds = async (bookIds, raw = false) => {
-    try{
+    try {
         const bookStocks = await models.book_stock.findAll({
             raw: raw,
-            where: ({ book_id: bookIds }),
+            where: ({book_id: bookIds}),
             include:
                 [
                     {
@@ -169,18 +164,17 @@ exports.getAllBookStocksByBookIds = async (bookIds, raw = false) => {
         });
 
 
-        if(bookStocks && bookStocks.length > 0){
+        if (bookStocks && bookStocks.length > 0) {
 
             const bookStocksResult = [];
-            for (let bookStock of bookStocks){
+            for (let bookStock of bookStocks) {
 
                 const bookId = bookStock.book_id;
                 const avatar = await bookImgService.getAvatarImgByBookId(bookId);
 
-                if(raw){
+                if (raw) {
                     bookStock.avatar = avatar.src;
-                }
-                else{
+                } else {
                     // bookStock.da
                     bookStock.dataValues.avatar = avatar.src;
                 }
@@ -194,12 +188,10 @@ exports.getAllBookStocksByBookIds = async (bookIds, raw = false) => {
         return [];
 
 
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e);
     }
 }
-
 
 
 exports.getAllBookStock = async (raw = false) => {
@@ -210,17 +202,13 @@ exports.getAllBookStock = async (raw = false) => {
                 {
                     model: models.book,
                     as: "book",
-                    where: {
-
-                    },
+                    where: {},
                     include:
                         [
                             {
                                 model: models.category,
                                 as: "category_id_categories",
-                                where: {
-
-                                }
+                                where: {}
                             },
                             {
                                 model: models.publisher,
@@ -232,16 +220,34 @@ exports.getAllBookStock = async (raw = false) => {
                             {
                                 model: models.author,
                                 as: "author_id_authors",
-                                where: {
-
-                                }
+                                where: {}
                             },
                         ],
                 },
             ],
-        where: {
-
-        }
+        where: {}
     });
+}
+
+
+exports.editBookStock = async (book_id, price, status) => {
+        try {
+            const bookStock = await this.getBookStockById(book_id, true);
+            // await bookStock.update({
+            //     price: price,
+            //     status: status
+            // })
+
+            // bookStock.price=price;
+            // bookStock.status=status;
+            if (bookStock) {
+                bookStock.price = price;
+                bookStock.status = status;
+            }
+            //await bookStock.save();
+            return bookStock;
+        } catch (e) {
+            console.log(e);
+        }
 }
 

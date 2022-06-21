@@ -1,0 +1,543 @@
+<div class="container-lg">
+    <div class="admin-container-content">
+        <header class="admin-container-content-header">
+            <h1 class="row py-4 text-primary admin-container-content-header__title">
+                Add book
+            </h1>
+        </header>
+        <form action="/table/book/add" method="POST">
+            <!--            <div class="">-->
+            <!--                <div class="row justify-content-end">-->
+            <!--                    <div class="col-sm-4 text-center">-->
+            <!--                        <button type="submit" class="btn btn-success shadow-none">-->
+            <!--                            <i class="fa fa-pencil"></i>-->
+            <!--                            Save-->
+            <!--                        </button>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <div class="">
+                <div class="row justify-content-center">
+                    <h2 class="row py-4 text-secondary">
+                        Book Information
+                    </h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                ISBN
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <input class="form-control" name="isbn"
+                                       type="text"
+                                >
+                            </div>
+                        </div>
+                        <!--                        <div class="row align-items-center justify-content-end">-->
+                        <!--                            <p id="existProductName" class="col-lg-9 text-danger"></p>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Title
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <input class="form-control" name="title"
+                                       type="text"
+                                >
+                            </div>
+                        </div>
+                        <!--                        <div class="row align-items-center justify-content-end">-->
+                        <!--                            <p id="existProductName" class="col-lg-9 text-danger"></p>-->
+                        <!--                        </div>-->
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Number of pages
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <input class="form-control" name="num_page" type="number" step="1" min="0"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Publication date
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <input class="form-control" name="publication_date" type="date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Price
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <input class="form-control" name="price" type="number" step="1" min="0"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--            Brand-->
+            <div class="">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Publisher
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <div class="input-group">
+                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
+                                    <input list="publisherList" id="publisherIp" type="text" class="form-control"
+                                           name="publisher">
+                                    <datalist id="publisherList">
+                                        {{#each publisher}}
+                                            <option value="{{name}}"></option>
+                                        {{/each}}
+                                    </datalist>
+                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
+                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
+                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
+                                    <!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-xl-4 col-md-12">
+                                        <button id="addNewPublisherBtn" type="button"
+                                                class="btn btn-success rounded-circle">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
+                                        <!--                                                <i class="fas fa-plus"></i>-->
+                                        <!--                                                Add-->
+                                        <!--                                            </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Author
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <div class="input-group">
+                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
+                                    <input list="authorList" id="authorIp" type="text" class="form-control"
+                                           name="author">
+                                    <datalist id="authorList">
+                                        {{#each author}}
+                                            <option value="{{name}}"></option>
+                                        {{/each}}
+                                    </datalist>
+                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
+                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
+                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
+                                    <!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-xl-4 col-md-12">
+                                        <button id="addNewAuthorBtn" type="button"
+                                                class="btn btn-success rounded-circle">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
+                                        <!--                                                <i class="fas fa-plus"></i>-->
+                                        <!--                                                Add-->
+                                        <!--                                            </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 py-2">
+                                Category
+                            </div>
+                            <div class="col-lg-9 py-2">
+                                <div class="input-group">
+                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
+                                    <input list="categoryList" id="categoryIp" type="text" class="form-control"
+                                           name="category">
+                                    <datalist id="categoryList">
+                                        {{#each category}}
+                                            <option value="{{name}}"></option>
+                                        {{/each}}
+                                    </datalist>
+                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
+                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
+                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
+                                    <!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-xl-4 col-md-12">
+                                        <button id="addNewCategoryBtn" type="button"
+                                                class="btn btn-success rounded-circle">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
+                                        <!--                                                <i class="fas fa-plus"></i>-->
+                                        <!--                                                Add-->
+                                        <!--                                            </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+<!--            <div class="row justify-content-center">-->
+<!--                <div class="col-lg-8">-->
+<!--                    <div class="row align-items-center">-->
+<!--                        <div class="col-lg-3 py-2">-->
+<!--                            Image-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;                        <div class="col-lg-9 py-2">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <input class="form-control" name="image" type="file">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                        <div class="row justify-content-start mt-4 add-new-pictures">-->
+<!--                            <input name="image" accept="image/*" type='file' id="imageInput" multiple/>-->
+<!--                        </div>-->
+<!--                        <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
+<!--                            <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="" id="imageList">
+                <div class="row justify-content-center">
+                    <h2 class="row py-4 text-secondary">
+                        Images
+                    </h2>
+                </div>
+                <div class="row justify-content-start mt-4 add-new-pictures">
+                    <input name="image" accept="image/*" type='file' id="imageInput" multiple/>
+                </div>
+                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">
+                    <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>
+                </div>
+            </div>
+
+
+            <!
+            <!--                Pictures-->
+            <!--            <div class="" id="pictureList">-->
+            <!--                <div class="row justify-content-center">-->
+            <!--                    <h2 class="row py-4 text-secondary">-->
+            <!--                        Pictures-->
+            <!--                    </h2>-->
+            <!--                </div>-->
+                <!--                {{#unless isRemove}}-->
+            <!--                    <div class="row justify-content-start mt-4 add-new-pictures">-->
+            <!--                        <input name="pictures" accept="image/*" type='file' id="imageInput" multiple/>-->
+            <!--                    </div>-->
+            <!--                    <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
+            <!--                        <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>-->
+            <!--                    </div>-->
+                <!--                {{/unless}}-->
+            <!--                <p>Số lượng ảnh xóa: <span id="countDeletePictures"></span></p>-->
+            <!--                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
+            <!--                    <div class="row justify-content-start mt-4">-->
+                <!--                        {{#each pictures}}-->
+            <!--                            <div class="col-lg-1 col-md-3 col-sm-6 mb-4 product-picture">-->
+            <!--                                <input type="hidden" id="deletePictureInput" value="{{id}}">-->
+            <!--                                <input type="hidden" id="deletePictureLinkInput" value="{{link}}">-->
+            <!--                                <img src="{{link}}" class="product-picture-img" style="width: 80%"/>-->
+            <!--                            </div>-->
+                <!--                        {{/each}}-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="">
+                <div class="row justify-content-center">
+                    <div class="col-sm-4 text-center">
+                        <button type="submit" class="btn btn-success shadow-none">
+                            <i class="fa fa-pencil"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--<div id="updateModal" class="modal" tabindex="-1" role="dialog">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title">Modal title</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <p>Bạn chắc chắn với lựa chọn?</p>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button id="" type="submit" class="btn btn-primary" form="updateForm">Save</button>-->
+<!--                <button id="" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div id="toggleDeleteModal" class="modal" tabindex="-1" role="dialog">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title">Modal title</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <p>Bạn chắc chắn với lựa chọn?</p>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <form action="/admin/product/{{product.id}}/toggleDelete">-->
+<!--                    <button id="" type="submit" class="btn btn-primary">Save</button>-->
+<!--                </form>-->
+<!--                <button id="" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+        <!--{{#section 'script'}}-->
+
+<!--    <script>-->
+<!--        let countConfiguration = 0;-->
+<!--        let countOption = 0;-->
+<!--        $('#addConfigurationRow').click(function () {-->
+<!--            console.log("addConfigurationRow");-->
+<!--            const configurationRow =-->
+<!--                    `<tr>-->
+<!--                        <td colspan="2" class="text-center">-->
+<!--                            <button type="button" class="btn btn-sm btn-delete-row shadow-none deleteRowBtn" data-toggle="modal">-->
+<!--                                <i class="fas fa-trash-alt text-danger" style="font-size: 1.4rem"></i>-->
+<!--                            </button>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input class="form-control shadow-none" name="configurations[${countConfiguration}][configurationValue]" type="text" placeholder="Giá trị" required>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
+<!--                                <input name="configurations[${countConfiguration}][specificationName]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí" required>-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>`-->
+<!--            $('#configurationTable').append(configurationRow);-->
+<!--            countConfiguration++;-->
+<!--        })-->
+<!--        $('#addOptionRow').click(function () {-->
+<!--            console.log("addOptionRow");-->
+<!--            const optionRow =-->
+<!--                    `<tr>-->
+<!--                        <td colspan="2" class="text-center">-->
+<!--                            <button type="button" class="btn btn-sm btn-delete-row shadow-none deleteRowBtn" data-toggle="modal">-->
+<!--                                <i class="fas fa-trash-alt text-danger" style="font-size: 1.4rem"></i>-->
+<!--                            </button>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input class="form-control shadow-none" name="options[${countOption}][optionName]" type="text" placeholder="Giá trị" required>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
+<!--                                <input name="options[${countOption}][optionPrice]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí" required>-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
+<!--                                <input name="options[${countOption}][capacityName]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí">-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>`-->
+<!--            $('#optionTable').append(optionRow);-->
+<!--            countOption++;-->
+<!--        })-->
+<!--        $('#imageInput').change(function (e) {-->
+<!--            // console.log("URL.createObjectURL: ", URL.createObjectURL(e.target.files[0]))-->
+<!--            let showAddedImageHtml = "";-->
+<!--            for (let file of e.target.files) {-->
+<!--                const src = URL.createObjectURL(file);-->
+<!--                showAddedImageHtml +=-->
+<!--                        `<div class="col-lg-1 col-md-3 col-sm-6 mb-4 addedImage">-->
+<!--                            <img src="${src}" alt="new product image" style="width: 80%"/>-->
+<!--                        </div>`-->
+<!--            }-->
+<!--            $("#showAddedImage").append(showAddedImageHtml);-->
+<!--        });-->
+<!--        $("#selectAllConfiguration").click(function () {-->
+<!--            $('.select-configuration-row-checkbox').not(this).prop('checked', this.checked);-->
+<!--        });-->
+<!--        $("#selectAllOption").click(function () {-->
+<!--            $('.select-option-row-checkbox').not(this).prop('checked', this.checked);-->
+<!--        });-->
+<!--        let countDeletePictures = 0;-->
+<!--        $("#pictureList").on('click', '.product-picture-img', function (e) {-->
+<!--            console.log("picture click");-->
+<!--            const img = $(e.target).closest("img");-->
+<!--            const deletePictureInput = img.closest(".product-picture").find("#deletePictureInput");-->
+<!--            const deletePictureLinkInput = img.closest(".product-picture").find("#deletePictureLinkInput");-->
+<!--            const id = img.closest(".product-picture").find("input").val();-->
+<!--            console.log("id: ", id);-->
+<!--            console.log(img);-->
+<!--            if (parseFloat(img.css("opacity")) < 1) {-->
+<!--                img.css('opacity', '1');-->
+<!--                countDeletePictures--;-->
+<!--                $("#countDeletePictures").html(countDeletePictures);-->
+<!--                deletePictureInput.removeAttr('name');-->
+<!--                deletePictureLinkInput.removeAttr('name');-->
+<!--            } else {-->
+<!--                img.css('opacity', '0.6');-->
+<!--                countDeletePictures++;-->
+<!--                $("#countDeletePictures").html(countDeletePictures);-->
+<!--                deletePictureInput.attr('name', 'deletePictures[]');-->
+<!--                deletePictureLinkInput.attr('name', 'deletePictureLinks[]');-->
+<!--&lt;!&ndash;            }&ndash;&gt;-->
+<!--&lt;!&ndash;        })&ndash;&gt;-->
+
+<!--    </script>-->
+<script src="/adminStyle/js/filterSelect.js"></script>
+<script src="/adminStyle/js/table.js"></script>
+<!--<script>-->
+<!--    // let brandNames = new Array()-->
+<!--    // let productNames = new Array();-->
+<!--    // let isExistProductName = false;-->
+<!--    // let curProductName = $("#brandNameInput").val();-->
+<!--    // $(document).ready(function () {-->
+<!--    //     $.ajax({-->
+<!--    //         url: "/admin/api/product/brand",-->
+<!--    //         success(data) {-->
+<!--    //             console.log("ajax brand names");-->
+<!--    //             brandNames = data.brandNames;-->
+<!--    //         }-->
+<!--    //     });-->
+<!--    //     $.ajax({-->
+<!--    //         url: "/admin/api/product/productName",-->
+<!--    //         success(data) {-->
+<!--    //             console.log("ajax product names");-->
+<!--    //             productNames = data.productNames;-->
+<!--    //             const index = productNames.indexOf(curProductName);-->
+<!--    //             if (index > -1) {-->
+<!--    //                 productNames.splice(index, 1);-->
+<!--    //             }-->
+<!--    //         }-->
+<!--    //     });-->
+<!--    // });-->
+<!--    // const brandNameInput = $("#brandNameInput");-->
+<!--    // const existBrandName = $("#existBrandName");-->
+<!--    // brandNameInput.change(function (e) {-->
+<!--    //     const curBrandName = brandNameInput.val().trim();-->
+<!--    //     const isExistBrandName = brandNames.includes(curBrandName);-->
+<!--    //     console.log("curBrandName: ", curBrandName);-->
+<!--    //     console.log("brandNames: ", brandNames);-->
+<!--    //     if (isExistBrandName) {-->
+<!--    //         console.log("Thương hiệu đã tồn tại");-->
+<!--    //         existBrandName.html("")-->
+<!--    //     } else {-->
+<!--    //         console.log("Thương hiệu chưa tồn tại");-->
+<!--    //         existBrandName.html("Tên thương hiệu chưa tồn tại<br>Hệ thống sẽ thêm thương hiệu mới");-->
+<!--    //     }-->
+<!--    // })-->
+<!--    // const productNameInput = $("#productNameInput");-->
+<!--    // const existProductName = $("#existProductName");-->
+<!--    // productNameInput.change(function (e) {-->
+<!--    //     const curProductName = productNameInput.val().trim();-->
+<!--    //     isExistProductName = productNames.includes(curProductName);-->
+<!--    //     console.log("curProductName: ", curProductName);-->
+<!--    //     console.log("productNames: ", productNames);-->
+<!--    //     if (isExistProductName) {-->
+<!--    //         console.log("Tên sản phẩm đã tồn tại");-->
+<!--    //         existProductName.html("Tên sản phẩm đã tồn tại<br>Vui lòng thử lại");-->
+<!--    //     } else {-->
+<!--    //         console.log("Tên sản phẩm  chưa tồn tại");-->
+<!--    //         existProductName.html("")-->
+<!--    //     }-->
+<!--    // })-->
+<!--    // $("#addBtn").click(function (e) {-->
+<!--    //     if (!isExistProductName) {-->
+<!--    //         $("#addModal").modal('show');-->
+<!--    //     }-->
+<!--    // })-->
+
+
+<!--    $('#saveNewBook').on('click', e => {-->
+<!--        e.preventDefault();-->
+<!--        //alert("Save book");-->
+<!--        let isbn = $('input[name=isbn]').val();-->
+<!--        console.log("ISBN ", isbn);-->
+<!--        // let title = $('input[name=title]').val();-->
+<!--        // let num_page = $('input[name=num_page]').val();-->
+<!--        // let publication_date = $('input[name=publication_date]').val();-->
+<!--        // let publisher_name = $('input[name=publisherName]').val();-->
+<!--        //this.addBook(isbn, title, num_page, publication_date, publisher_name);-->
+<!--    })-->
+
+<!--    $('#addNewPublisherBtn').on('click', e => {-->
+<!--        e.preventDefault();-->
+<!--        alert("Add new publisher");-->
+<!--    })-->
+
+<!--    $('#addNewAuthorBtn').on('click', e => {-->
+<!--        e.preventDefault();-->
+<!--        alert("Add new publisher");-->
+<!--    })-->
+
+<!--    $('#addNewCategoryBtn').on('click', e => {-->
+<!--        e.preventDefault();-->
+<!--        alert("Add new publisher");-->
+<!--    })-->
+
+
+<!--</script>-->
+<!--    <script src="/js/import/importAddPage.js"></script>-->
+    <script>
+        $('#imageInput').change(function(e) {
+            // console.log("URL.createObjectURL: ", URL.createObjectURL(e.target.files[0]))
+            let showAddedImageHtml = "";
+            for (let file of e.target.files)
+            {
+                const src = URL.createObjectURL(file);
+                showAddedImageHtml +=
+                        `<div class="col-lg-1 col-md-3 col-sm-6 mb-4 addedImage">
+                            <img src="${src}" alt="new product image" style="width: 80%"/>
+                        </div>`
+            }
+            $("#showAddedImage").append(showAddedImageHtml);
+        });
+    </script>
+
+{{/section}}

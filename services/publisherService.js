@@ -48,3 +48,9 @@ exports.getPubliserByName = async (name, raw = false) => {
 
 }
 
+
+exports.getBookPublisherById = (publisherId) => models.publisher.findOne({
+    where: ({id: publisherId}),
+    raw: true
+});
+
