@@ -54,3 +54,11 @@ exports.getBookPublisherById = (publisherId) => models.publisher.findOne({
     raw: true
 });
 
+
+exports.getPublisherByName = (publisherName) => models.publisher.findOne({
+    where: ({name: publisherName}),
+    raw: true
+});
+
+
+

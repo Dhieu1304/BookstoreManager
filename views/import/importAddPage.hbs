@@ -49,13 +49,9 @@
                                 {{!-- <input type="text" style="width: 100%"> --}}
                             </th>
                             <th>Title</th>
-                            <th>Num page</th>
-                            <th>Publication date</th>
                             <th>Publisher</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -63,14 +59,10 @@
                         <tr>
                             <th>Ảnh</th>
                             <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
+                            <th>Title</th>
+                            <th>Publisher</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Delete</th>
                         </tr>
                     </tfoot>
@@ -80,24 +72,12 @@
                                 <input type="hidden" name="bookIds" value="\{{book_id}}">
                                 <td><img class="import-book-img"  src="\{{avatar}}"></td>
                                 <td>\{{book.isbn}}</td>
-                                <td>\{{book.title}}</td>
-                                <td>\{{book.num_page}}</td>
-                                <td>\{{book.publication_date}}</td>
+                                <td>\{{book.title}}</td>d>
                                 <td>\{{book.publisher.name}}</td>
-                                <td> 
-                                    \{{#each book.author_id_authors}}
-                                        -\{{name}}<br>
-                                    \{{/each}}    
-                                </td>
-                                <td> 
-                                    \{{#each book.category_id_categories}}
-                                        -\{{name}}<br>
-                                    \{{/each}}    
-                                </td>
                                 <td><input type="number" class="import-receipt-detail-price" value="\{{price}}" name="prices" onchange="resetDafautInput(event,\{{price}})" oninput="updateTotalFinalPrice()"></td>
                                 <td><input type="number" class="import-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,0)"></td>
                                 <td>
-                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportReceiptDetailRow(\{{book_id}})">
+                                    <button type="button" class="mx-2 btn btn-danger custom-btn" onclick="removeImportDetailTbRow(\{{book_id}})">
                                         <i class="fa-solid fa-trash custom-btn-icon"></i>
                                     </button>
                                 </td>
@@ -209,20 +189,20 @@
                     <div class="row">
                         <div class="form-group col">
                             <label class="col-form-label">ISBN:</label>
-                            <input id="newBookIsbn" type="text" class="form-control">
+                            <input id="newBookIsbn" type="text" class="form-control" required>
                         </div>
                         <div class="form-group col">
                             <label class="col-form-label">Page number:</label>
-                            <input id="newBookPageNumber" type="number" class="form-control">
+                            <input id="newBookPageNumber" type="number" class="form-control" required>
                         </div>
                         <div class="form-group col">
                             <label class="col-form-label">Publication date</label>
-                            <input id="newBookPublisherDate" type="Date" class="form-control">
+                            <input id="newBookPublisherDate" type="Date" class="form-control" required>
                       </div>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Title</label>
-                        <input id="newBookTitle" type="text" class="form-control">
+                        <input id="newBookTitle" type="text" class="form-control" required>
                     </div>
 
                     <div class="row">
@@ -359,7 +339,8 @@
                                         <div class="form-group col">
                                             <label class="col-form-label">Publisher</label>
                                             <div class="input-group">
-                                                <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">
+                                                {{!-- <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()"> --}}
+                                                <input list="publisherList" id="publisherIp"  type="text" class="form-control">
                                                 <datalist id="publisherList">
                                                     {{#each publishers}}
                                                         <option value="{{name}}"></option>
@@ -396,7 +377,7 @@
                 <form id="addNewAuthorModalForm">
                     <div class="form-group">
                         <label class="col-form-label">Author:</label>
-                        <input id="newAuthorInModal" type="text" class="form-control">
+                        <input id="newAuthorInModal" type="text" class="form-control" required>
                     </div>
                 </form>
             </div>
@@ -422,7 +403,7 @@
                 <form id="addNewCategoryModalForm">
                     <div class="form-group">
                         <label class="col-form-label">Category:</label>
-                        <input id="newCategoryInModal" type="text" class="form-control">
+                        <input id="newCategoryInModal" type="text" class="form-control" required>
                     </div>
                 </form>
             </div>

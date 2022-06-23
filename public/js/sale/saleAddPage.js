@@ -173,12 +173,12 @@ function initEvent(){
                 // console.log("quantity click")
                 // console.log( index + ": " + $( this ).val() );
 
-                const quantity = $( this ).val();
+                const quantity = parsetInt($( this ).val()) || 0;
 
                 console.log("quantity: ", quantity, " min: ", minStockToSaleRegulation.value);
 
 
-                const oldQuantity = $( this ).closest("tr").find('input[name="oldQuantitys"]').val();
+                const oldQuantity = parsetInt($( this ).closest("tr").find('input[name="oldQuantitys"]').val()) || 0;
 
                 console.log("oldQuantity: ", $( this ).closest("tr").find('input[name="oldQuantitys"]').val());
 

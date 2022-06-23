@@ -64,32 +64,20 @@
                 <table id="importReceiptDetailTable" class="import-receip-detail-table">
                     <thead>
                     <tr>
-                        {{!-- <th>Ảnh</th> --}}
-                        <th>ISBN
-                            {{!-- <input type="text" style="width: 100%"> --}}
-                        </th>
-                        <th>Tiêu đề</th>
-                        <th>Số trang</th>
-                        <th>Ngày NB</th>
-                        <th>NXB</th>
-                        <th>Tác giả</th>
-                        <th>Danh mục</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Publisher</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        {{!-- <th>Ảnh</th> --}}
                         <th>ISBN</th>
-                        <th>Tiêu đề</th>
-                        <th>Số trang</th>
-                        <th>Ngày NB</th>
-                        <th>NXB</th>
-                        <th>Tác giả</th>
-                        <th>Danh mục</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
+                        <th>Title</th>
+                        <th>Publisher</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
                     </tr>
                     </tfoot>
                     <tbody id="importTableBody">
@@ -100,19 +88,7 @@
                                 {{!-- <td><img class="import-book-img" src="{{avatar}}"></td> --}}
                                 <td>{{book.isbn}}</td>
                                 <td>{{book.title}}</td>
-                                <td>{{book.num_page}}</td>
-                                <td>{{book.publication_date}}</td>
                                 <td>{{book.publisher.name}}</td>
-                                <td>
-                                    {{#each book.author_id_authors}}
-                                        -{{name}}<br>
-                                    {{/each}}
-                                </td>
-                                <td>
-                                    {{#each book.category_id_categories}}
-                                        -{{name}}<br>
-                                    {{/each}}
-                                </td>
                                 <td>{{price}}</td>
                                 <td>{{quantity}}</td>
                             </tr>
@@ -125,19 +101,7 @@
                                 \{{!-- <td><img class="import-book-img" src="\{{avatar}}"></td> --}}
                                 <td>\{{book.isbn}}</td>
                                 <td>\{{book.title}}</td>
-                                <td>\{{book.num_page}}</td>
-                                <td>\{{book.publication_date}}</td>
                                 <td>\{{book.publisher.name}}</td>
-                                <td>
-                                    \{{#each book.author_id_authors}}
-                                        -\{{name}}<br>
-                                    \{{/each}}
-                                </td>
-                                <td>
-                                    \{{#each book.category_id_categories}}
-                                        -\{{name}}<br>
-                                    \{{/each}}
-                                </td>
                                 <td>\{{price}}</td>
                                 <td>\{{quantity}}</td>
                             </tr>
