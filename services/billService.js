@@ -49,7 +49,6 @@ exports.addBill = async (create_at, customer_id, money_received_str) => {
             })
 
             await customer.save();
-            let x = 1;
         }
 
 
@@ -129,6 +128,9 @@ exports.getAndCountAllBills = async (page, limit, filter, raw = false) => {
             switch (filter.typeOfFilter){
                 case "ID":
                     options.where.id = parseInt(filter.filterId) || 1;
+                    break;
+                case "CUSTOMER":
+                    options.include[0].where.phone = filter.filterCustomer;
                     break;
                 case "DATE":{
                     const filterDate = new Date(filter.filterDate)

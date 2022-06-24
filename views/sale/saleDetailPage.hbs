@@ -64,31 +64,21 @@
                     <thead>
                     <tr>
                         {{!-- <th>Ảnh</th> --}}
-                        <th>ISBN
-                            {{!-- <input type="text" style="width: 100%"> --}}
-                        </th>
-                        <th>Tiêu đề</th>
-                        <th>Số trang</th>
-                        <th>Ngày NB</th>
-                        <th>NXB</th>
-                        <th>Tác giả</th>
-                        <th>Danh mục</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
+                         <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Pulisher</th>
+                        <th>Price</th>
+                        <th>Quantity purchased</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         {{!-- <th>Ảnh</th> --}}
-                        <th>ISBN</th>
-                        <th>Tiêu đề</th>
-                        <th>Số trang</th>
-                        <th>Ngày NB</th>
-                        <th>NXB</th>
-                        <th>Tác giả</th>
-                        <th>Danh mục</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
+                         <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Pulisher</th>
+                        <th>Price</th>
+                        <th>Quantity purchased</th>
                     </tr>
                     </tfoot>
                     <tbody id="saleTableBody">
@@ -99,19 +89,7 @@
                                 {{!-- <td><img class="sale-book-img" src="{{avatar}}"></td> --}}
                                 <td>{{book.isbn}}</td>
                                 <td>{{book.title}}</td>
-                                <td>{{book.num_page}}</td>
-                                <td>{{book.publication_date}}</td>
                                 <td>{{book.publisher.name}}</td>
-                                <td>
-                                    {{#each book.author_id_authors}}
-                                        -{{name}}<br>
-                                    {{/each}}
-                                </td>
-                                <td>
-                                    {{#each book.category_id_categories}}
-                                        -{{name}}<br>
-                                    {{/each}}
-                                </td>
                                 <td>{{price}}</td>
                                 <td>{{quantity}}</td>
                             </tr>
@@ -123,20 +101,8 @@
                                 <input type="hidden" name="bookIds" value="\{{book_id}}">
                                 \{{!-- <td><img class="sale-book-img" src="\{{avatar}}"></td> --}}
                                 <td>\{{book.isbn}}</td>
-                                <td>\{{book.title}}</td>
-                                <td>\{{book.num_page}}</td>
-                                <td>\{{book.publication_date}}</td>
+                                <td>\{{book.title}}</td>d>
                                 <td>\{{book.publisher.name}}</td>
-                                <td>
-                                    \{{#each book.author_id_authors}}
-                                        -\{{name}}<br>
-                                    \{{/each}}
-                                </td>
-                                <td>
-                                    \{{#each book.category_id_categories}}
-                                        -\{{name}}<br>
-                                    \{{/each}}
-                                </td>
                                 <td>\{{price}}</td>
                                 <td>\{{quantity}}</td>
                             </tr>
@@ -164,13 +130,13 @@
                 <div class="row sale-form-top">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
+                            <label class="col-md-3 col-sm-3 col-xs-12">Date</label>
                             <div class="col-md-9 col-sm-9 col-xs-6">
                                 <input class="form-control" type="text" value="{{saleReceipt.create_at}}" readonly>
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
+                            <label class="col-md-3 col-sm-3 col-xs-12">Phone</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <div class="input-group">
                                     <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="text" value="{{saleReceipt.customer.phone}}" readonly>
@@ -182,15 +148,9 @@
                             </div>
                         </div>
                         <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
+                            <label class="col-md-3 col-sm-3 col-xs-12">Name</label>
                             <div class="col-md-9 col-sm-9 col-xs-12">
                                 <input class="form-control" id="customerName" type="text" value="{{saleReceipt.customer.name}}" readonly>
-                            </div>
-                        </div>
-                        <div class="py-2 px-2 form-group row align-items-center">
-                            <label class="col-md-3 col-sm-3 col-xs-12">Nợ</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                <input class="form-control" id="customerDept" type="text" value="{{saleReceipt.customer.dept}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -198,13 +158,13 @@
                 <div class="row sale-form-bottom">
                     <div class="col-md-12 col-xs-12">
                         <div class="py-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Total price</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" value="{{saleReceipt.price}}" readonly>
                             </div>
                         </div>
                         <div class="py-2 form-group row">
-                            <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                            <label class="col-md-4 col-sm-4 col-xs-12">Amount pay</label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" value="{{saleReceipt.price}}" readonly>
                             </div>

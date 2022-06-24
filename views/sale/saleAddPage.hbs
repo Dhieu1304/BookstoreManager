@@ -44,34 +44,26 @@
                     <table id="saleReceiptDetailTable" class="sale-receip-detail-table">
                         <thead>
                             <tr>
-                                <th>Ảnh</th>
+                                <th>Image</th>
                                 <th>ISBN</th>
-                                <th>Tiêu đề</th>
-                                <th>Số trang</th>
-                                <th>Ngày NB</th>
-                                <th>NXB</th>
-                                <th>Tác giả</th>
-                                <th>Danh mục</th>
-                                <th>Giá</th>
-                                <th>Số lượng tồn</th>
-                                <th>Số lượng</th>
-                                <th>Xóa</th>
+                                <th>Title</th>
+                                <th>Pulisher</th>
+                                <th>Price</th>
+                                <th>Inventory number</th>
+                                <th>Quantity purchase</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Ảnh</th>
+                                <th>Image</th>
                                 <th>ISBN</th>
-                                <th>Tiêu đề</th>
-                                <th>Số trang</th>
-                                <th>Ngày NB</th>
-                                <th>NXB</th>
-                                <th>Tác giả</th>
-                                <th>Danh mục</th>
-                                <th>Giá</th>
-                                <th>Số lượng tồn</th>
-                                <th>Số lượng</th>
-                                <th>Xóa</th>
+                                <th>Title</th>
+                                <th>Pulisher</th>
+                                <th>Price</th>
+                                <th>Inventory number</th>
+                                <th>Quantity purchase</th>
+                                <th>Delete</th>
                             </tr>
                         </tfoot>
                         <tbody id="saleDetailTableBody">
@@ -82,19 +74,7 @@
                                     <td><img class="sale-book-img"  src="\{{avatar}}"></td>
                                     <td>\{{book.isbn}}</td>
                                     <td>\{{book.title}}</td>
-                                    <td>\{{book.num_page}}</td>
-                                    <td>\{{book.publication_date}}</td>
                                     <td>\{{book.publisher.name}}</td>
-                                    <td> 
-                                        \{{#each book.author_id_authors}}
-                                            -\{{name}}<br>
-                                        \{{/each}}    
-                                    </td>
-                                    <td> 
-                                        \{{#each book.category_id_categories}}
-                                            -\{{name}}<br>
-                                        \{{/each}}    
-                                    </td>
                                     <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}" ></td>
                                     <td>\{{quantity}} <input type="hidden" name="oldQuantitys" value="\{{quantity}}" ></td>
                                     <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
@@ -117,13 +97,13 @@
                     <div class="row sale-form-top">
                         <div class="col-md-12 col-xs-12">
                             <div class="py-2 px-2 form-group row align-items-center">
-                                <label class="col-md-3 col-sm-3 col-xs-12">Ngày</label>
+                                <label class="col-md-3 col-sm-3 col-xs-12">Date</label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    <input class="form-control" type="date">
+                                    <input class="form-control" type="text" id="createAt">
                                 </div>
                             </div>
                             <div class="py-2 px-2 form-group row align-items-center">
-                                <label class="col-md-3 col-sm-3 col-xs-12">Sđt</label>
+                                <label class="col-md-3 col-sm-3 col-xs-12">Phone</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <div class="input-group">
                                         <input id="customerPhoneNumberIp" name="phoneNumber" type="text" class="form-control" type="tel" required>
@@ -140,13 +120,13 @@
                                 </div>
                             </div>
                             <div class="py-2 px-2 form-group row align-items-center">
-                                <label class="col-md-3 col-sm-3 col-xs-12">Tên</label>
+                                <label class="col-md-3 col-sm-3 col-xs-12">Name</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input class="form-control" id="customerName" type="text" readonly>
                                 </div>
                             </div>
                             <div class="py-2 px-2 form-group row align-items-center">
-                                <label class="col-md-3 col-sm-3 col-xs-12">Nợ cũ</label>
+                                <label class="col-md-3 col-sm-3 col-xs-12">Dept</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input class="form-control" id="customerDept" type="text" readonly>
                                 </div>
@@ -156,13 +136,13 @@
                     <div class="row sale-form-bottom">
                         <div class="col-md-12 col-xs-12">
                             <div class="py-2 form-group row">
-                                <label class="col-md-4 col-sm-4 col-xs-12">Đơn giá</label>
+                                <label class="col-md-4 col-sm-4 col-xs-12">Total price</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
                                     <input type="number" id="totalPrice" name="totalPrice" class="form-control text-right" readonly>
                                 </div>
                             </div>
                             <div class="py-2 form-group row">
-                                <label class="col-md-4 col-sm-4 col-xs-12">Thành tiền</label>
+                                <label class="col-md-4 col-sm-4 col-xs-12">Amount pay</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
                                     <input type="text" id="finalPrice" name="finalPrice" class="form-control text-right" readonly>
                                 </div>
@@ -176,66 +156,11 @@
 
 
 
-    <!-- Modal -->
-
-    <div id="showBookModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">Chọn sách</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <table id="showBookTable">
-                    <thead>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Chọn</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Ảnh</th>
-                            <th>ISBN</th>
-                            <th>Tiêu đề</th>
-                            <th>Số trang</th>
-                            <th>Ngày NB</th>
-                            <th>NXB</th>
-                            <th>Tác giả</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Chọn</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-        </div>
-    
-    </div>
-
     <div id="addNewCustomerModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add new customer</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -243,19 +168,19 @@
             <div class="modal-body">
                 <form id="addNewCustomerForm">
                     <div class="form-group">
-                        <label class="col-form-label">Họ tên:</label>
+                        <label class="col-form-label">Name</label>
                         <input id="newCustormerName" type="text" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Số điện thoại:</label>
+                        <label class="col-form-label">Phone</label>
                         <input id="newCustormerPhone" type="tel" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Email:</label>
+                        <label class="col-form-label">Email</label>
                         <input id="newCustormerEmail" type="email" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Địa chỉ:</label>
+                        <label class="col-form-label">Address</label>
                         <input id="newCustormerAddress" type="text" class="form-control">
                     </div>
                 </form>

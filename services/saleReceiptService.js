@@ -64,7 +64,10 @@ exports.getAndCountAllSaleReceipts = async (page, limit, filter, raw = false) =>
                     as: "customer",
                     attributes: [
                         "name", "phone",
-                    ]
+                    ],
+                    where: {
+
+                    }
                 }
             ],
 
@@ -115,6 +118,9 @@ exports.getAndCountAllSaleReceipts = async (page, limit, filter, raw = false) =>
             switch (filter.typeOfFilter){
                 case "ID":
                     options.where.id = parseInt(filter.filterId) || 1;
+                    break;
+                case "CUSTOMER":
+                    options.include[0].where.phone = filter.filterCustomer;
                     break;
                 case "DATE":{
                     const filterDate = new Date(filter.filterDate)

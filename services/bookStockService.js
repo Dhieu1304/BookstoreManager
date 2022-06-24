@@ -1,6 +1,7 @@
 const {models} = require('../models');
 
 const bookImgService = require('../services/bookImgService')
+const {options} = require("pg/lib/defaults");
 
 
 exports.addBookStock = async (book_id, quantity, price, status = 'active') => {
@@ -73,7 +74,7 @@ exports.getBookStockById = async (book_id, raw = false) => {
 }
 
 
-exports.getBookStockByIsbn = async (isbn, raw = false) => {
+exports.getBookStockByIsbn = async (isbn, raw = false, status = 'active') => {
     try {
         const bookStock = await models.book_stock.findOne({
             raw: raw,
@@ -108,16 +109,37 @@ exports.getBookStockByIsbn = async (isbn, raw = false) => {
         });
 
 
+
+
         if (bookStock) {
             const bookId = bookStock.book_id;
             const avatar = await bookImgService.getAvatarImgByBookId(bookId);
 
+
+
             if (raw) {
-                bookStock.avatar = avatar.src;
+
+
+
+
+                if(avatar && avatar.src){
+                    bookStock.avatar = avatar.src
+                }else{
+                    bookStock.avatar = "";
+                }
+
+
             } else {
                 // bookStock.da
-                bookStock.dataValues.avatar = avatar.src;
+
+                if(avatar && avatar.src){
+                    bookStock.dataValues.avatar = avatar.src
+                }else {
+                    bookStock.dataValues.avatar = "";
+                }
+
             }
+
 
         }
 

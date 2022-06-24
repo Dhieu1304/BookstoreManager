@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
 // Set default date for createAt is today
-function defautCreateAtDate(){
+function defaultDateNow(){
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -61,13 +61,33 @@ function updateTotalFinalPrice(){
 
     let total = 0;
     $('input[name^="prices"]').each(function() {
-        total += parseFloat( $( this ).val() ) || 0;
+
+        let price = parseFloat( $( this ).val() ) || 0;
+        xxx = $($(this).closest("tr"));
+        let quantity = $($(this).closest("tr")).find('input[name="quantitys"]').val() || "0";
+
+        quantity = parseInt(quantity);
+
+        // let quantity = $($(this).closest("tr")).find('input[name="quantitys]');
+
+        console.log("price: ", price);
+        console.log("quantity: ", quantity);
+
+        let currentMoney = price * quantity;
+
+        total +=  currentMoney;
+
+        console.log("currentMoney: ", currentMoney);
+        console.log("total: ", total);
     });
 
     console.log("total: ", total);
 
     $('#totalPrice').val(total);
     $('#finalPrice').val(total);
+
+
+    
     
 }
 
@@ -77,6 +97,7 @@ function resetDafautInput(e, val){
     
     if(ele.val()){
         console.log("quantity change: ", ele.val());
+        updateTotalFinalPrice();
     }else{
         ele.val(val);
     }
@@ -84,27 +105,64 @@ function resetDafautInput(e, val){
 }
 
 
-function changePublisherId(){
-    const publisherName = $("#publisherIp").val();
+// function changePublisherId(){
+//     const publisherName = $("#publisherIp").val();
 
-    const publisher = publishers.find(publisher => {
-        return publisher.name === publisherName;
-        });
+//     const publisher = publishers.find(publisher => {
+//         return publisher.name === publisherName;
+//         });
 
-    if (!publisher){
-        alert("Không tồn tại publisher này, vui lòng nhập lại hoặc thêm mới");
-        return;
-    }
-    $("#publisherId").val(publisher.id);
+//     if (!publisher){
+//         $("#publisherId").val("");
+//         alert("Không tồn tại publisher này, vui lòng nhập lại hoặc thêm mới");
+//         return;
+//     }
+//     $("#publisherId").val(publisher.id);
 
-}
+// }
 
 
 
 function initUI(){
-    defautCreateAtDate()
+    defaultDateNow()
     overlayModal();
+
+
+    let str1= "";
+
+    if(authors){
+        for (let i=0; i < authors.length;++i){
+            str1 += '<option value="'+authors[i].name+'" />'; // Storing options in variable
+        }
+    }
+
+    $("#authorList").html(str1);
+
+
+    let str2= "";
+
+    if(categorys){
+        for (let i=0; i < categorys.length;++i){
+            str2 += '<option value="'+categorys[i].name+'" />'; // Storing options in variable
+        }
+    }
+
+    $("#categoryList").html(str2);
+
+
+    let str5= "";
+
+    if(publishers){
+        for (let i=0; i < publishers.length;++i){
+            str5 += '<option value="'+publishers[i].name+'" />'; // Storing options in variable
+        }
+    }
+
+    $("#publisherList").html(str5);
+
 }
+
+
 
 
 
@@ -182,13 +240,13 @@ function initEvent(){
         const categoryName =  $("#newCategory").val();
 
         if(categoryName === ""){
-            alert("Vui lòng nhập tên danh mục");
+            alert("Please enter a category name");
             return;
         }
 
-        const categoryInDB = await getAuthorsByName(categoryName);
+        const categoryInDB = await getCategoryByName(categoryName);
         if(categoryInDB){
-            alert("Danh mục đã tồn tại, vui lòng chọn tên khác");
+            alert("Category already exists.");
             return;
         }
 
@@ -206,13 +264,13 @@ function initEvent(){
 
 
         if(categoryName === ""){
-            alert("Vui lòng nhập tên danh mục");
+            alert("Please enter a category name");
             return;
         }
 
         const categoryInDB = await getCategoryByName(categoryName);
         if(categoryInDB){
-            alert("Danh mục đã tồn tại, vui lòng chọn tên khác");
+            alert("Category already exists.");
             return;
         }
 
@@ -237,15 +295,18 @@ function initEvent(){
 
 
         if(publisherName === ""){
-            alert("Vui lòng nhập tên nhà xuất bản");
+            alert("Please enter publisher name");
             return;
         }
 
         const publisherInDB = await getPublisherByName(publisherName);
         if(publisherInDB){
-            alert("Nhà xuất bản đã tồn tại, vui lòng chọn tên khác");
+            alert("Publisher already exists");
             return;
         }
+
+
+
 
         const publisher = await addNewPublisher(publisherName);
         console.log("addNewPublisherBtn: new publisher: ", publisher);
@@ -255,14 +316,75 @@ function initEvent(){
     })
 
 
-    $("#addNewBookBtn").click(function(e){
+    $("#addNewBookBtn").click(async function(e){
     
 
         newBookIsbn = $("#newBookIsbn").val();
+
+        if(!newBookIsbn){
+            alert("ISBN cannot be left blank");
+
+            return;
+        }
+
+        const checkIsbnBookStock = await getBookStockByIsbn(newBookIsbn);
+
+        if(checkIsbnBookStock){
+            alert("ISBN already exists");
+            return;
+        }
+
+
+        
+
         newBookPageNumber = $("#newBookPageNumber").val();
+
+        if(!newBookPageNumber){
+            alert("Page number cannot be left blank");
+            return;
+        }
+
+
         newBookPublisherDate = $("#newBookPublisherDate").val();
+
+        if(!newBookPublisherDate){
+            alert("Publisher Date cannot be left blank");
+            return;
+        }
+
+
         newBookTitle = $("#newBookTitle").val();
-        publisherId = $("#publisherId").val();
+
+        
+        if(!newBookTitle){
+            alert("title cannot be left blank");
+            return;
+        }
+
+
+        const publisherName = $("#publisherIp").val();
+
+        console.log("publisherName: ", publisherName);
+
+
+        if(!publisherName){
+            alert("Please enter an existing publisher name or create a new one");
+            return;
+        }
+
+        const publisher = await getPublisherByName(publisherName);
+    
+
+
+        if(!publisher){
+            alert("Please enter an existing publisher name or create a new one");
+            return;
+        }
+
+        const publisherId = publisher.id;
+
+        
+
 
         authorIds = [];
         categoryIds = [];
@@ -275,7 +397,14 @@ function initEvent(){
             console.log("authorId ", $(this).val());
             console.log("authorIds: ", authorIds);
         });
-        
+
+
+        if(authorIds.length === 0){
+            alert("Authors cannot be left blank");
+            return;
+        }
+
+    
 
         $('input[name^="categoryIds"]').each(function() {
             categoryIds.push($(this).val());
@@ -283,30 +412,61 @@ function initEvent(){
             console.log("categoryIds: ", categoryIds);
         });
 
+        
+        if(categoryIds.length === 0){
+            alert("Categories cannot be left blank");
+            return;
+        }
 
-        const bookStock = addNewBookStock(newBookIsbn, newBookPageNumber, newBookPublisherDate, newBookTitle, publisherId, authorIds, categoryIds)
+
+        // return;
+
+        // const publisherInDB = await getPublisherByName(publisherName);
+        // if(publisherInDB){
+        //     alert("Nhà xuất bản đã tồn tại, vui lòng chọn tên khác");
+        //     return;
+        // }
+        
 
 
+        const bookStock = await addNewBookStock(newBookIsbn, newBookPageNumber, newBookPublisherDate, newBookTitle, publisherId, authorIds, categoryIds)
 
-        $("#newBookIsbn").val("");
-        $("#newBookPageNumber").val("");
-        $("#newBookPublisherDate").val("");
-        $("#newBookTitle").val("");
-        $("#publisherId").val("");
-        $("#publisherIp").val("");
+        if(bookStock){
 
+            $("#newBookIsbn").val("");
+            $("#newBookPageNumber").val("");
+            $("#newBookPublisherDate").val("");
+            $("#newBookTitle").val("");
+            $("#publisherId").val("");
+            $("#publisherIp").val("");
     
-
-
-        for (let authorId of authorIds){
-            L("authorItem", authorId);
-        }
-
-        for (let categoryId of categoryIds){
+            $("#authorIp").val("");
+            $("#categoryIp").val("");
+    
             
-            removeCategoryTbRow("categoryItem", categoryId);
+        
+            // $("#authorTable").html("");
+            // $("#categoryTable").html("");
+    
+        
+    
+    
+            for (let authorId of authorIds){
+               ("authorItem", authorId);
+               removeAuthorTbRow("authorItem", authorId);
+            }
+    
+            for (let categoryId of categoryIds){
+                
+                removeCategoryTbRow("categoryItem", categoryId);
+            }
+            // changePublisherId();
+
+
         }
-        // changePublisherId();
+
+
+
     })
 
 
@@ -333,15 +493,24 @@ function initEvent(){
 
 
             await $('input[name^="quantitys"]').each(function( index ) {
-                // console.log("quantity click")
+                console.log("quantity click")
                 // console.log( index + ": " + $( this ).val() );
 
-                const quantity = $( this ).val();
+                const quantity =  parseInt($(this).val()) || 0;
+                const val = parseInt(minImportRegulation.value) || 0;
 
-                console.log("quantity: ", quantity, " min: ", minImportRegulation.value);
+                console.log("quantity: ", quantity, " min: ", val);
 
-                if(quantity < minImportRegulation.value){
-                    const message = "Minimum quantity of imported books is " + minImportRegulation.value;
+
+                if (quantity === 0){
+                    $( this ).focus();
+                    success = false;
+                    alert("Quantity must be greater than 0")
+                    return;
+                }
+
+                if(quantity < val){
+                    const message = "Minimum quantity of imported books is " + val;
                     
                     $( this ).focus();
                     // alert(message)
@@ -349,13 +518,16 @@ function initEvent(){
                     return;
                 }
 
+
             });
         }
 
 
         const importDetailTableBody = $("#importDetailTableBody");
 
-        if(!importDetailTableBody.hasClass("importReceiptDetailItemRow")){
+        console.log("importDetailTableBody: ", importDetailTableBody);
+
+        if(importDetailTableBody.find(".importReceiptDetailItemRow").length === 0){
             alert("Please enter book");
             return;
         }
@@ -429,6 +601,7 @@ async function addImportDetailTbRow(isbn){
 
     if (isbn !== ""){
         bookStock = await getBookStockByIsbn(isbn);
+        console.log("book mới thêm: ", bookStock);
     }
 
 
@@ -452,7 +625,18 @@ async function addImportDetailTbRow(isbn){
 
 
     if(minStockToImportRegulation.is_used){
-        if (bookStock.quantity >= minStockToImportRegulation.value){
+
+
+        const quantity = parseInt(bookStock.quantity);
+
+        console.log("cur quantity: ",quantity);
+
+
+        const val = parseInt(minStockToImportRegulation.value);
+
+        console.log("cur minStockToImportRegulation val: ",val);
+
+        if (quantity > val){
             const message = "Only import books with inventory less than " + minStockToImportRegulation.value;
             alert(message);
 
@@ -654,7 +838,7 @@ function removeCategoryTbRow(preId, index){
 
 async function addNewBookStock(newBookIsbn, newBookPageNumber, newBookPublisherDate, newBookTitle, publisherId, authorIds, categoryIds){
     
-    const bookStock = null;
+    let bookStock = null;
     await $.ajax({
         url: "/api/stock/book/add",
         method: 'POST',

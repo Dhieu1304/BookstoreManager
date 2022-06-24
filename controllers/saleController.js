@@ -28,21 +28,25 @@ exports.getSalePage = async (req, res) => {
 
 
 
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: 0
+    }
+
 
     const saleReceiptsAndCount = await saleReceiptService.getAndCountAllSaleReceipts(page, limit, filter, true);
 
     if(!saleReceiptsAndCount){
-        res.render('sale/salePage', {title: 'Sale'});
+        res.render('sale/salePage', {title: 'Sale', pagination, filter});
+        return;
     }
 
     const saleReceipts = saleReceiptsAndCount.rows;
     const count = saleReceiptsAndCount.count;
 
-    const pagination = {
-        page: page,
-        limit: limit,
-        totalRows: count
-    }
+    pagination.totalRows = count;
+
 
     res.render('sale/salePage', {title: 'Sale', saleReceipts, pagination, filter});
 }
