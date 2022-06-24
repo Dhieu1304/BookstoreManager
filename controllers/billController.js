@@ -11,11 +11,14 @@ exports.getBillPage = async (req, res) => {
     const filter = {
         typeOfFilter : data.typeOfFilter,
         filterId : data.filterId,
+        filterCustomer : data.filterCustomer,
         filterDate : data.filterDate,
         filterMonth : data.filterMonth,
         filterYear : data.filterYear,
         filterMinDate : data.filterMinDate,
-        filterMaxDate : data.filterMaxDate
+        filterMaxDate : data.filterMaxDate,
+        orderBy : data.orderBy,
+        order : data.order,
     }
 
 

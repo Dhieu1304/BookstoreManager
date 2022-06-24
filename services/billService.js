@@ -1,4 +1,6 @@
 const { models } = require('../models');
+const { Op } = require("sequelize")
+const  sequelize = require("sequelize");
 
 exports.getAllBillInfor = async (raw = false) => {
     try{
@@ -77,7 +79,10 @@ exports.getAndCountAllBills = async (page, limit, filter, raw = false) => {
                     as: "customer",
                     attributes: [
                         "name", "phone",
-                    ]
+                    ],
+                    where: {
+
+                    }
                 }
             ],
 
