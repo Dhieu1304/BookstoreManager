@@ -66,6 +66,23 @@ function initEvent(){
         console.log("Save click");
 
 
+
+        
+        const id = $("#id").val();
+
+        if(id){
+            alert("Please enter a valid phone number")
+        }
+
+
+        const money = parseFloat($("#money").val()) || 0;
+
+        if (money === 0){
+            alert("Money pay number must be greater than 0")
+        }
+
+
+
         let success = true;
 
         if(maxBillMoneyRegulation.is_used){

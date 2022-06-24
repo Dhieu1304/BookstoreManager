@@ -130,6 +130,9 @@ exports.getAndCountAllBills = async (page, limit, filter, raw = false) => {
                 case "ID":
                     options.where.id = parseInt(filter.filterId) || 1;
                     break;
+                case "CUSTOMER":
+                    options.include[0].where.phone = filter.filterCustomer;
+                    break;
                 case "DATE":{
                     const filterDate = new Date(filter.filterDate)
                     const filterDateNext = new Date(filterDate);

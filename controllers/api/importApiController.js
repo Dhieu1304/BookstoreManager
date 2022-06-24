@@ -33,12 +33,13 @@ exports.getAllImportReceipts = async (req, res) => {
     const importReceiptsAndCount = await importReceiptService.getAndCountAllImportReceipts(page, limit, filter, true);
     if(!importReceiptsAndCount){
         res.render('import/importPage', {title: 'Import', pagination});
+        return;
     }
 
     const importReceipts = importReceiptsAndCount.rows;
     const count = importReceiptsAndCount.count;
 
-    pagination.count = count;
+    pagination.totalRows = count;
 
     res.json({importReceipts, pagination});
 }

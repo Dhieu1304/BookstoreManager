@@ -61,13 +61,33 @@ function updateTotalFinalPrice(){
 
     let total = 0;
     $('input[name^="prices"]').each(function() {
-        total += parseFloat( $( this ).val() ) || 0;
+
+        let price = parseFloat( $( this ).val() ) || 0;
+        xxx = $($(this).closest("tr"));
+        let quantity = $($(this).closest("tr")).find('input[name="quantitys"]').val() || "0";
+
+        quantity = parseInt(quantity);
+
+        // let quantity = $($(this).closest("tr")).find('input[name="quantitys]');
+
+        console.log("price: ", price);
+        console.log("quantity: ", quantity);
+
+        let currentMoney = price * quantity;
+
+        total +=  currentMoney;
+
+        console.log("currentMoney: ", currentMoney);
+        console.log("total: ", total);
     });
 
     console.log("total: ", total);
 
     $('#totalPrice').val(total);
     $('#finalPrice').val(total);
+
+
+    
     
 }
 
@@ -77,6 +97,7 @@ function resetDafautInput(e, val){
     
     if(ele.val()){
         console.log("quantity change: ", ele.val());
+        updateTotalFinalPrice();
     }else{
         ele.val(val);
     }
@@ -223,7 +244,7 @@ function initEvent(){
             return;
         }
 
-        const categoryInDB = await getAuthorsByName(categoryName);
+        const categoryInDB = await getCategoryByName(categoryName);
         if(categoryInDB){
             alert("Category already exists.");
             return;
@@ -408,33 +429,44 @@ function initEvent(){
         
 
 
-        const bookStock = addNewBookStock(newBookIsbn, newBookPageNumber, newBookPublisherDate, newBookTitle, publisherId, authorIds, categoryIds)
+        const bookStock = await addNewBookStock(newBookIsbn, newBookPageNumber, newBookPublisherDate, newBookTitle, publisherId, authorIds, categoryIds)
 
+        if(bookStock){
 
-
-        $("#newBookIsbn").val("");
-        $("#newBookPageNumber").val("");
-        $("#newBookPublisherDate").val("");
-        $("#newBookTitle").val("");
-        $("#publisherId").val("");
-        $("#publisherIp").val("");
+            $("#newBookIsbn").val("");
+            $("#newBookPageNumber").val("");
+            $("#newBookPublisherDate").val("");
+            $("#newBookTitle").val("");
+            $("#publisherId").val("");
+            $("#publisherIp").val("");
     
-        // $("#authorTable").html("");
-        // $("#categoryTable").html("");
-
+            $("#authorIp").val("");
+            $("#categoryIp").val("");
     
-
-
-        for (let authorId of authorIds){
-           ("authorItem", authorId);
-           removeAuthorTbRow("authorItem", authorId);
-        }
-
-        for (let categoryId of categoryIds){
             
-            removeCategoryTbRow("categoryItem", categoryId);
+        
+            // $("#authorTable").html("");
+            // $("#categoryTable").html("");
+    
+        
+    
+    
+            for (let authorId of authorIds){
+               ("authorItem", authorId);
+               removeAuthorTbRow("authorItem", authorId);
+            }
+    
+            for (let categoryId of categoryIds){
+                
+                removeCategoryTbRow("categoryItem", categoryId);
+            }
+            // changePublisherId();
+
+
         }
-        // changePublisherId();
+
+
+
     })
 
 
@@ -469,6 +501,14 @@ function initEvent(){
 
                 console.log("quantity: ", quantity, " min: ", val);
 
+
+                if (quantity === 0){
+                    $( this ).focus();
+                    success = false;
+                    alert("Quantity must be greater than 0")
+                    return;
+                }
+
                 if(quantity < val){
                     const message = "Minimum quantity of imported books is " + val;
                     
@@ -477,6 +517,7 @@ function initEvent(){
                     success = false;
                     return;
                 }
+
 
             });
         }
@@ -560,6 +601,7 @@ async function addImportDetailTbRow(isbn){
 
     if (isbn !== ""){
         bookStock = await getBookStockByIsbn(isbn);
+        console.log("book mới thêm: ", bookStock);
     }
 
 

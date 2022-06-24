@@ -47,11 +47,7 @@
                                 <th>Image</th>
                                 <th>ISBN</th>
                                 <th>Title</th>
-                                <th>Page</th>
-                                <th>Publication date</th>
                                 <th>Pulisher</th>
-                                <th>Authors</th>
-                                <th>Categories</th>
                                 <th>Price</th>
                                 <th>Inventory number</th>
                                 <th>Quantity purchase</th>
@@ -63,11 +59,7 @@
                                 <th>Image</th>
                                 <th>ISBN</th>
                                 <th>Title</th>
-                                <th>Page</th>
-                                <th>Publication date</th>
                                 <th>Pulisher</th>
-                                <th>Authors</th>
-                                <th>Categories</th>
                                 <th>Price</th>
                                 <th>Inventory number</th>
                                 <th>Quantity purchase</th>
@@ -82,19 +74,7 @@
                                     <td><img class="sale-book-img"  src="\{{avatar}}"></td>
                                     <td>\{{book.isbn}}</td>
                                     <td>\{{book.title}}</td>
-                                    <td>\{{book.num_page}}</td>
-                                    <td>\{{book.publication_date}}</td>
                                     <td>\{{book.publisher.name}}</td>
-                                    <td> 
-                                        \{{#each book.author_id_authors}}
-                                            -\{{name}}<br>
-                                        \{{/each}}    
-                                    </td>
-                                    <td> 
-                                        \{{#each book.category_id_categories}}
-                                            -\{{name}}<br>
-                                        \{{/each}}    
-                                    </td>
                                     <td>\{{price}} <input type="hidden" name="prices" value="\{{price}}" ></td>
                                     <td>\{{quantity}} <input type="hidden" name="oldQuantitys" value="\{{quantity}}" ></td>
                                     <td><input type="number" class="sale-receipt-detail-quantity" value="0" name="quantitys" onchange="resetDafautInput(event,5)"></td>
@@ -119,7 +99,7 @@
                             <div class="py-2 px-2 form-group row align-items-center">
                                 <label class="col-md-3 col-sm-3 col-xs-12">Date</label>
                                 <div class="col-md-9 col-sm-9 col-xs-6">
-                                    <input class="form-control" type="date">
+                                    <input class="form-control" type="text" id="createAt">
                                 </div>
                             </div>
                             <div class="py-2 px-2 form-group row align-items-center">

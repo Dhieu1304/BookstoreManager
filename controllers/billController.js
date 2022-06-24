@@ -22,20 +22,30 @@ exports.getBillPage = async (req, res) => {
 
 
 
+
+
+
+    
+    const pagination = {
+        page: page,
+        limit: limit,
+        totalRows: 0
+    }
+
+
+    ///
     const billsAndCount = await billService.getAndCountAllBills(page, limit, filter, true);
 
     if(!billsAndCount){
-        res.render('bill/billPage', {title: 'Bill'});
+        res.render('bill/billPage', {title: 'Bill', pagination, filter});
+        return;
     }
 
     const bills = billsAndCount.rows;
     const count = billsAndCount.count;
 
-    const pagination = {
-        page: page,
-        limit: limit,
-        totalRows: count
-    }
+    pagination.totalRows = count;
+
 
     res.render('bill/billPage', {title: 'Bill', bills, pagination, filter});
 }

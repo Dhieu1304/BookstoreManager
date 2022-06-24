@@ -31,12 +31,30 @@ window.addEventListener('DOMContentLoaded', event => {
 /*------------------------------------------------------------------------------------------------------------------------------- */
 
 
+let xxx;
 
 function updateTotalFinalPrice(){
 
     let total = 0;
     $('input[name^="prices"]').each(function() {
-        total += parseFloat( $( this ).val() ) || 0;
+
+        let price = parseFloat( $( this ).val() ) || 0;
+        xxx = $($(this).closest("tr"));
+        let quantity = $($(this).closest("tr")).find('input[name="quantitys"]').val() || "0";
+
+        quantity = parseInt(quantity);
+
+        // let quantity = $($(this).closest("tr")).find('input[name="quantitys]');
+
+        console.log("price: ", price);
+        console.log("quantity: ", quantity);
+
+        let currentMoney = price * quantity;
+
+        total +=  currentMoney;
+
+        console.log("currentMoney: ", currentMoney);
+        console.log("total: ", total);
     });
 
     console.log("total: ", total);
@@ -52,6 +70,7 @@ function resetDafautInput(e, val){
     
     if(ele.val()){
         console.log("quantity change: ", ele.val());
+        updateTotalFinalPrice()
     }else{
         ele.val(val);
     }
@@ -62,13 +81,25 @@ function updateCustomerForm(customer){
 
     $("#customerId").val(customer.id);
 
+    $("#customerPhoneNumberIp").val(customer.phone);
+
     $("#customerDept").val(customer.dept);
 
     $("#customerName").val(customer.name);
 }
 
-function initUI(){
+function defaultDateNow(){
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $('#createAt').val(today);
+}
 
+
+
+function initUI(){
+    defaultDateNow();
 }
     
 
@@ -133,10 +164,31 @@ function initEvent(){
         newCustormerAddress = $("#newCustormerAddress").val();
 
 
+        if(!newCustormerPhone){
+            alert("Phone number is required");
+            return;
+        }
+
+        if(!newCustormerName){
+            alert("Name is required");
+            return;
+        }
+
+        if(!newCustormerEmail){
+            alert("Email is required");
+            return;
+        }
+
+
+    
+
+
+
+
         let customer = await getCustomerByPhoneNumber(newCustormerPhone);
 
         if(customer){
-            alert("Số điện thoại đã tồn tại");
+            alert("Phone number already exists");
             return;
         }
 
@@ -173,20 +225,34 @@ function initEvent(){
                 // console.log("quantity click")
                 // console.log( index + ": " + $( this ).val() );
 
-                const quantity = parsetInt($( this ).val()) || 0;
-
-                console.log("quantity: ", quantity, " min: ", minStockToSaleRegulation.value);
+                const quantity = parseInt($( this ).val()) || 0;
 
 
-                const oldQuantity = parsetInt($( this ).closest("tr").find('input[name="oldQuantitys"]').val()) || 0;
+                
+                if (quantity === 0){
+                    $( this ).focus();
+                    success = false;
+                    // alert("Quantity must be greater than 0")
+                    return;
+                }
+
+                let minStockToSaleRegulationVal = minStockToSaleRegulation.value;
+
+                console.log("quantity: ", quantity, " min: ", minStockToSaleRegulationVal);
+
+
+                const oldQuantity = parseInt($( this ).closest("tr").find('input[name="oldQuantitys"]').val()) || 0;
 
                 console.log("oldQuantity: ", $( this ).closest("tr").find('input[name="oldQuantitys"]').val());
 
 
                 const remainingBook = oldQuantity - quantity;
 
-                if(remainingBook < minStockToSaleRegulation.value){
-                    const message = "The number of books in stock after selling must be more than " + minStockToSaleRegulation.value;
+                console.log("minStockToSaleRegulationVal: ", minStockToSaleRegulationVal);
+                console.log("remainingBook: ", remainingBook);
+
+                if(remainingBook < minStockToSaleRegulationVal){
+                    const message = "The number of books in stock after selling must be more than " + minStockToSaleRegulationVal;
                     
                     $( this ).focus();
                     // alert(message)
@@ -203,7 +269,7 @@ function initEvent(){
 
         const saleDetailTableBody = $("#saleDetailTableBody");
 
-        if(!saleDetailTableBody.hasClass("saleReceiptDetailItemRow")){
+        if(saleDetailTableBody.find(".saleReceiptDetailItemRow").length === 0){
             alert("Please enter book");
             return;
         }
@@ -215,9 +281,9 @@ function initEvent(){
         }
 
 
-        // if(success){
-        //     $("#saleForm").submit();
-        // }
+        if(success){
+            $("#saleForm").submit();
+        }
         
     })
 

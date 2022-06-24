@@ -35,12 +35,13 @@ exports.getImportPage = async (req, res) => {
 
     if(!importReceiptsAndCount){
         res.render('import/importPage', {title: 'Import', pagination, filter});
+        return;
     }
 
     const importReceipts = importReceiptsAndCount.rows;
     const count = importReceiptsAndCount.count || 0;
 
-    pagination.count = count;
+    pagination.totalRows = count;
 
     res.render('import/importPage', {title: 'Import', importReceipts, pagination, filter});
 }

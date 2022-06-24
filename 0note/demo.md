@@ -64,10 +64,44 @@
 
     
 4. Bán sách
+    - Xem danh sách
+        + Lọc
+            * Tìm tất cả
+            * Lọc theo ID
+            * Lọc theo số điện thoại khách hàng
+            * Lọc theo ngày nhập
+            * Lọc theo thời gian (tháng trong năm)
+            * Lọc theo khoảng thời gian (từ ngày ... đến ngày ...)
 
-    + Xem danh sách
-    + Xem chi tiết
-    + Thêm
+        + PHÂN TRANG: THEO AJAX
+            * Số dòng: Tất cả, 5, 10, 20, 50.
+        + Chọn chế độ sắp xếp trước khi search.
+        + Sắp xếp theo cột sau khi search
+        + In
+
+    - Xem chi tiết: 
+        + Xem danh sách chi tiết
+        + PHÂN TRANG: THEO AJAX
+            * Số dòng: Tất cả, 5, 10, 20, 50.    
+        + Có giá ngày nhập, tổng tiền nhập.
+        + In
+
+
+    - Thêm
+        + Nhập ISBN của sách và nhấn add
+            * Nếu ISBN đã tồn tại thì table sẽ hiển thị thêm 1 dòng.
+            * Nếu ISBN chưa từng tồn tại hoặc sách ngừng bán thì sẽ hiển thị modal thông báo.
+        + Xóa book đã chọn. (Nhấn vào nút delete có biểu tượng thùng rác)
+        + Ngày bán mặc định là ngày hiện tại.
+        + Giá tổng cộng sẽ được cập nhập mỗi lần thêm/xóa dòng trong table.
+
+        + Nhập số điện thoại khách hàng.
+            * Nếu số không tồn tại thì yêu cầu nhập khách hàng mới
+
+        + Lưu ý:
+            * Quy định: Chỉ bán cho khách hàng không nơ quá 20000 (Quy định này có thể được sử dụng hoặc không; Có thể thay đổi giá trị)
+            * Số lượng sách tồn sau khi bán ít nhất là 20 (Quy định này có thể được sử dụng hoặc không; Có thể thay đổi giá trị)
+            
 
 5. Lập hóa đơn trả tiền.
 
@@ -115,3 +149,6 @@
     + Page
         + Ngôn ngữ
         + Defaut date và date sau khi filter của time state
+
+- Sale:
+    + Filter by customer: đã fix
