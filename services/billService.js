@@ -49,7 +49,6 @@ exports.addBill = async (create_at, customer_id, money_received_str) => {
             })
 
             await customer.save();
-            let x = 1;
         }
 
 

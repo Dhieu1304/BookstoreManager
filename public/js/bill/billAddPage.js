@@ -70,7 +70,7 @@ function initEvent(){
         
         const id = $("#id").val();
 
-        if(id){
+        if(!id){
             alert("Please enter a valid phone number")
         }
 

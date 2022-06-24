@@ -78,7 +78,7 @@ exports.addBill = async (req, res) => {
     const money = data.money;
 
 
-    const bill = billService.addBill(createAt, customerId, money);
+    const bill = await billService.addBill(createAt, customerId, money);
     const id = bill.id;
 
     res.redirect('/bill/' + id);
