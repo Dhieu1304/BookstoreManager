@@ -16,27 +16,20 @@ module.exports.getAllRegulations = () => {
     })
 }
 
-module.exports.editlRegulations = (regulationsInput) => {
+module.exports.editlRegulation = (regulationInput) => {
     return new Promise(async (resolve, reject) => {
         try {
-            //sap xep
-            regulationsInput.sort((a, b) => {
-                return a.id - b.id;
-            });
+            const regulation = await models.regulation.findOne({where: {id: regulationInput.id}});
+            if (regulation) {
+                regulation.value = regulationInput.value;
+                regulation.is_used = regulationInput.is_used;
 
-            for (const regulationInput of regulationsInput) {
-                let regulation = await models.regulation.findOne({where: {id: regulationInput.id}});
-                if (regulation) {
-                    regulation.value = regulationInput.value;
-                    regulation.is_used = regulationInput.is_used;
-
-                    if (!await regulation.save()){
-                        resolve(false);
-                    }
-                }
+                await regulation.save();
+                resolve(true);
             }
-
-            resolve(true);
+            else {
+                resolve(false);
+            }
         } catch (e) {
             reject(e);
         }
