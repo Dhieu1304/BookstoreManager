@@ -175,8 +175,8 @@ const handleShowModalEdit = (id) => {
 }
 
 const handleRenderViewEditModal = (customer) => {
-    $('#inputId').val(customer.id),
-        $('#inputFullName').val(customer.name);
+    $('#inputId').val(customer.id);
+    $('#inputFullName').val(customer.name);
     $('#inputPhone').val(customer.phone);
     $('#inputEmail').val(customer.email);
     $('#inputAddress').val(customer.address);

@@ -37,8 +37,13 @@ const handleRenderView = (regulations) => {
                     <td>
                         ${regulation.value}
                     </td>
-                    <td>
+                    <td style="text-align: center">
                         <input type="checkbox" ${regulation.is_used === true ? 'checked' : ''} onclick="return false;">
+                    </td>
+                    <td style="text-align: center">
+                        <span class="edit-icon" onclick="handleShowModalEdit(${regulation.id})">
+                            <i class="far fa-edit"></i>
+                        </span>
                     </td>
                 </tr>
             `;
@@ -46,61 +51,71 @@ const handleRenderView = (regulations) => {
     }
 
     document.getElementById('tbody-table-regulation').innerHTML = render;
-    handleShowBtn(false);
+    // handleShowBtn(false);
 }
 
-const handleShowBtn = (isHidden = true) => {
-    $('#btn-change').attr("hidden", isHidden);
-    $('#btn-save').attr("hidden", !isHidden);
+
+const modalEdit = document.getElementById("modalEditRegulation");
+
+let spanEl = document.getElementById("close-modal");
+let closeBtn = document.getElementById("close-modal-btn");
+
+spanEl.onclick = function () {
+    modalEdit.style.display = "none";
 }
 
-const handleChangeRegulationView = () => {
-    $("table > tbody > tr").each(function () {
-        $(this).find('td').eq(2).attr('contenteditable', 'true');
-        $(this).find("td:eq(3) input[type='checkbox']").prop("onclick", null).off("click");
-    });
-
-    handleShowBtn();
+closeBtn.onclick = function (event) {
+    event.preventDefault();
+    modalEdit.style.display = "none";
 }
 
-const handleSaveRegulation = () => {
-    let regulations = [];
-    let isBreak = false;
-    $("table > tbody > tr").each(function () {
-        let regulation = {
-            'id': $(this).find('td').eq(0).text().trim(),
-            'value': $(this).find('td').eq(2).text().trim(),
-            'is_used': $(this).find("td:eq(3) input[type='checkbox']").prop('checked')
+const handleShowModalEdit = (id) => {
+    console.log(id);
+
+    $.ajax({
+        url: `/regulation/api/getRegulationById`,
+        type: 'post',
+        data: {id},
+        success: function (res) {
+            console.log('Data:', res.data);
+
+            if (res.errCode !== 0) {
+                notification(res.errMessage, NOTY_TYPE.FAIL);
+            } else {
+                handleRenderViewEditRegulationModal(res.data);
+            }
         }
-        if (isNaN(regulation['value'])) {
-            isBreak = true;
-        }
-        regulations.push(regulation);
     });
+}
 
-    if (isBreak) {
-        return notification("Value Error!!!", NOTY_TYPE.FAIL);
-    }
+const handleRenderViewEditRegulationModal = (regulation) => {
+    $('#inputId').val(regulation.id);
+    $('#name').val(regulation.name);
+    $('#inputValue').val(regulation.value);
+    $('#inputIsUsed').prop('checked', regulation.is_used);
+    modalEdit.style.display = "block";
+}
 
-    console.log(regulations);
+const handleEditRegulation = (event) => {
+    event.preventDefault();
+
+    let id = $('#inputId').val();
+    let value = $('#inputValue').val();
+    let is_used = $('#inputIsUsed').prop('checked');
 
     $.ajax({
         url: `/regulation/api/editRegulation`,
         type: 'post',
-        contentType: 'application/json',
-        data: JSON.stringify(regulations),
+        data: {id, value, is_used},
         success: function (res) {
-            console.log('Data:', res);
 
             if (res.errCode !== 0) {
-                if (res.result === 'redirect') {
-                    return window.location.replace(res.url);
-                }
                 notification(res.errMessage, NOTY_TYPE.FAIL);
             } else {
+                modalEdit.style.display = 'none';
                 notification(res.errMessage, NOTY_TYPE.SUCCESS);
                 getAPIData();
             }
         }
-    });
+    })
 }
