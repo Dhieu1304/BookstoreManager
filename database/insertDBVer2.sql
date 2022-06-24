@@ -9883,7 +9883,7 @@ insert into Book_Category (book_id, category_id) values (911, 13);
 
 -- First Import
 
-insert into import_receipt (id, create_at, price) values (default, 'Fri Jan 01 2021', 173053423);
+insert into import_receipt (id, create_at, price) values (default, 'Fri Jan 01 2021', 51916026900);
 insert into import_receipt_detail (report_receipt_id, book_id, quantity, price) values (1, 1, 300, 296215);
 insert into import_receipt_detail (report_receipt_id, book_id, quantity, price) values (1, 2, 300, 274115);
 insert into import_receipt_detail (report_receipt_id, book_id, quantity, price) values (1, 3, 300, 102944);
