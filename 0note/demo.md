@@ -104,6 +104,10 @@
             
 
 5. Lập hóa đơn trả tiền.
+    - Xem danh sách:
+    - Thêm:
+        + Nhập số điện thoại: (báo lỗi nếu ko tồn tại)
+        + Nhập số tiền trả: (báo lỗi nếu lớn hơn số tiền nợ)
 
 6. Xem quy định
     + Thay đổi quy định
