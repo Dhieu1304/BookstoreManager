@@ -1,10 +1,51 @@
 {{#section 'css'}}
     <link href="/stylesheets/regulation.css" rel="stylesheet"/>
+    <link href="/stylesheets/account/account.css" rel="stylesheet"/>
 {{/section}}
 
 <main>
     <div class="container px-4">
         <h3 class="mt-4" id="title-h3" style="margin-bottom: 25px">Regulation</h3>
+
+
+        <div id="modalEditRegulation" class="modal modal-show-custom">
+            <div class="modal-sm modal-custom">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-custom">
+                        <h6>Edit Regulation</h6>
+                        <span class="close-modal" id="close-modal">&times;</span>
+                    </div>
+                    <form id="form-edit-customer">
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="inputId" hidden>
+                            <div class="form-group-add-new">
+                                <div>
+                                    <label for="name">Name</label>
+                                </div>
+                                <input type="text" class="form-control" id="name" readonly>
+                            </div>
+                            <div class="form-group-add-new">
+                                <div>
+                                    <label for="inputValue">Value</label>
+                                </div>
+                                <input type="number" class="form-control" id="inputValue">
+                            </div>
+                            <div style="text-align: start; margin-top: 5px">
+                                <label for="inputIsUsed">IsUsed</label>
+                                <input style="margin-left: 5px" type="checkbox" id="inputIsUsed">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer modal-footer-custom">
+                            <input type="submit" value="Submit" onclick="handleEditRegulation(event)"/>
+                            <button class="cancelBtn" id="close-modal-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <div class="regulation-body">
             <div class="table-responsive-sm">
                 <table class="table table-bordered">
@@ -14,15 +55,13 @@
                         <th>Name</th>
                         <th>Value</th>
                         <th>Is used</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody id="tbody-table-regulation">
 
                     </tbody>
                 </table>
-
-                <button id="btn-change" class="btn-change" onclick="handleChangeRegulationView()">Change</button>
-                <button id="btn-save" class="btn-change" onclick="handleSaveRegulation()" hidden>Save</button>
             </div>
         </div>
     </div>

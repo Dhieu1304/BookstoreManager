@@ -37,7 +37,7 @@ module.exports.getRegulations = async (req, res) => {
     })
 }
 
-module.exports.editRegulations = async (req, res) => {
+module.exports.getRegulationById = async (req, res) => {
     if (!checkAdminSuperadmin(req)) {
         return res.status(200).json({
             errCode: 2,
@@ -47,23 +47,55 @@ module.exports.editRegulations = async (req, res) => {
         })
     }
 
-    let dataInput = req.body;
-    const temp = dataInput[2];
-    dataInput[2] = dataInput[0];
-    dataInput[0] = temp;
-    const regulations = await regulationService.editlRegulations(dataInput);
-    if (regulations) {
-        return res.status(200).json({
-            errCode: 0,
-            errMessage: "Successful"
-        })
-    }
+    const id = req.body.id;
 
+    if (Number.isInteger(Number(id))) {
+        const regulation = await regulationService.getRegulationById(id);
+        if (regulation) {
+            return res.status(200).json({
+                errCode: 0,
+                errMessage: "Successful",
+                data: regulation
+            })
+        }
+    }
     return res.status(200).json({
         errCode: 1,
         errMessage: "Error!!!"
     })
 }
+
+module.exports.editRegulation = async (req, res) => {
+    if (!checkAdminSuperadmin(req)) {
+        return res.status(200).json({
+            errCode: 2,
+            errMessage: "Error!!!",
+            result: 'redirect',
+            url: '/error/401'
+        })
+    }
+
+    let {id, value, is_used} = req.body;
+    const regulationInput = {
+        id,
+        value: value || 0,
+        is_used: is_used || true
+    }
+    if (Number.isInteger(Number(id))) {
+        const is_edit = await regulationService.editlRegulation(regulationInput);
+        if (is_edit) {
+            return res.status(200).json({
+                errCode: 0,
+                errMessage: "Successful"
+            })
+        }
+    }
+    return res.status(200).json({
+        errCode: 1,
+        errMessage: "Error!!!"
+    })
+}
+
 
 const handleGetRegulationValue = async (req, res, id) => {
     const regulation = await regulationService.getRegulationById(id);

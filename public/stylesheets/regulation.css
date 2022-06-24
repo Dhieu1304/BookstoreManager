@@ -34,3 +34,12 @@ input[type=checkbox] {
 .btn-change:hover {
     background-color: #2c974b;
 }
+
+.edit-icon {
+    cursor: pointer;
+    color: #0a53be;
+}
+
+.edit-icon:hover {
+    color: #06295d;
+}
