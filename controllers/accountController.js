@@ -6,6 +6,7 @@ const moment = require("moment");
 const emailContent = require("../utils/emailContent");
 const emailServices = require("../services/emailService");
 const regex = require('../utils/regex');
+const firebase = require('../config/firebaseAdmin');
 
 const checkRole = (userRole, accountRole) => {
 
@@ -42,12 +43,10 @@ module.exports.getAccountInfo = async (req, res) => {
                 result: 'redirect',
                 url: '/error/401'
             })
-        }
-        else {
+        } else {
             accountInfo.isEdit = true;
         }
-    }
-    else {
+    } else {
         accountInfo.isEdit = false;
     }
 
@@ -101,27 +100,62 @@ module.exports.editAccountApi = async (req, res) => {
     })
 }
 
+const handleUploadFireBase = (file) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let name = "avatar_" + Date.now() + "_" + file.originalname;
+            const blob = firebase.bucket.file(name)
+
+            const blobWriter = blob.createWriteStream({
+                metadata: {
+                    contentType: file.mimetype
+                }
+            })
+
+            blobWriter.on('error', (err) => {
+                console.log(err)
+            })
+
+            blobWriter.on('finish', async () => {
+                await blob.makePublic();
+                let link = `https://firebasestorage.googleapis.com/v0/b/${process.env.STORAGE_BUCKET}/o/${name}?alt=media`;
+                resolve(link);
+            })
+
+            blobWriter.end(file.buffer);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports.UploadImage = async (req, res) => {
-
     const id = req.body.id;
-    let link = req.file.path;
-    link = link.substring(6, link.length); //remove 'public'
 
-    const account = await accountService.editAvatarById(id, link);
-
-    if (account) {
+    if (!req.file) {
         return res.status(200).json({
-            errCode: 0,
-            errMessage: "Change avatar successful!",
-            link: link
+            errCode: 1,
+            errMessage: "Error occurred!"
         })
+    }
+
+    const linkAvatar = await handleUploadFireBase(req.file);
+
+    if (linkAvatar.length > 0) {
+        const account = await accountService.editAvatarById(id, linkAvatar);
+
+        if (account) {
+            return res.status(200).json({
+                errCode: 0,
+                errMessage: "Change avatar successful!"
+            })
+        }
     }
 
     return res.status(200).json({
         errCode: 1,
-        errMessage: "Error occurred!",
-        link: ''
-    });
+        errMessage: "Error occurred!"
+    })
 }
 
 module.exports.apiListAccount = async (req, res) => {
