@@ -253,23 +253,23 @@ exports.getAllBookStock = async (raw = false) => {
 
 
 exports.editBookStock = async (book_id, price, status) => {
+    return new Promise(async (resolve, reject)=>{
         try {
-            const bookStock = await this.getBookStockById(book_id, true);
-            // await bookStock.update({
-            //     price: price,
-            //     status: status
-            // })
-
-            // bookStock.price=price;
-            // bookStock.status=status;
-            if (bookStock) {
+            const bookStock=await models.book_stock.findOne({where: {book_id: book_id}});
+            if(bookStock) {
                 bookStock.price = price;
                 bookStock.status = status;
+
+
+                await bookStock.save();
+
+                resolve(bookStock);
             }
-            //await bookStock.save();
-            return bookStock;
+            else
+                resolve(false);
         } catch (e) {
-            console.log(e);
+            reject(e);
         }
+    })
 }
 

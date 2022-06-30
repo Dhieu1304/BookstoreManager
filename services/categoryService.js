@@ -82,17 +82,21 @@ exports.addBookCategory = async (book_id, category_id) => {
 
 
 exports.editBookCategory = async (book_id, category_id) => {
-    try{
 
-
-        const category = await this.getCategoryIdByBookId(book_id);
-        category.category_id=category_id;
-        //await category.save();
-
-        return category;
-    }catch (e) {
-        console.log(e);
-    }
+    return new Promise(async (resolve, reject)=>{
+        try {
+            const category=await models.book_category.findOne({where: {book_id: book_id}});
+            if(category) {
+                await models.book_category.destroy({where: {book_id: book_id, category_id: category.category_id}});
+                const newCategory=await this.addBookCategory(book_id, category_id);
+                resolve(newCategory);
+            }
+            else
+                resolve(false);
+        } catch (e) {
+            reject(e);
+        }
+    })
 }
 
 

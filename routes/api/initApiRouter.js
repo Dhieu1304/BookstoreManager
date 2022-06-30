@@ -9,6 +9,7 @@ const importApiRouter = require("./importApiRouter");
 const saleApiRouter = require("./saleApiRouter");
 const billApiRouter = require("./billApiRouter");
 const statisticsApiRouter = require("./statisticsApiRouter");
+const bookApiRouter = require("./bookApiRouter");
 const mockDataApiRouter = require("../../routes/api/mockDataApiRouter");
 
 
@@ -22,6 +23,7 @@ router.use('/import', importApiRouter);
 router.use('/sale', saleApiRouter);
 router.use('/bill', billApiRouter);
 router.use('/statistics', statisticsApiRouter);
+router.use('/book', bookApiRouter);
 router.use('/mock', mockDataApiRouter);
 
 module.exports = router;
