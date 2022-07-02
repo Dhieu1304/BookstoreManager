@@ -37,7 +37,7 @@
                                 <th>Price</th>
                                 <th>Category</th>
                                 <th>Edit</th>
-<!--                                <th>Remove</th>-->
+                                <!--                                <th>Remove</th>-->
 
                             </tr>
                             </thead>
@@ -53,16 +53,14 @@
                                 <th>Price</th>
                                 <th>Category</th>
                                 <th>Edit</th>
-<!--                                <th>Remove</th>-->
+                                <!--                                <th>Remove</th>-->
 
 
                             </tr>
                             </tfoot>
-                            <tbody>
+                            <tbody id="bookTableBody">
                             {{#each books}}
-
-
-
+                                {{#if status}}
                                     <tr id="detailBook{{id}}">
 
 
@@ -81,22 +79,50 @@
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
                                         </td>
-<!--                                        <td class="text-center">-->
-<!--&lt;!&ndash;                                            <button id="removeBookBtn" type="submit" class="btn btn-success shadow-none">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <i class="fas fa-trash"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            </button>&ndash;&gt;-->
-<!--                                            <a href="/table/book/{{id}}/edit">-->
-<!--                                                <i class="fas fa-trash"></i>-->
-<!--                                            </a>-->
-<!--                                        </td>-->
-
-
                                     </tr>
-
+                                {{/if}}
                             {{/each}}
+
+                            <script type="text/x-handlebars-template" id="tableDataTemplate">
+                                \{{#each books}}
+                                    \{{#if status}}
+                                        <tr id="detailBook\{{id}}">
+
+
+                                            <td id="bookId">\{{id}}</td>
+                                            <td>\{{isbn}}</td>
+                                            <td>\{{title}}</td>
+                                            <td><a href=\{{image.src}}><img src=\{{image.src}}  alt="Image" width="50dp"
+                                                                        height="50dp"></a></td>
+                                            <td>\{{num_page}}</td>
+                                            <td>\{{publication_date}}</td>
+                                            <td>\{{publisher}}</td>
+                                            <td>\{{price}} VND</td>
+                                            <td>\{{category}}</td>
+                                            <td class="text-center">
+                                                <a href="/table/book/\{{id}}/action">
+                                                    <i class="fas fa-user-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    \{{/if}}
+                                \{{/each}}
+
+                            </script>
                             </tbody>
                         </table>
                     </div>
+
+                    <footer class="row justify-content-center">
+                        <nav class="col-lg-3 col-md-6 col-sm-9" aria-label="Page navigation example" id="pagination">
+                            {{{createPagination pagination paginationClass="pagination"}}}
+
+                            <script type="text/x-handlebars-template" id="paginationTemplate">
+                                \{{{createPagination pagination paginationClass="pagination"}}}
+                            </script>
+                        </nav>
+                    </footer>
+
                 </div>
             </div>
         </main>
@@ -104,24 +130,11 @@
 </div>
 
 {{#section 'script'}}
-    <script>
-        // $('#removeBookBtn').on('click', e=>{
-        //     e.preventDefault();
-        //     alert("Remove book");
-        //     console.log("REMOVE");
-        // })
-
-        let removeBook = () => {
-            // let row=$('#bookId').val();
-            // console.log("ROW", row);
-            let row=document.getElementById("bookId");
-            //alert(row);
-            alert("Remove book "+ row.innerHTML);
-        }
-    </script>
-    <script src="/adminStyle/js/filterSelect.js"></script>
-    <script src="/adminStyle/js/productPagination.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="/js/account/account.js"></script>
-    <script src="/js/pagination/paginationHelper.js"></script>
+    <script src="/js/helper/helper.js"></script>
+    <script src="/js/helper/paginationHelper.js"></script>
+    <script src="/js/general/pagination/pagination.js"></script>
+    <script src="/js/book/book.js"></script>
 {{/section}}

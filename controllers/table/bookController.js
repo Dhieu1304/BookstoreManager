@@ -4,12 +4,13 @@ const publisherService=require('../../services/publisherService');
 const bookStockService=require('../../services/bookStockService');
 const categoryService=require('../../services/categoryService');
 const authorService=require('../../services/authorService');
+const fs=require('fs');
 
 exports.bookList = async (req, res) => {
     const data = req.query;
     // console.log(data);
     const page = parseInt(data.page) || 1;
-    const limit = parseInt(data.limit);
+    const limit = parseInt(data.limit)||10;
 
 
     const allBooks = await bookService.bookList(page, limit, true);
@@ -24,31 +25,26 @@ exports.bookList = async (req, res) => {
         const publisher = await publisherService.getBookPublisherById(book.publisher_id);
         book.publisher = publisher.name;
 
-        // const bookStock = await bookStockService.getBookStockById(id, true);
-        // book.price = bookStock.price;
-        // //book.status = bookStock.status;
-        // if(bookStock.status==='active')
-        //     book.status=true;
-        // else
-        //     book.status=false;
+        const bookStock = await bookStockService.getBookStockById(id, true);
+        book.price = bookStock.price;
+        book.status = bookStock.status;
+        if(bookStock.status==='active')
+            book.status=true;
+        else
+            book.status=false;
 
-        //////////////Ra undefined
 
-        const bookAuthor = await authorService.getAuthorByBookId(id, true);
-        console.log("AT", bookAuthor);
 
-        //Chạy đúng
-        const author=await authorService.getAuthorById(3, true);
-        //const author=await authorService.getAuthorById(bookAuthor.author_id, true);
-        book.author=author.name;
-        console.log("AT2",book.author);
+        //const bookAuthor = await authorService.getAuthorByBookId(id, true);
 
-        // const bookCategory = await categoryService.getCategoryIdByBookId(id);
-        // //console.log("CT1", bookCategory.book_id);
-        // const categoryInfo = await categoryService.getCategoryById(bookCategory.category_id);
-        // book.category = categoryInfo.name;
+        // const author=await authorService.getAuthorById(bookAuthor.author_id, true);
+        // book.author=author.name;
 
-        //console.log("CT2", book.category);
+
+        const bookCategory = await categoryService.getCategoryIdByBookId(id);
+        const categoryInfo = await categoryService.getCategoryById(bookCategory.category_id);
+        book.category = categoryInfo.name;
+
     }
 
     const pagination = {
@@ -63,8 +59,9 @@ exports.bookList = async (req, res) => {
 
 exports.addBookPage = async (req, res) => {
     const publisher = await publisherService.getAllPublisherInfor(true);
+    const author=await authorService.getAllAuthorInfor(true);
     const category = await categoryService.getAllCategoryInfor(true);
-    res.render('table/addBook', {title: 'addBook', layout: 'layout.hbs', publisher, category});
+    res.render('table/addBook', {title: 'addBook', layout: 'layout.hbs', publisher, author, category});
 }
 
 exports.addBook=async (req, res)=>{
@@ -82,7 +79,21 @@ exports.addBook=async (req, res)=>{
     const book=await bookService.addBook(isbn, title, num_page, publication_date, publisher);
     await bookStockService.addBookStock(book.id, 0, price, 'active');
 
-    //thiếu author
+    //author
+    // const allAuthor=await authorService.getAllAuthorInfor(true);
+    // let newAuthor=true;
+    // for(let eachAuthor of allAuthor){
+    //     if(author===eachAuthor.name){
+    //         //console.log("SS", author,"=", eachAuthor.name);
+    //         newAuthor=false;
+    //     }
+    // }
+    // //console.log("NEW AUTHOR:", newAuthor);
+    // if(newAuthor===true)
+    //     await authorService.addAuthor(author);
+    //
+    // const findAuthor=await authorService.getAuthorsByName(author, true);
+    // await authorService.addBookAuthor(book.id, findAuthor.id);
 
     const allCategory=await categoryService.getAllCategoryInfor(true);
     let newCategory=true;
@@ -93,18 +104,21 @@ exports.addBook=async (req, res)=>{
     }
     if(newCategory===true)
         await categoryService.addCategory(category);
-    const findCategory=categoryService.getCategoryByName(category, true);
+    const findCategory=await categoryService.getCategoryByName(category, true);
     await categoryService.addBookCategory(book.id, findCategory.id);
 
-    const imageFiles=req.files;
-    if(imageFiles){
-        for(let image of imageFiles){
-            let path = image.path.replace(/\\/g, "/");
-            let src = path.replace('public', "");
-            const newImage = await bookImgService.addImg(book.id, src);
+    const pictureFiles=req.files;
+    console.log("PICTURE FILES ADD :", pictureFiles); //undefined
+    if (pictureFiles) {
+        for (let pictureFile of pictureFiles) {
+            let path = pictureFile.path.replace(/\\/g, "/");
+            let link = path.replace('public', "");
+            const addNewPicture = await bookImgService.addImg(book.id, link);
         }
     }
-    res.redirect('table/book');
+
+    const redirectPath = "/table/book/" + book.id + "/action";
+    res.redirect(redirectPath);
 }
 
 
@@ -114,22 +128,33 @@ exports.editBookPage = async (req, res) => {
 
     const image = await bookImgService.getImgInfoByBookId(id);
     book.image = image;
-    //console.log(book.image);
 
     const publisher = await publisherService.getBookPublisherById(book.publisher_id);
     book.publisher = publisher;
 
-    // const bookStock = await bookStockService.getBookStockById(id, true);
-    // book.price = bookStock.price;
-    // //book.status = bookStock.status;
-    // const bookCategory = await categoryService.getCategoryIdByBookId(id);
-    // const categoryInfo = await categoryService.getCategoryById(bookCategory.category_id);
-    // book.category = categoryInfo.name;
+    //const bookAuthor = await authorService.getAuthorByBookId(id, true);
+    // const author=await authorService.getAuthorById(bookAuthor.author_id, true);
+    // book.author=author.name;
+
+    const bookStock = await bookStockService.getBookStockById(id, true);
+    book.price = bookStock.price;
+    book.status = bookStock.status;
+    if(bookStock.status==='active')
+        book.status=true;
+    else
+        book.status=false;
+
+    //console.log("STATUS:", book.status);
+
+    const bookCategory = await categoryService.getCategoryIdByBookId(id);
+    const categoryInfo = await categoryService.getCategoryById(bookCategory.category_id);
+    book.category = categoryInfo.name;
 
     const allPublisher = await publisherService.getAllPublisherInfor(true);
+    const allAuthor=await authorService.getAllAuthorInfor(true);
     const allCategory = await categoryService.getAllCategoryInfor(true);
 
-    res.render('table/editBook', {title: 'Book', layout: 'layout.hbs', book, allPublisher, allCategory});
+    res.render('table/editBook', {title: 'Book', layout: 'layout.hbs', book, allPublisher, allAuthor, allCategory});
 }
 
 
@@ -139,55 +164,96 @@ exports.editBook=async (req, res)=>{
 
 
     const {isbn, title, num_page, publication_date, price, publisher, author, category}=req.body;
-    //const deletePictures=req.body.deleteImgs;
+    const deletePictures=req.body.deletePictures;
+    const deletePictureLinkInput=req.body.deletePictureLinks;
+    const pictureFiles=req.files;
+
+    console.log("DELETE P:", deletePictures);
+    console.log("DELETE P LINK:", deletePictureLinkInput);
+    console.log("P FILES:", pictureFiles);
 
     const allPublisher=await publisherService.getAllPublisherInfor(true);
-    //console.log("PUBLISHER: ", allPublisher);
-    //console.log("Publisher: ", publisher);
     let newPublisher=true;
     for(let eachPublisher of allPublisher){
-        //console.log("PUBLISHER NAME: ", eachPublisher.name);
         if(publisher===eachPublisher.name){
-            //console.log("SS1: ", publisher,  " = ", eachPublisher.name);
             newPublisher=false;
         }
     }
-    //console.log("NEW PUBLISHER: ", newPublisher);
     if(newPublisher===true)
         await publisherService.addPublisher(publisher);
 
-    const book = await bookService.editBook(id, isbn, title, num_page, publication_date, publisher);
-    console.log("NEW PAGE: ", book.num_page);
+    let book = await bookService.editBook(id, isbn, title, num_page, publication_date, publisher);
 
     //edit bookStock, bookAuthor, bookCategory
     await bookStockService.editBookStock(id, price, 'active');
 
-    //thiếu author
+    //author
+
+    // const allAuthor=await authorService.getAllAuthorInfor(true);
+    // let newAuthor=true;
+    // for(let eachAuthor of allAuthor){
+    //     if(author===eachAuthor.name){
+    //         console.log("SS", author,"=", eachAuthor.name);
+    //         newAuthor=false;
+    //     }
+    // }
+    // console.log("NEW AUTHOR:", newAuthor);
+    // if(newAuthor===true)
+    //     await authorService.addAuthor(author);
+    // const findAuthor=authorService.getAuthorsByName(author, true);
+    // console.log("AUTHOR:", findAuthor);
+    // const a=await authorService.editBookAuthor(id, findAuthor.id);
+    // console.log("EDIT AUTHOR:", a);
 
     const allCategory=await categoryService.getAllCategoryInfor(true);
-    //console.log("CATEGORY: ", allCategory);
     let newCategory=true;
     for(let eachCategory of allCategory){
-        //console.log("CATEGORY NAME: ", eachCategory.name);
         if(category===eachCategory.name){
-            //console.log("SS2: ", category,  " = ", eachCategory.name);
             newCategory=false;
         }
     }
-    //console.log("NEW CATEGORY: ", newCategory);
     if(newCategory===true)
         await categoryService.addCategory(category);
     const findCategory=await categoryService.getCategoryByName(category, true);
     await categoryService.editBookCategory(id, findCategory.id);
 
-    //res.redirect('/table/book');
-    res.render('table/editBook', {title: 'Book', layout: 'layout.hbs', book});
+    if (pictureFiles) {
+        for (let pictureFile of pictureFiles) {
+            let path = pictureFile.path.replace(/\\/g, "/");
+            let link = path.replace('public', "");
+            const addNewPicture = await bookImgService.addImg(id, link);
+        }
+    }
+
+    if (deletePictures) {
+
+        if (deletePictureLinkInput) {
+            await removePicturePaths(deletePictureLinkInput);
+        }
+
+        await bookImgService.deleteImgByIds(deletePictures);
+    }
+
+    const redirectPath = "/table/book/" + id + "/action";
+    res.redirect(redirectPath);
+}
+
+removePicturePaths = async function (deletePictureLinkInput) {
+    for (let link of deletePictureLinkInput) {
+        console.log("deletePictureLinkInput: ", link);
+        try {
+            fs.unlinkSync("./public" + link);
+        } catch (e) {
+            return false;
+        }
+
+    }
 }
 
 exports.removeBook=async (req, res)=>{
     const id = parseInt(req.params.id);
     await bookService.removeBook(id);
-    res.redirect('table/book');
+    res.redirect('/table/book/');
 }
 
 

@@ -9,26 +9,16 @@
         <div class="row justify-content-end">
             <div class="col-sm-4 text-center">
                 <a href="/table/book/{{book.id}}/delete">
-                <button type="submit" class="btn btn-success shadow-none">
-                    <i class="fa fa-trash"></i>
-                    Delete
-                </button>
+                    <button type="submit" class="btn btn-success shadow-none">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </button>
                 </a>
             </div>
         </div>
 
-        <form action="/table/book/{{book.id}}/action" method="POST">
+        <form action="/table/book/{{book.id}}/action" enctype="multipart/form-data" method="post">
             <div class="">
-<!--                <div class="row justify-content-end">-->
-<!--                    <div class="col-sm-4 text-center">-->
-<!--                            <button type="submit" class="btn btn-success shadow-none">-->
-<!--                                <i class="fa fa-pencil"></i>-->
-<!--                                Save-->
-<!--                            </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-
             </div>
 
             <div class="">
@@ -44,13 +34,11 @@
                                 ISBN
                             </div>
                             <div class="col-lg-9 py-2">
-                                <input class="form-control" name="isbn" type="text" placeholder="isbn" value="{{book.isbn}}"
+                                <input class="form-control" name="isbn" type="text" placeholder="isbn"
+                                       value="{{book.isbn}}"
                                 >
                             </div>
                         </div>
-<!--                        <div class="row align-items-center justify-content-end">-->
-<!--                            <p id="existProductName" class="col-lg-9 text-danger"></p>-->
-<!--                        </div>-->
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -60,13 +48,11 @@
                                 Title
                             </div>
                             <div class="col-lg-9 py-2">
-                                <input class="form-control" name="title" type="text" placeholder="title" value="{{book.title}}"
+                                <input class="form-control" name="title" type="text" placeholder="title"
+                                       value="{{book.title}}"
                                 >
                             </div>
                         </div>
-<!--                        <div class="row align-items-center justify-content-end">-->
-<!--                            <p id="existProductName" class="col-lg-9 text-danger"></p>-->
-<!--                        </div>-->
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -76,7 +62,8 @@
                                 Number of pages
                             </div>
                             <div class="col-lg-9 py-2">
-                                <input class="form-control" name="num_page" type="number" step="1" min="0" placeholder="num_page" value="{{book.num_page}}"
+                                <input class="form-control" name="num_page" type="number" step="1" min="0"
+                                       placeholder="num_page" value="{{book.num_page}}"
                                 >
                             </div>
                         </div>
@@ -89,28 +76,12 @@
                                 Publication date
                             </div>
                             <div class="col-lg-9 py-2">
-                                <input class="form-control" name="publication_date" placeholder="publication date" value="{{book.publication_date}}">
+                                <input class="form-control" name="publication_date" placeholder="publication date"
+                                       value="{{book.publication_date}}">
                             </div>
                         </div>
                     </div>
                 </div>
-<!--                <div class="row justify-content-center">-->
-<!--                    <div class="col-lg-8">-->
-<!--                        <div class="row align-items-center">-->
-<!--                            <div class="col-lg-3 py-2">-->
-<!--                                Publisher-->
-<!--                            </div>-->
-<!--                            <div class="col-lg-9 py-2">-->
-<!--                                <input id="productNameInput" class="form-control shadow-none" name="fullName" type="text" placeholder="publisher" value="{{book.publisher.name}}"-->
-<!--                                       {{#if isRemove}}readonly{{/if}}-->
-<!--                                >-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="row align-items-center justify-content-end">-->
-<!--                            <p id="existProductName" class="col-lg-9 text-danger"></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -119,500 +90,158 @@
                                 Price
                             </div>
                             <div class="col-lg-9 py-2">
-                                <input class="form-control" name="price" type="number" step="1" min="0" placeholder="price" value="{{book.price}}"
+                                <input class="form-control" name="price" type="number" step="1" min="0"
+                                       placeholder="price" value="{{book.price}}"
                                 >
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="row align-items-center">
+                                <div class="col-lg-3 py-2">
+                                    Publisher
+                                </div>
+                                <div class="col-lg-9 py-2">
+                                    <div class="input-group">
+                                        <input list="publisherList" id="publisherIp" type="text" class="form-control"
+                                               name="publisher" value="{{book.publisher.name}}">
+                                        <datalist id="publisherList">
+                                            {{#each allPublisher}}
+                                                <option value="{{name}}"></option>
+                                            {{/each}}
+                                        </datalist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<!--                <div class="">-->
-<!--                    <div class="row justify-content-center">-->
-<!--                        <div class="col-lg-8">-->
-<!--                            <div class="row align-items-center">-->
-<!--                                <div class="col-lg-3 py-2">-->
-<!--                                    Status-->
-<!--                                </div>-->
-<!--                                <div class="col-lg-9 py-2">-->
-<!--                                    <div class="input-group">-->
-<!--                                        &lt;!&ndash;                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">&ndash;&gt;-->
-<!--                                        <input list="statusList" id="statusIp" type="text" class="form-control" value="{{book.status}}">-->
-<!--                                        <datalist id="statusList">-->
-<!--                                            <option value="active"></option>-->
-<!--                                            <option value="remove"></option>-->
-<!--                                        </datalist>-->
-<!--                                        &lt;!&ndash;                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">&ndash;&gt;-->
-<!--                                        &lt;!&ndash;                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">&ndash;&gt;-->
-<!--                                        &lt;!&ndash;                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">&ndash;&gt;-->
-<!--                                        <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="row justify-content-center">-->
+                    <!--                    <div class="col-lg-8">-->
+                    <!--                        <div class="row align-items-center">-->
+                    <!--                            <div class="col-lg-3 py-2">-->
+                    <!--                                Author-->
+                    <!--                            </div>-->
+                    <!--                            <div class="col-lg-9 py-2">-->
+                    <!--                                <div class="input-group">-->
+                    <!--                                    <input list="authorList" id="authorIp" type="text" class="form-control" name="author" value="{{book.author}}">-->
+                    <!--                                    <datalist id="authorList">-->
+                        <!--                                        {{#each allAuthor}}-->
+                    <!--                                            <option value="{{name}}"></option>-->
+                        <!--                                        {{/each}}-->
+                    <!--                                    </datalist>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="row justify-content-end">-->
+                    <!--                                    <div class="col-xl-4 col-md-12">-->
+                    <!--                                        <button id="addNewAuthorBtn" type="button"-->
+                    <!--                                                class="btn btn-success rounded-circle">-->
+                    <!--                                            <i class="fa-solid fa-plus"></i>-->
+                    <!--                                        </button>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
 
-<!--&lt;!&ndash;                <div class="row justify-content-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="col-lg-8">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="row align-items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="col-lg-3 py-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                Category&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="col-lg-9 py-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <input id="productNameInput" class="form-control shadow-none" name="fullName" type="text" placeholder="category" value="{{book.category}}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                       {{#if isRemove}}readonly{{/if}}&ndash;&gt;-->
-<!--&lt;!&ndash;                                >&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="row align-items-center justify-content-end">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <p id="existProductName" class="col-lg-9 text-danger"></p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="row align-items-center">
+                                <div class="col-lg-3 py-2">
+                                    Category
+                                </div>
+                                <div class="col-lg-9 py-2">
+                                    <div class="input-group">
+                                        <input list="categoryList" id="categoryIp" type="text" class="form-control"
+                                               name="category" value="{{book.category}}">
+                                        <datalist id="categoryList">
+                                            {{#each allCategory}}
+                                                <option value="{{name}}"></option>
+                                            {{/each}}
+                                        </datalist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<!--&lt;!&ndash;                <div class="row justify-content-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="col-lg-8">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="row align-items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="col-lg-3 py-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                Ngày cập nhập&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="col-lg-9 py-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <input class="form-control shadow-none" step="0.01" min="0" placeholder="Ngày cập nhập" value="{{product.updated_at}}" readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--            </div>-->
+                    <!--                    <div class="row justify-content-center">-->
+                    <!--                        <div class="col-lg-8">-->
+                    <!--                            <div class="row align-items-center">-->
+                    <!--                                <h4 class="row py-4 text-secondary">-->
+                    <!--                                    Images-->
+                    <!--                                </h4>-->
 
-            <!--            Brand-->
+                    <!--                                <div class="row justify-content-start mt-4 add-new-pictures">-->
+                    <!--                                    <input name="image" accept="image/*" type='file' id="imageInput" multiple/>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
+                    <!--                                    <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+
+                <div class="" id="pictureList">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="row align-items-center">
+                                <h4 class="row py-4 text-secondary">
+                                    Images
+                                </h4>
+
+                                <div class="row justify-content-start mt-4 add-new-pictures">
+                                    <input name="pictures" accept="image/*" type='file' id="imageInput" multiple>
+                                </div>
+                                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">
+                                    <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>
+                                </div>
+                            </div>
+                            <p>Số lượng ảnh xóa: <span id="countDeletePictures"></span></p>
+
+                            <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">
+                                <div class="row justify-content-start mt-4">
+                                    {{#each book.image}}
+                                        <div class="col-lg-1 col-md-3 col-sm-6 mb-4 product-picture">
+                                            <input type="hidden" id="deletePictureInput" value="{{id}}">
+                                            <input type="hidden" id="deletePictureLinkInput" value="{{src}}">
+                                            <img src="{{src}}" class="product-picture-img" style="width: 80%"/>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
             <div class="">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="row align-items-center">
-                            <div class="col-lg-3 py-2">
-                                Publisher
-                            </div>
-                            <div class="col-lg-9 py-2">
-                                <div class="input-group">
-                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
-                                    <input list="publisherList" id="publisherIp" type="text" class="form-control" name="publisher" value= "{{book.publisher.name}}">
-                                    <datalist id="publisherList">
-                                        {{#each allPublisher}}
-                                            <option value="{{name}}"></option>
-                                        {{/each}}
-                                    </datalist>
-                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
-                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
-                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
-<!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
-                                </div>
-                                <div class="row justify-content-end">
-                                    <div class="col-xl-4 col-md-12">
-                                        <button id="addNewPublisherBtn" type="button"
-                                                class="btn btn-success rounded-circle">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
-                                        <!--                                                <i class="fas fa-plus"></i>-->
-                                        <!--                                                Add-->
-                                        <!--                                            </button>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-sm-4 text-center">
+                        <button type="submit" class="btn btn-success shadow-none">
+                            <i class="fa fa-pencil"></i>
+                            Save changes
+                        </button>
                     </div>
                 </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="row align-items-center">
-                            <div class="col-lg-3 py-2">
-                                Author
-                            </div>
-                            <div class="col-lg-9 py-2">
-                                <div class="input-group">
-                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
-                                    <input list="authorList" id="authorIp" type="text" class="form-control" name="author" value="{{book.author}}">
-                                    <datalist id="authorList">
-                                        {{#each author}}
-                                            <option value="{{name}}"></option>
-                                        {{/each}}
-                                    </datalist>
-                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
-                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
-                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
-<!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
-                                </div>
-                                <div class="row justify-content-end">
-                                    <div class="col-xl-4 col-md-12">
-                                        <button id="addNewAuthorBtn" type="button"
-                                                class="btn btn-success rounded-circle">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
-                                        <!--                                                <i class="fas fa-plus"></i>-->
-                                        <!--                                                Add-->
-                                        <!--                                            </button>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="row align-items-center">
-                            <div class="col-lg-3 py-2">
-                                Category
-                            </div>
-                            <div class="col-lg-9 py-2">
-                                <div class="input-group">
-                                    <!--                                        <input list="publisherList" id="publisherIp"  type="text" class="form-control" onchange="changePublisherId()">-->
-                                    <input list="categoryList" id="categoryIp" type="text" class="form-control" name="category" value="{{book.category}}">
-                                    <datalist id="categoryList">
-                                        {{#each allCategory}}
-                                            <option value="{{name}}"></option>
-                                        {{/each}}
-                                    </datalist>
-                                    <!--                                        <input class="form-control" type="text" id="newPublisher" name="newPublisher">-->
-                                    <!--                                        <input id="publisherId" name="publisherId" type="hidden" class="form-control">-->
-                                    <!--                                    <input id="newPublisher" name="newPublisher" type="hidden" class="form-control">-->
-<!--                                    <input class="form-control" type="hidden" id="brandNameInput" name="brandName">-->
-                                </div>
-                                <div class="row justify-content-end">
-                                    <div class="col-xl-4 col-md-12">
-                                        <button id="addNewCategoryBtn" type="button"
-                                                class="btn btn-success rounded-circle">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                        <!--                                            <button id="addNewPublisherBtn" type="button" class="btn btn-sm btn-add shadow-none" data-toggle="modal">-->
-                                        <!--                                                <i class="fas fa-plus"></i>-->
-                                        <!--                                                Add-->
-                                        <!--                                            </button>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!--                Pictures-->
-<!--            <div class="" id="pictureList">-->
-<!--                <div class="row justify-content-center">-->
-<!--                    <h2 class="row py-4 text-secondary">-->
-<!--                        Pictures-->
-<!--                    </h2>-->
-<!--                </div>-->
-<!--                {{#unless isRemove}}-->
-<!--                    <div class="row justify-content-start mt-4 add-new-pictures">-->
-<!--                        <input name="pictures" accept="image/*" type='file' id="imageInput" multiple/>-->
-<!--                    </div>-->
-<!--                    <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
-<!--                        <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>-->
-<!--                    </div>-->
-<!--                {{/unless}}-->
-<!--                <p>Số lượng ảnh xóa: <span id="countDeletePictures"></span></p>-->
-<!--                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">-->
-<!--                    <div class="row justify-content-start mt-4">-->
-<!--                        {{#each pictures}}-->
-<!--                            <div class="col-lg-1 col-md-3 col-sm-6 mb-4 product-picture">-->
-<!--                                <input type="hidden" id="deletePictureInput" value="{{id}}">-->
-<!--                                <input type="hidden" id="deletePictureLinkInput" value="{{link}}">-->
-<!--                                <img src="{{link}}" class="product-picture-img" style="width: 80%"/>-->
-<!--                            </div>-->
-<!--                        {{/each}}-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-            </div>
-
-            <div class="" id="imageList">
-                <div class="row justify-content-center">
-                    <h2 class="row py-4 text-secondary">
-                        Images
-                    </h2>
-                </div>
-                <div class="row justify-content-start mt-4 add-new-pictures">
-                    <input name="image" accept="image/*" type='file' id="imageInput" multiple/>
-                </div>
-                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">
-                    <div class="row justify-content-start mt-4 none" id="showAddedImage"></div>
-                </div>
-                <p>Số lượng ảnh xóa: <span id="countDeletePictures"></span></p>
-
-                <div class="mt-4 p-1" style="border-radius: 10px; border: 1px solid #ccc; ">
-                    <div class="row justify-content-start mt-4">
-                        {{#each book.image}}
-                            <div class="col-lg-1 col-md-3 col-sm-6 mb-4 product-picture">
-                                <input type="hidden" id="deletePictureInput" value="{{book.id}}">
-                                <input type="hidden" id="deletePictureLinkInput" value="{{book.src}}">
-                                <img src="{{src}}" class="product-picture-img" style="width: 80%"/>
-                            </div>
-                        {{/each}}
-                    </div>
-                </div>
-            </div>
-
-            <div class="">
-            <div class="row justify-content-center">
-                <div class="col-sm-4 text-center">
-                    <button type="submit" class="btn btn-success shadow-none">
-                        <i class="fa fa-pencil"></i>
-                        Save changes
-                    </button>
-                </div>
-            </div>
             </div>
         </form>
     </div>
 </div>
 
-<!--<div id="updateModal" class="modal" tabindex="-1" role="dialog">-->
-<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title">Modal title</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <p>Bạn chắc chắn với lựa chọn?</p>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button id="" type="submit" class="btn btn-primary" form="updateForm">Save</button>-->
-<!--                <button id="" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div id="toggleDeleteModal" class="modal" tabindex="-1" role="dialog">-->
-<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title">Modal title</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <p>Bạn chắc chắn với lựa chọn?</p>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <form action="/admin/product/{{product.id}}/toggleDelete">-->
-<!--                    <button id="" type="submit" class="btn btn-primary">Save</button>-->
-<!--                </form>-->
-<!--                <button id="" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 {{#section 'script'}}
 
-<!--    <script>-->
-<!--        let countConfiguration = 0;-->
-<!--        let countOption = 0;-->
-<!--        $('#addConfigurationRow').click(function (){-->
-<!--            console.log("addConfigurationRow");-->
-<!--            const configurationRow =-->
-<!--                    `<tr>-->
-<!--                        <td colspan="2" class="text-center">-->
-<!--                            <button type="button" class="btn btn-sm btn-delete-row shadow-none deleteRowBtn" data-toggle="modal">-->
-<!--                                <i class="fas fa-trash-alt text-danger" style="font-size: 1.4rem"></i>-->
-<!--                            </button>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <input class="form-control shadow-none" name="configurations[${countConfiguration}][configurationValue]" type="text" placeholder="Giá trị" required>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
-<!--                                <input name="configurations[${countConfiguration}][specificationName]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí" required>-->
-<!--                            </div>-->
-<!--                        </td>-->
-<!--                    </tr>`-->
-<!--            $('#configurationTable').append(configurationRow);-->
-<!--            countConfiguration++;-->
-<!--        })-->
-<!--        $('#addOptionRow').click(function (){-->
-<!--            console.log("addOptionRow");-->
-<!--            const optionRow =-->
-<!--                    `<tr>-->
-<!--                        <td colspan="2" class="text-center">-->
-<!--                            <button type="button" class="btn btn-sm btn-delete-row shadow-none deleteRowBtn" data-toggle="modal">-->
-<!--                                <i class="fas fa-trash-alt text-danger" style="font-size: 1.4rem"></i>-->
-<!--                            </button>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <input class="form-control shadow-none" name="options[${countOption}][optionName]" type="text" placeholder="Giá trị" required>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
-<!--                                <input name="options[${countOption}][optionPrice]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí" required>-->
-<!--                            </div>-->
-<!--                        </td>-->
-<!--                        <td>-->
-<!--                            <div class="d-flex justify-content-between dropdown-menu-group">-->
-<!--                                <input name="options[${countOption}][capacityName]" type="text" class="form-control shadow-none" aria-label="Text input with dropdown button" placeholder="Giá trí">-->
-<!--                            </div>-->
-<!--                        </td>-->
-<!--                    </tr>`-->
-<!--            $('#optionTable').append(optionRow);-->
-<!--            countOption++;-->
-<!--        })-->
-<!--        $('#imageInput').change(function(e) {-->
-<!--            // console.log("URL.createObjectURL: ", URL.createObjectURL(e.target.files[0]))-->
-<!--            let showAddedImageHtml = "";-->
-<!--            for (let file of e.target.files)-->
-<!--            {-->
-<!--                const src = URL.createObjectURL(file);-->
-<!--                showAddedImageHtml +=-->
-<!--                        `<div class="col-lg-1 col-md-3 col-sm-6 mb-4 addedImage">-->
-<!--                            <img src="${src}" alt="new product image" style="width: 80%"/>-->
-<!--                        </div>`-->
-<!--            }-->
-<!--            $("#showAddedImage").append(showAddedImageHtml);-->
-<!--        });-->
-<!--        $("#selectAllConfiguration").click(function(){-->
-<!--            $('.select-configuration-row-checkbox').not(this).prop('checked', this.checked);-->
-<!--        });-->
-<!--        $("#selectAllOption").click(function(){-->
-<!--            $('.select-option-row-checkbox').not(this).prop('checked', this.checked);-->
-<!--        });-->
-<!--        let countDeletePictures = 0;-->
-<!--        $("#pictureList").on('click', '.product-picture-img', function(e){-->
-<!--            console.log("picture click");-->
-<!--            const img =  $(e.target).closest("img");-->
-<!--            const deletePictureInput = img.closest(".product-picture").find("#deletePictureInput");-->
-<!--            const deletePictureLinkInput = img.closest(".product-picture").find("#deletePictureLinkInput");-->
-<!--            const id = img.closest(".product-picture").find("input").val();-->
-<!--            console.log("id: ",id);-->
-<!--            console.log(img);-->
-<!--            if( parseFloat(img.css("opacity")) < 1){-->
-<!--                img.css('opacity', '1');-->
-<!--                countDeletePictures--;-->
-<!--                $("#countDeletePictures").html(countDeletePictures);-->
-<!--                deletePictureInput.removeAttr('name');-->
-<!--                deletePictureLinkInput.removeAttr('name');-->
-<!--            }-->
-<!--            else-->
-<!--            {-->
-<!--                img.css('opacity', '0.6');-->
-<!--                countDeletePictures++;-->
-<!--                $("#countDeletePictures").html(countDeletePictures);-->
-<!--                deletePictureInput.attr('name', 'deletePictures[]');-->
-<!--                deletePictureLinkInput.attr('name', 'deletePictureLinks[]');-->
-<!--            }-->
-<!--        })-->
-<!--        // $("#updateBtn").click(function (){-->
-<!--        //     console.log("update click");-->
-<!--        //     $("#deletePictures").val().push(1);-->
-<!--        //     $("#deletePictures").val().push(2);-->
-<!--        //-->
-<!--        // });-->
-<!--    </script>-->
-    <script src="/adminStyle/js/filterSelect.js"></script>
-    <script src="/adminStyle/js/table.js"></script>
-<!--    <script>-->
-<!--        let brandNames = new Array()-->
-<!--        let productNames = new Array();-->
-<!--        let isExistProductName = false;-->
-<!--        let curProductName = $("#brandNameInput").val();-->
-<!--        $(document).ready(function() {-->
-<!--            $.ajax({-->
-<!--                url: "/admin/api/product/brand",-->
-<!--                success(data){-->
-<!--                    console.log("ajax brand names");-->
-<!--                    brandNames = data.brandNames;-->
-<!--                }-->
-<!--            });-->
-<!--            $.ajax({-->
-<!--                url: "/admin/api/product/productName",-->
-<!--                success(data){-->
-<!--                    console.log("ajax product names");-->
-<!--                    productNames = data.productNames;-->
-<!--                    const index = productNames.indexOf(curProductName);-->
-<!--                    if (index > -1) {-->
-<!--                        productNames.splice(index, 1);-->
-<!--                    }-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--        const brandNameInput = $("#brandNameInput");-->
-<!--        const existBrandName = $("#existBrandName");-->
-<!--        brandNameInput.change(function (e){-->
-<!--            const curBrandName = brandNameInput.val().trim();-->
-<!--            const isExistBrandName = brandNames.includes(curBrandName);-->
-<!--            console.log("curBrandName: ",curBrandName);-->
-<!--            console.log("brandNames: ",brandNames);-->
-<!--            if(isExistBrandName){-->
-<!--                console.log("Thương hiệu đã tồn tại");-->
-<!--                existBrandName.html("")-->
-<!--            }-->
-<!--            else-->
-<!--            {-->
-<!--                console.log("Thương hiệu chưa tồn tại");-->
-<!--                existBrandName.html("Tên thương hiệu chưa tồn tại<br>Hệ thống sẽ thêm thương hiệu mới");-->
-<!--            }-->
-<!--        })-->
-<!--        const productNameInput = $("#productNameInput");-->
-<!--        const existProductName = $("#existProductName");-->
-<!--        productNameInput.change(function (e){-->
-<!--            const curProductName = productNameInput.val().trim();-->
-<!--            isExistProductName = productNames.includes(curProductName);-->
-<!--            console.log("curProductName: ",curProductName);-->
-<!--            console.log("productNames: ",productNames);-->
-<!--            if(isExistProductName){-->
-<!--                console.log("Tên sản phẩm đã tồn tại");-->
-<!--                existProductName.html("Tên sản phẩm đã tồn tại<br>Vui lòng thử lại");-->
-<!--            }-->
-<!--            else-->
-<!--            {-->
-<!--                console.log("Tên sản phẩm  chưa tồn tại");-->
-<!--                existProductName.html("")-->
-<!--            }-->
-<!--        })-->
-<!--        $("#addBtn").click(function (e){-->
-<!--            if(!isExistProductName){-->
-<!--                $("#addModal").modal('show');-->
-<!--            }-->
-<!--        })-->
-
-
-
-<!--        // $('#saveEditBook').on('click', e=>{-->
-<!--        //     e.preventDefault();-->
-<!--        //     alert("Save book");-->
-<!--        // })-->
-
-<!--        $('#addNewPublisherBtn').on('click', e=>{-->
-<!--            e.preventDefault();-->
-<!--            alert("Add new publisher");-->
-<!--        })-->
-
-<!--        $('#addNewAuthorBtn').on('click', e=>{-->
-<!--            e.preventDefault();-->
-<!--            alert("Add new publisher");-->
-<!--        })-->
-
-<!--        $('#addNewCategoryBtn').on('click', e=>{-->
-<!--            e.preventDefault();-->
-<!--            alert("Add new publisher");-->
-<!--        })-->
-
-<!--    </script>-->
-
     <script>
-        $('#imageInput').change(function(e) {
+        $('#imageInput').change(function (e) {
             // console.log("URL.createObjectURL: ", URL.createObjectURL(e.target.files[0]))
             let showAddedImageHtml = "";
-            for (let file of e.target.files)
-            {
+            for (let file of e.target.files) {
                 const src = URL.createObjectURL(file);
                 showAddedImageHtml +=
                         `<div class="col-lg-1 col-md-3 col-sm-6 mb-4 addedImage">
@@ -624,23 +253,21 @@
 
 
         let countDeletePictures = 0;
-        $("#imageList").on('click', '.product-picture-img', function(e){
+        $("#pictureList").on('click', '.product-picture-img', function (e) {
             console.log("picture click");
-            const img =  $(e.target).closest("img");
+            const img = $(e.target).closest("img");
             const deletePictureInput = img.closest(".product-picture").find("#deletePictureInput");
             const deletePictureLinkInput = img.closest(".product-picture").find("#deletePictureLinkInput");
             const id = img.closest(".product-picture").find("input").val();
-            console.log("id: ",id);
+            console.log("id: ", id);
             console.log(img);
-            if( parseFloat(img.css("opacity")) < 1){
+            if (parseFloat(img.css("opacity")) < 1) {
                 img.css('opacity', '1');
                 countDeletePictures--;
                 $("#countDeletePictures").html(countDeletePictures);
                 deletePictureInput.removeAttr('name');
                 deletePictureLinkInput.removeAttr('name');
-            }
-            else
-            {
+            } else {
                 img.css('opacity', '0.6');
                 countDeletePictures++;
                 $("#countDeletePictures").html(countDeletePictures);
