@@ -8,6 +8,11 @@ const emailServices = require("../services/emailService");
 const regex = require('../utils/regex');
 const firebase = require('../config/firebaseAdmin');
 
+const DIR = {
+    AVATAR: 'avatar/',
+    BOOK_IMG: 'bookImage/'
+}
+
 const checkRole = (userRole, accountRole) => {
 
     if (userRole === "superadmin" && (accountRole === "admin" || accountRole === "staff")) {
@@ -100,11 +105,11 @@ module.exports.editAccountApi = async (req, res) => {
     })
 }
 
-const handleUploadFireBase = (file) => {
+const handleUploadFireBase = (file, dir) => {
     return new Promise(async (resolve, reject) => {
         try {
             let name = "avatar_" + Date.now() + "_" + file.originalname;
-            const blob = firebase.bucket.file(name)
+            const blob = firebase.bucket.file(dir + name)
 
             const blobWriter = blob.createWriteStream({
                 metadata: {
@@ -118,7 +123,7 @@ const handleUploadFireBase = (file) => {
 
             blobWriter.on('finish', async () => {
                 await blob.makePublic();
-                let link = `https://firebasestorage.googleapis.com/v0/b/${process.env.STORAGE_BUCKET}/o/${name}?alt=media`;
+                let link = `https://firebasestorage.googleapis.com/v0/b/${process.env.STORAGE_BUCKET}/o/avatar%2F${name}?alt=media`;
                 resolve(link);
             })
 
@@ -139,7 +144,7 @@ module.exports.UploadImage = async (req, res) => {
         })
     }
 
-    const linkAvatar = await handleUploadFireBase(req.file);
+    const linkAvatar = await handleUploadFireBase(req.file, DIR.AVATAR);
 
     if (linkAvatar.length > 0) {
         const account = await accountService.editAvatarById(id, linkAvatar);
