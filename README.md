@@ -1,15 +1,6 @@
 
 # BookstoreManager
 
-### Deploy: https://bookstore-test-10-6-22.herokuapp.com/
-
-### Đăng nhập bằng: 
-  - email: d.hieu.13.04@gmail.com
-  - password: 123456
-
-
-
-## Local
 ### install: 
     npm i
 
